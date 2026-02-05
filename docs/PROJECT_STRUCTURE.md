@@ -94,12 +94,18 @@ fintrack-web/
 │   │   │   │
 │   │   │   ├── tags/
 │   │   │   │   ├── components/
+│   │   │   │   │   ├── tag-list/
+│   │   │   │   │   └── tag-selector/
 │   │   │   │   ├── services/
+│   │   │   │   │   └── tag.service.ts
 │   │   │   │   └── tags.routes.ts
 │   │   │   │
 │   │   │   └── tenants/
 │   │   │       ├── components/
+│   │   │       │   ├── tenant-select/
+│   │   │       │   └── create-tenant-dialog/
 │   │   │       ├── services/
+│   │   │       │   └── tenant.service.ts
 │   │   │       └── tenants.routes.ts
 │   │   │
 │   │   ├── shared/                    # Shared resources

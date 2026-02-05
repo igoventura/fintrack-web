@@ -327,13 +327,13 @@ User profile viewing and editing.
 
 ---
 
-## Phase 7: Accounts Management (0%)
+## Phase 7: Accounts Management (100%)
 
 Financial account CRUD operations.
 
 ### Account Service
 
-- [ ] **Account Service** (`src/app/features/accounts/services/account.service.ts`)
+- [x] **Account Service** (`src/app/features/accounts/services/account.service.ts`)
   - Wrap generated `AccountsService`
   - State management:
     - `accounts` signal (Account[])
@@ -347,7 +347,7 @@ Financial account CRUD operations.
 
 ### Account List Component
 
-- [ ] **Account List** (`src/app/features/accounts/components/account-list/`)
+- [x] **Account List** (`src/app/features/accounts/components/account-list/`)
   - Display accounts as Material cards
   - Show: name, type, balance, currency, icon, color
   - Filter by account type
@@ -359,7 +359,7 @@ Financial account CRUD operations.
 
 ### Account Form Component
 
-- [ ] **Account Form** (`src/app/features/accounts/components/account-form/`)
+- [x] **Account Form** (`src/app/features/accounts/components/account-form/`)
   - Reactive form with fields:
     - Name (required)
     - Type (dropdown: bank, cash, credit_card, investment, other)
@@ -374,7 +374,7 @@ Financial account CRUD operations.
 
 ### Account Detail Component
 
-- [ ] **Account Detail** (`src/app/features/accounts/components/account-detail/`)
+- [x] **Account Detail** (`src/app/features/accounts/components/account-detail/`)
   - Display full account information
   - Edit button (navigate to form)
   - Delete button (with confirmation dialog)
@@ -384,7 +384,7 @@ Financial account CRUD operations.
 
 ### Accounts Routes
 
-- [ ] **Accounts Routing** (`src/app/features/accounts/accounts.routes.ts`)
+- [x] **Accounts Routing** (`src/app/features/accounts/accounts.routes.ts`)
   - `/accounts` - List all accounts (auth + tenant guards)
   - `/accounts/new` - Create account form
   - `/accounts/:id` - Account detail view
@@ -392,13 +392,13 @@ Financial account CRUD operations.
 
 ---
 
-## Phase 8: Categories Management (0%)
+## Phase 8: Categories Management (100%)
 
 Income/expense categorization system.
 
 ### Category Service
 
-- [ ] **Category Service** (`src/app/features/categories/services/category.service.ts`)
+- [x] **Category Service** (`src/app/features/categories/services/category.service.ts`)
   - Wrap generated `CategoriesService`
   - State management:
     - `categories` signal (Category[])
@@ -412,7 +412,7 @@ Income/expense categorization system.
 
 ### Category List Component
 
-- [ ] **Category List** (`src/app/features/categories/components/category-list/`)
+- [x] **Category List** (`src/app/features/categories/components/category-list/`)
   - Display categories with visual hierarchy
   - Show parent-child relationships (tree view or grouped list)
   - Filter by parent category
@@ -423,7 +423,7 @@ Income/expense categorization system.
 
 ### Category Form Component
 
-- [ ] **Category Form** (`src/app/features/categories/components/category-form/`)
+- [x] **Category Form** (`src/app/features/categories/components/category-form/`)
   - Reactive form:
     - Name (required)
     - Parent category (dropdown, optional)
@@ -435,7 +435,7 @@ Income/expense categorization system.
 
 ### Category Chip Component
 
-- [ ] **Category Chip** (`src/app/features/categories/components/category-chip/`)
+- [x] **Category Chip** (`src/app/features/categories/components/category-chip/`)
   - Reusable component for displaying category as chip
   - Show icon, name, color
   - Inputs: category object
@@ -444,20 +444,20 @@ Income/expense categorization system.
 
 ### Categories Routes
 
-- [ ] **Categories Routing** (`src/app/features/categories/categories.routes.ts`)
+- [x] **Categories Routing** (`src/app/features/categories/categories.routes.ts`)
   - `/categories` - List all categories (auth + tenant guards)
   - `/categories/new` - Create category form
   - `/categories/:id/edit` - Edit category form
 
 ---
 
-## Phase 9: Tags Management (0%)
+## Phase 9: Tags Management (100%)
 
 Flexible transaction labeling system.
 
 ### Tag Service
 
-- [ ] **Tag Service** (`src/app/features/tags/services/tag.service.ts`)
+- [x] **Tag Service** (`src/app/features/tags/services/tag.service.ts`)
   - Wrap generated `TagsService`
   - State management:
     - `tags` signal (Tag[])
@@ -469,7 +469,7 @@ Flexible transaction labeling system.
 
 ### Tag List Component
 
-- [ ] **Tag List** (`src/app/features/tags/components/tag-list/`)
+- [x] **Tag List** (`src/app/features/tags/components/tag-list/`)
   - Display tags as Material chips
   - Search/filter tags
   - Add new tag inline
@@ -479,7 +479,7 @@ Flexible transaction labeling system.
 
 ### Tag Selector Component
 
-- [ ] **Tag Selector** (`src/app/features/tags/components/tag-selector/`)
+- [x] **Tag Selector** (`src/app/features/tags/components/tag-selector/`)
   - Multi-select component for forms
   - Autocomplete with chip list
   - Create new tag on the fly
@@ -490,7 +490,7 @@ Flexible transaction labeling system.
 
 ### Tags Routes
 
-- [ ] **Tags Routing** (`src/app/features/tags/tags.routes.ts`)
+- [x] **Tags Routing** (`src/app/features/tags/tags.routes.ts`)
   - `/tags` - List and manage tags (auth + tenant guards)
 
 ---

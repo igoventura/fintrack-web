@@ -3,7 +3,6 @@ import {
   Component,
   computed,
   inject,
-  input,
   OnInit,
   signal,
 } from '@angular/core';
