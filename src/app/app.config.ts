@@ -9,13 +9,21 @@ import { environment } from '../environments/environment';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { tenantInterceptor } from './core/interceptors/tenant.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
+import { trailingSlashInterceptor } from './core/interceptors/trailing-slash.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideAnimations(),
-    provideHttpClient(withInterceptors([authInterceptor, tenantInterceptor, errorInterceptor])),
+    provideHttpClient(
+      withInterceptors([
+        authInterceptor,
+        tenantInterceptor,
+        trailingSlashInterceptor,
+        errorInterceptor,
+      ]),
+    ),
     provideFintrackClient({
       basePath: environment.apiUrl,
     }),
