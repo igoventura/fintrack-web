@@ -1,0 +1,44 @@
+<div class="tenant-select-container">
+  <div class="tenant-select-card">
+    <h1>Select Tenant</h1>
+    <p class="subtitle">Choose a tenant to continue</p>
+
+    @if (loading()) {
+      <div class="loading-container">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Loading tenants...</p>
+      </div>
+    } @else if (tenants().length === 0) {
+      <div class="empty-state">
+        <mat-icon>business</mat-icon>
+        <p>No tenants found</p>
+        <p class="empty-subtitle">Create your first tenant to get started</p>
+        <button mat-raised-button color="primary" (click)="openCreateDialog()">
+          <mat-icon>add</mat-icon>
+          Create Tenant
+        </button>
+      </div>
+    } @else {
+      <div class="tenant-list">
+        @for (tenant of tenants(); track tenant.tenant_id!) {
+          <mat-card class="tenant-card" (click)="selectTenant(tenant.tenant_id!)">
+            <mat-card-content>
+              <div class="tenant-info">
+                <mat-icon>business</mat-icon>
+                <div class="tenant-details">
+                  <h3>{{ tenant.name }}</h3>
+                </div>
+              </div>
+              <mat-icon class="arrow-icon">arrow_forward</mat-icon>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+
+      <button mat-raised-button color="accent" class="create-button" (click)="openCreateDialog()">
+        <mat-icon>add</mat-icon>
+        Create New Tenant
+      </button>
+    }
+  </div>
+</div>

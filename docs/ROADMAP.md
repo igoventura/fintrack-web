@@ -175,13 +175,13 @@ User authentication and registration flows.
 
 ---
 
-## Phase 3: Multi-Tenancy (0%)
+## Phase 3: Multi-Tenancy (100%)
 
 Tenant selection and management.
 
 ### Tenant Service
 
-- [ ] **Tenant Service** (`src/app/core/services/tenant.service.ts`)
+- [x] **Tenant Service** (`src/app/core/services/tenant.service.ts`)
   - State management with signals:
     - `currentTenantId` signal (string | null)
     - `currentTenant` signal (Tenant | null)
@@ -194,7 +194,7 @@ Tenant selection and management.
 
 ### Tenant Selection Component
 
-- [ ] **Tenant Selector** (`src/app/features/tenants/components/tenant-selector/`)
+- [x] **Tenant Selector** (`src/app/features/tenants/components/tenant-selector/`)
   - List user's tenants as Material cards
   - Show tenant name and creation date
   - Click to select tenant
@@ -204,7 +204,7 @@ Tenant selection and management.
 
 ### Create Tenant Dialog
 
-- [ ] **Create Tenant Dialog** (`src/app/features/tenants/components/create-tenant-dialog/`)
+- [x] **Create Tenant Dialog** (`src/app/features/tenants/components/create-tenant-dialog/`)
   - Material dialog with form
   - Single field: tenant name
   - Validation: required, min 3 characters
@@ -214,7 +214,7 @@ Tenant selection and management.
 
 ### Tenant Routes
 
-- [ ] **Tenant Routing** (`src/app/features/tenants/tenants.routes.ts`)
+- [x] **Tenant Routing** (`src/app/features/tenants/tenants.routes.ts`)
   - `/tenants/select` - Tenant selection page (auth guard only)
   - Redirect after login if no tenant set
 

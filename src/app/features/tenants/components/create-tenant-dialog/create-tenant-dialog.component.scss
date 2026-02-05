@@ -1,0 +1,30 @@
+@import '../../../../../styles/variables';
+
+mat-dialog-content {
+  min-width: 350px;
+  padding: $spacing-lg;
+
+  form {
+    .full-width {
+      width: 100%;
+    }
+  }
+}
+
+mat-dialog-actions {
+  padding: $spacing-md $spacing-lg;
+
+  button {
+    margin-left: $spacing-sm;
+
+    &[mat-raised-button] {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xs;
+
+      mat-spinner {
+        margin-right: $spacing-xs;
+      }
+    }
+  }
+}
