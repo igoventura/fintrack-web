@@ -1,3 +1,7 @@
+// Import SCSS architecture
+@use './styles/variables' as *;
+@use './styles/mixins' as *;
+@use './styles/utilities';
 
 // Include theming for Angular Material with `mat.theme()`.
 // This Sass mixin will define CSS variables that are used for styling Angular Material

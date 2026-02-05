@@ -1,6 +1,6 @@
 export const environment = {
-    production: false,
-    apiUrl: '/api',
-    enableDebugTools: true,
-    logLevel: 'debug'
+  production: false,
+  apiUrl: '/api',
+  enableDebugTools: true,
+  logLevel: 'debug',
 };
