@@ -23,6 +23,20 @@ export const routes: Routes = [
           import('./features/profile/profile.routes').then((m) => m.PROFILE_ROUTES),
       },
       {
+        path: 'accounts',
+        loadChildren: () =>
+          import('./features/accounts/accounts.routes').then((m) => m.ACCOUNTS_ROUTES),
+      },
+      {
+        path: 'categories',
+        loadChildren: () =>
+          import('./features/categories/categories.routes').then((m) => m.CATEGORIES_ROUTES),
+      },
+      {
+        path: 'tags',
+        loadChildren: () => import('./features/tags/tags.routes').then((m) => m.TAGS_ROUTES),
+      },
+      {
         path: 'dashboard',
         loadChildren: () =>
           import('./features/dashboard/dashboard.routes').then((m) => m.dashboardRoutes),

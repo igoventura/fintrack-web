@@ -1,0 +1,58 @@
+<div class="accounts-container">
+  <div class="header">
+    <h1>Accounts</h1>
+    <button mat-raised-button color="primary" routerLink="/accounts/new">
+      <mat-icon>add</mat-icon>
+      New Account
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-spinner">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else {
+    <div class="accounts-grid">
+      @for (account of accounts(); track account.id) {
+        <mat-card class="account-card" [style.border-top-color]="account.color">
+          <mat-card-header>
+            <div mat-card-avatar class="account-icon" [style.background-color]="account.color + '20'">
+              {{ account.icon || '💰' }}
+            </div>
+            <mat-card-title>{{ account.name }}</mat-card-title>
+            <mat-card-subtitle>{{ account.type | titlecase }}</mat-card-subtitle>
+            <span class="spacer"></span>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item [routerLink]="['/accounts', account.id, 'edit']">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="deleteAccount(account)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="balance">
+              <span class="currency">{{ account.currency }}</span>
+              <span class="amount">{{ account.initial_balance | number:'1.2-2' }}</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      } @empty {
+        <div class="empty-state">
+          <mat-icon class="empty-icon">account_balance</mat-icon>
+          <h3>No accounts found</h3>
+          <p>Create your first account to start tracking your finances.</p>
+          <button mat-stroked-button color="primary" routerLink="/accounts/new">
+            Create Account
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>

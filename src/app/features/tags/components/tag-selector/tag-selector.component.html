@@ -1,0 +1,34 @@
+<mat-form-field appearance="outline" class="w-full">
+  <mat-label>Tags</mat-label>
+  <mat-chip-grid #chipGrid aria-label="Tag selection">
+    @for (tag of selectedTags(); track tag.id) {
+      <mat-chip-row (removed)="remove(tag.id!)">
+        {{ tag.name }}
+        <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    }
+  </mat-chip-grid>
+  <input
+    placeholder="New tag..."
+    #tagInput
+    [formControl]="inputControl"
+    [matChipInputFor]="chipGrid"
+    [matAutocomplete]="auto"
+    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+  />
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+    @for (tag of filteredTags(); track tag.id) {
+      <mat-option [value]="tag">
+        {{ tag.name }}
+      </mat-option>
+    }
+    <!-- Show "Create" option if input has value and no exact match -->
+    @if (inputControl.value && filteredTags().length === 0) {
+      <mat-option [value]="{ id: 'NEW', name: inputControl.value }">
+        <mat-icon>add</mat-icon> Create "{{ inputControl.value }}"
+      </mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>

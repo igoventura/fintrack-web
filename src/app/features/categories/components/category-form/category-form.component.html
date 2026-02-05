@@ -1,0 +1,68 @@
+<div class="category-form-container">
+  <div class="header">
+    <h1>{{ isEditMode() ? 'Edit Category' : 'Create Category' }}</h1>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" placeholder="Category Name" />
+            @if (form.get('name')?.hasError('required')) {
+              <mat-error>Name is required</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Parent Category</mat-label>
+            <mat-select formControlName="parent_category_id">
+              <mat-option [value]="null">-- None --</mat-option>
+              @for (cat of categories(); track cat.id) {
+                <!-- Prevent selecting self as parent -->
+                @if (cat.id !== categoryId()) {
+                  <mat-option [value]="cat.id">
+                    {{ cat.name }}
+                  </mat-option>
+                }
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Color</mat-label>
+            <input matInput formControlName="color" placeholder="#RRGGBB" />
+            <input
+              matSuffix
+              type="color"
+              [value]="form.get('color')?.value"
+              (input)="onColorChange($event)"
+              class="color-picker-suffix"
+              aria-label="Select color"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Icon</mat-label>
+            <input matInput formControlName="icon" placeholder="Material Icon Name" />
+            <mat-icon matSuffix>{{ form.get('icon')?.value }}</mat-icon>
+            <mat-hint>Enter a Material Icon name (e.g. 'home', 'work')</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="actions">
+          <button mat-button type="button" routerLink="/categories">Cancel</button>
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="form.invalid || categoryService.loading()"
+          >
+            {{ isEditMode() ? 'Update' : 'Create' }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

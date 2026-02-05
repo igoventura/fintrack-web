@@ -1,0 +1,57 @@
+.category-list-container {
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+  }
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+mat-tree-node {
+  min-height: 48px;
+
+  .node-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-right: 16px;
+  }
+
+  .category-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .category-name {
+    font-size: 14px;
+
+    &.font-bold {
+      font-weight: 500;
+    }
+  }
+
+  .actions {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  &:hover .actions {
+    opacity: 1;
+  }
+}

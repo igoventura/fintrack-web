@@ -34,6 +34,9 @@ export default [
         localStorage: 'readonly',
         DOMException: 'readonly',
         ErrorEvent: 'readonly',
+        Event: 'readonly',
+        HTMLElement: 'readonly',
+        HTMLInputElement: 'readonly',
       },
     },
     plugins: {

@@ -1,0 +1,40 @@
+.form-container {
+  max-width: 600px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+mat-card {
+  padding: 16px;
+}
+
+mat-card-header {
+  margin-bottom: 24px;
+}
+
+.form-row {
+  margin-bottom: 16px;
+  
+  &.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.color-picker-input {
+  height: 40px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 24px;
+}

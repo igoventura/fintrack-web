@@ -1,0 +1,67 @@
+<div class="tag-list-container">
+  <div class="header">
+    <h1>Tags</h1>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      <div class="add-tag-form">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>New Tag Name</mat-label>
+          <input
+            matInput
+            [(ngModel)]="newTagName"
+            (keyup.enter)="addTag()"
+            placeholder="e.g. groceries"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="addTag()"
+            [disabled]="!newTagName()"
+            aria-label="Add tag"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <mat-chip-set>
+        @for (tag of tags(); track tag.id) {
+          @if (editingTagId() === tag.id) {
+            <mat-chip-option [selectable]="false" class="editing-chip">
+              <input
+                class="edit-input"
+                [(ngModel)]="editTagName"
+                (keyup.enter)="saveEdit(tag.id!)"
+                (keyup.escape)="cancelEdit()"
+                aria-label="Edit tag name"
+              />
+              <button mat-icon-button matChipTrailingIcon (click)="saveEdit(tag.id!)">
+                <mat-icon>check</mat-icon>
+              </button>
+              <button mat-icon-button matChipTrailingIcon (click)="cancelEdit()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-chip-option>
+          } @else {
+            <mat-chip-option
+              [selectable]="false"
+              (click)="startEdit(tag)"
+              matTooltip="Click to edit"
+            >
+              {{ tag.name }}
+              <button matChipRemove (click)="deleteTag(tag)">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-option>
+          }
+        }
+      </mat-chip-set>
+
+      @if (tags().length === 0 && !loading()) {
+        <p class="empty-state">No tags found. Create one above!</p>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>
