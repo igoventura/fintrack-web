@@ -76,13 +76,64 @@ npm run build
 
 The build artifacts will be stored in the `dist/` directory, optimized for production deployment.
 
+## Environment Configuration
+
+The application uses environment-specific configuration files:
+
+- **Development**: `src/environments/environment.ts` - Uses proxy for API calls
+- **Production**: `src/environments/environment.prod.ts` - Direct API URL
+
+### Available Environment Variables
+
+```typescript
+{
+  production: boolean,      // Environment flag
+  apiUrl: string,           // API base URL
+  enableDebugTools: boolean,// Enable Angular DevTools
+  logLevel: string          // Logging level: 'debug' | 'info' | 'error'
+}
+```
+
+### Switching Environments
+
+```bash
+# Development build (default)
+npm run build -- --configuration development
+
+# Production build
+npm run build
+```
+
+## Proxy Configuration
+
+During development, the application uses a proxy to avoid CORS issues. API requests made to `/api/*` are automatically forwarded to `http://localhost:8080`.
+
+**Example**: A request to `/api/auth/login` becomes `http://localhost:8080/auth/login`
+
+The proxy is configured in `proxy.conf.json` and only applies during `ng serve`.
+
+## Angular DevTools
+
+For enhanced debugging and profiling:
+
+1. Install [Angular DevTools for Edge](https://microsoftedge.microsoft.com/addons/detail/angular-devtools/ienfalfjdbdpebioblfackkekamfmbnh)
+2. Start the dev server: `npm start`
+3. Open the app in Edge and press F12
+4. Look for the "Angular" tab in DevTools
+
+Use Angular DevTools to:
+- Inspect component tree and properties
+- View and debug signals
+- Profile application performance
+- Monitor change detection
+
 ## Project Structure
 
-See [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md) for detailed information about the application architecture and file organization.
+See [PROJECT_STRUCTURE.md](./docs/PROJECT_STRUCTURE.md) for detailed information about the application architecture and file organization.
 
 ## Development Guidelines
 
-See [GUIDELINES.md](./GUIDELINES.md) for coding standards, best practices, and development workflow.
+See [GUIDELINES.md](./docs/GUIDELINES.md) for coding standards, best practices, and development workflow.
 
 ## Available Scripts
 
@@ -132,7 +183,7 @@ ng generate --help
 
 ## Contributing
 
-1. Follow the coding standards outlined in [GUIDELINES.md](./GUIDELINES.md)
+1. Follow the coding standards outlined in [GUIDELINES.md](./docs/GUIDELINES.md)
 2. Ensure all tests pass before submitting changes
 3. Keep the API client in sync with the backend OpenAPI spec
 4. Use standalone components and Angular Signals for state management
