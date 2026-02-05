@@ -602,7 +602,20 @@ export class AccountFormComponent {
       this.isSubmitting.set(false);
     }
   }
+  }
 }
+```
+
+#### DTO Handling for Updates
+
+When implementing update methods, ensure you use the correct DTO type (`Dto_Update*Request`) as it may differ from the Create DTO. Explicitly construct the object rather than casting if fields differ significantly.
+
+```typescript
+const updateData: Dto_UpdateAccountRequest = {
+  name: formValue.name,
+  // ... only include updatable fields
+};
+this.service.update(id, updateData);
 ```
 
 #### Wrapping in Feature Services (Recommended)

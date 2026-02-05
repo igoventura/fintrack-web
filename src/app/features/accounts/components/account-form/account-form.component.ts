@@ -9,7 +9,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AccountService } from '../../../../core/services/account.service';
-import { Domain_AccountType, Dto_CreateAccountRequest } from '../../../../../api/providers';
+import {
+  Domain_AccountType,
+  Dto_CreateAccountRequest,
+  Dto_UpdateAccountRequest,
+} from '../../../../../api/providers';
 import { map, take } from 'rxjs';
 
 @Component({
@@ -96,25 +100,30 @@ export class AccountFormComponent implements OnInit {
     if (this.form.invalid) return;
 
     const formValue = this.form.getRawValue();
-    // Assuming UpdateRequest matches CreateRequest for shared fields
-    // We need to type cast or construct the object
-    const accountData: Dto_CreateAccountRequest = {
-      name: formValue.name,
-      type: formValue.type,
-      initial_balance: formValue.initial_balance,
-      currency: formValue.currency,
-      color: formValue.color,
-      icon: formValue.icon,
-    };
-
     if (this.isEditMode() && this.accountId()) {
       // For update
-      this.accountService.updateAccount(this.accountId()!, accountData as any).subscribe({
+      const updateData: Dto_UpdateAccountRequest = {
+        name: formValue.name,
+        initial_balance: formValue.initial_balance,
+        color: formValue.color,
+        icon: formValue.icon,
+      };
+
+      this.accountService.updateAccount(this.accountId()!, updateData).subscribe({
         next: () => this.router.navigate(['/accounts']),
       });
     } else {
       // For create
-      this.accountService.createAccount(accountData).subscribe({
+      const createData: Dto_CreateAccountRequest = {
+        name: formValue.name,
+        type: formValue.type,
+        initial_balance: formValue.initial_balance,
+        currency: formValue.currency,
+        color: formValue.color,
+        icon: formValue.icon,
+      };
+
+      this.accountService.createAccount(createData).subscribe({
         next: () => this.router.navigate(['/accounts']),
       });
     }

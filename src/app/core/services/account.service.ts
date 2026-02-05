@@ -3,8 +3,9 @@ import {
   AccountsService,
   Dto_AccountResponse,
   Dto_CreateAccountRequest,
+  Dto_UpdateAccountRequest,
 } from '../../../api/providers';
-import { finalize, tap, throwError } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import { ToastService } from './toast.service';
 
 @Injectable({
@@ -50,16 +51,28 @@ export class AccountService {
     );
   }
 
-  // TODO: Implement updateAccount once backend endpoint is ready
-  updateAccount(id: string, dto: any) {
-    this.toastService.info('Update account feature coming soon!');
-    return throwError(() => new Error('Not implemented'));
+  updateAccount(id: string, dto: Dto_UpdateAccountRequest) {
+    this._loading.set(true);
+    return this.apiService.accountsIdPut(id, dto).pipe(
+      tap((updatedAccount) => {
+        this._accounts.update((accounts) =>
+          accounts.map((acc) => (acc.id === id ? updatedAccount : acc)),
+        );
+        this.toastService.success('Account updated successfully');
+      }),
+      finalize(() => this._loading.set(false)),
+    );
   }
 
-  // TODO: Implement deleteAccount once backend endpoint is ready
   deleteAccount(id: string) {
-    this.toastService.info('Delete account feature coming soon!');
-    return throwError(() => new Error('Not implemented'));
+    this._loading.set(true);
+    return this.apiService.accountsIdDelete(id).pipe(
+      tap(() => {
+        this._accounts.update((accounts) => accounts.filter((acc) => acc.id !== id));
+        this.toastService.success('Account deleted successfully');
+      }),
+      finalize(() => this._loading.set(false)),
+    );
   }
 
   getAccountById(id: string): Dto_AccountResponse | undefined {

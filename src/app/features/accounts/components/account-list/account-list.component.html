@@ -16,7 +16,11 @@
       @for (account of accounts(); track account.id) {
         <mat-card class="account-card" [style.border-top-color]="account.color">
           <mat-card-header>
-            <div mat-card-avatar class="account-icon" [style.background-color]="account.color + '20'">
+            <div
+              mat-card-avatar
+              class="account-icon"
+              [style.background-color]="account.color + '20'"
+            >
               {{ account.icon || '💰' }}
             </div>
             <mat-card-title>{{ account.name }}</mat-card-title>
@@ -30,7 +34,7 @@
                 <mat-icon>edit</mat-icon>
                 <span>Edit</span>
               </button>
-              <button mat-menu-item (click)="deleteAccount(account)">
+              <button mat-menu-item (click)="deleteAccount(account, $event)">
                 <mat-icon>delete</mat-icon>
                 <span>Delete</span>
               </button>
@@ -39,7 +43,7 @@
           <mat-card-content>
             <div class="balance">
               <span class="currency">{{ account.currency }}</span>
-              <span class="amount">{{ account.initial_balance | number:'1.2-2' }}</span>
+              <span class="amount">{{ account.initial_balance | number: '1.2-2' }}</span>
             </div>
           </mat-card-content>
         </mat-card>

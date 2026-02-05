@@ -35,7 +35,8 @@ export class AccountListComponent implements OnInit {
     this.accountService.loadAccounts();
   }
 
-  deleteAccount(account: Dto_AccountResponse) {
+  deleteAccount(account: Dto_AccountResponse, event: Event) {
+    event.stopPropagation();
     if (window.confirm(`Are you sure you want to delete ${account.name}?`)) {
       this.accountService.deleteAccount(account.id!).subscribe();
     }

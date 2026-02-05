@@ -31,7 +31,11 @@ fintrack-web/
 │   │   │   └── services/
 │   │   │       ├── storage.service.ts
 │   │   │       ├── toast.service.ts
-│   │   │       └── user.service.ts
+│   │   │       ├── user.service.ts
+│   │   │       ├── account.service.ts
+│   │   │       ├── category.service.ts
+│   │   │       ├── tag.service.ts
+│   │   │       └── tenant.service.ts
 │   │   │
 │   │   ├── features/                  # Feature modules
 │   │   │   ├── auth/
@@ -80,7 +84,6 @@ fintrack-web/
 │   │   │   │   │   ├── account-form/
 │   │   │   │   │   └── account-detail/
 │   │   │   │   ├── services/
-│   │   │   │   │   └── account.service.ts
 │   │   │   │   └── accounts.routes.ts
 │   │   │   │
 │   │   │   ├── categories/
@@ -89,7 +92,6 @@ fintrack-web/
 │   │   │   │   │   ├── category-form/
 │   │   │   │   │   └── category-chip/
 │   │   │   │   ├── services/
-│   │   │   │   │   └── category.service.ts
 │   │   │   │   └── categories.routes.ts
 │   │   │   │
 │   │   │   ├── tags/
@@ -97,7 +99,6 @@ fintrack-web/
 │   │   │   │   │   ├── tag-list/
 │   │   │   │   │   └── tag-selector/
 │   │   │   │   ├── services/
-│   │   │   │   │   └── tag.service.ts
 │   │   │   │   └── tags.routes.ts
 │   │   │   │
 │   │   │   └── tenants/
@@ -105,7 +106,6 @@ fintrack-web/
 │   │   │       │   ├── tenant-select/
 │   │   │       │   └── create-tenant-dialog/
 │   │   │       ├── services/
-│   │   │       │   └── tenant.service.ts
 │   │   │       └── tenants.routes.ts
 │   │   │
 │   │   ├── shared/                    # Shared resources

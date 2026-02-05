@@ -103,6 +103,17 @@ export class AuthApiService {
   }
 
   /**
+   * Refresh the access token using the refresh token.
+   */
+  refreshToken(token: string): Observable<Dto_AuthResponse> {
+    return this.authService.authRefreshTokenPost({ refresh_token: token }).pipe(
+      tap((response) => {
+        this.handleAuthResponse(response);
+      }),
+    );
+  }
+
+  /**
    * Handle auth response from login/register.
    * Stores tokens and sets user state.
    */

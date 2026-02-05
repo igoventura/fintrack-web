@@ -629,24 +629,29 @@ make tidy
 
 ## 🎯 Feature Status Summary
 
-| Phase          | Feature                | Status         | Completion |
-| -------------- | ---------------------- | -------------- | ---------- |
-| Phase 1        | Project Structure      | ✅ Complete    | 100%       |
-| Phase 1        | Database & Migrations  | ✅ Complete    | 100%       |
-| Phase 1        | Authentication         | ✅ Complete    | 100%       |
-| Phase 1        | Multi-Tenancy          | ✅ Complete    | 100%       |
-| Phase 1        | User Management        | ✅ Complete    | 100%       |
-| Phase 1        | Accounts               | ✅ Complete    | 100%       |
-| Phase 2        | Categories             | ✅ Complete    | 100%       |
-| Phase 2        | Tags                   | ✅ Complete    | 100%       |
-| Phase 3        | Transactions           | ✅ Complete    | 100%       |
-| Phase 3        | Installment Logic      | ✅ Complete    | 100%       |
-| Phase 4        | Credit Card Management | 🚧 Schema Only | 20%        |
-| Phase 4        | Reporting              | ⏳ Planned     | 0%         |
-| Phase 4        | Invitations            | ⏳ Planned     | 0%         |
-| Phase 4        | Attachments            | 🚧 Schema Only | 20%        |
-| Infrastructure | Docker & API Docs      | ✅ Complete    | 100%       |
-| Infrastructure | CI/CD                  | ⏳ Planned     | 0%         |
-| Infrastructure | Unit Tests             | 🚧 Partial     | 30%        |
+| Phase          | Feature                    | Status         | Completion |
+| -------------- | -------------------------- | -------------- | ---------- |
+| Phase 1        | Project Structure          | ✅ Complete    | 100%       |
+| Phase 1        | Database & Migrations      | ✅ Complete    | 100%       |
+| Phase 1        | Authentication             | ✅ Complete    | 100%       |
+| Phase 1        | Multi-Tenancy              | ✅ Complete    | 100%       |
+| Phase 1        | User Management            | ✅ Complete    | 100%       |
+| Phase 1        | Accounts                   | ✅ Complete    | 100%       |
+| Phase 2        | Categories                 | ✅ Complete    | 100%       |
+| Phase 2        | Tags                       | ✅ Complete    | 100%       |
+| Phase 3        | Transactions               | ✅ Complete    | 100%       |
+| Phase 3        | Installment Logic          | ✅ Complete    | 100%       |
+| Phase 4        | Credit Card Management     | 🚧 Schema Only | 20%        |
+| Phase 4        | Reporting                  | ⏳ Planned     | 0%         |
+| Phase 4        | Invitations                | ⏳ Planned     | 0%         |
+| Phase 4        | Attachments                | 🚧 Schema Only | 20%        |
+| Infrastructure | Docker & API Docs          | ✅ Complete    | 100%       |
+| Infrastructure | CI/CD                      | ⏳ Planned     | 0%         |
+| Infrastructure | Unit Tests                 | 🚧 Partial     | 30%        |
+| **Web App**    | **Phase 6: User Profile**  | ✅ Complete    | 100%       |
+| **Web App**    | **Phase 7: Accounts**      | ✅ Complete    | 100%       |
+| **Web App**    | **Phase 8: Categories**    | ✅ Complete    | 100%       |
+| **Web App**    | **Phase 9: Tags**          | ✅ Complete    | 100%       |
+| **Web App**    | **Phase 10: Transactions** | ⏳ Planned     | 0%         |
 
-**Overall Progress**: Phase 1 ✅ | Phase 2 ✅ | Phase 3 ✅ | Phase 4 🚧
+**Overall Progress**: Core API (Phase 1-3) ✅ | Web App (Phase 6-9) ✅ | Phase 4 & 10 🚧
