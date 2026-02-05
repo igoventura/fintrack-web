@@ -50,9 +50,9 @@ Foundation for the frontend application.
 ### Documentation
 
 - [x] Create `README.md` with setup instructions
-- [ ] Link to [WEB_GUIDELINES.md](file:///Users/igoventura/Developer/Personal/fintrack-api/WEB_GUIDELINES.md)
-- [ ] Link to [WEB_PROJECT_STRUCTURE.md](file:///Users/igoventura/Developer/Personal/fintrack-api/WEB_PROJECT_STRUCTURE.md)
-- [ ] Document API generation workflow
+- [x] Link to GUIDELINES.md
+- [x] Link to PROJECT_STRUCTURE.md
+- [x] Document API generation workflow
 
 ---
 
