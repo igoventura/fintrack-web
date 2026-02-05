@@ -79,17 +79,17 @@ Essential services, interceptors, and guards.
 
 ### HTTP Interceptors
 
-- [ ] **Auth Interceptor** (`src/app/core/interceptors/auth.interceptor.ts`)
+- [x] **Auth Interceptor** (`src/app/core/interceptors/auth.interceptor.ts`)
   - Automatically add `Authorization: Bearer <token>` header
   - Get token from StorageService
   - Skip for public endpoints (login, register)
 
-- [ ] **Tenant Interceptor** (`src/app/core/interceptors/tenant.interceptor.ts`)
+- [x] **Tenant Interceptor** (`src/app/core/interceptors/tenant.interceptor.ts`)
   - Automatically add `X-Tenant-ID` header
   - Get tenant ID from TenantService
   - Skip for auth and tenant selection endpoints
 
-- [ ] **Error Interceptor** (`src/app/core/interceptors/error.interceptor.ts`)
+- [x] **Error Interceptor** (`src/app/core/interceptors/error.interceptor.ts`)
   - Global error handling
   - Show toast notifications for errors
   - Handle 401 (redirect to login), 403 (show forbidden message)

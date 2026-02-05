@@ -33,6 +33,7 @@ export default [
         navigator: 'readonly',
         localStorage: 'readonly',
         DOMException: 'readonly',
+        ErrorEvent: 'readonly',
       },
     },
     plugins: {
