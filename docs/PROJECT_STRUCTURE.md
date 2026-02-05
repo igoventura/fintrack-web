@@ -29,9 +29,9 @@ fintrack-web/
 │   │   │   │   ├── user.model.ts
 │   │   │   │   └── tenant.model.ts
 │   │   │   └── services/
-│   │   │       ├── auth.service.ts
 │   │   │       ├── storage.service.ts
-│   │   │       └── toast.service.ts
+│   │   │       ├── toast.service.ts
+│   │   │       └── user.service.ts
 │   │   │
 │   │   ├── features/                  # Feature modules
 │   │   │   ├── auth/
@@ -47,6 +47,14 @@ fintrack-web/
 │   │   │   │   ├── services/
 │   │   │   │   │   └── auth-api.service.ts
 │   │   │   │   └── auth.routes.ts
+│   │   │   │
+│   │   │   ├── profile/
+│   │   │   │   ├── components/
+│   │   │   │   │   └── profile/
+│   │   │   │   │       ├── profile.component.ts
+│   │   │   │   │       ├── profile.component.html
+│   │   │   │   │       └── profile.component.scss
+│   │   │   │   └── profile.routes.ts
 │   │   │   │
 │   │   │   ├── dashboard/
 │   │   │   │   ├── components/
@@ -184,11 +192,13 @@ fintrack-web/
 Contains singleton services, guards, interceptors, and models that are used throughout the application.
 
 **Key Principles:**
+
 - Services are provided at root level using `providedIn: 'root'`
 - Single instance shared across the entire application
 - No components should live here
 
 **Contents:**
+
 - **Guards**: Route protection (auth, tenant validation)
 - **Interceptors**: HTTP request/response handling
 - **Services**: Authentication, storage, notifications
@@ -199,6 +209,7 @@ Contains singleton services, guards, interceptors, and models that are used thro
 Feature-specific code organized by business domain. Each feature is self-contained with its own components, services, and routes.
 
 **Structure Pattern:**
+
 ```
 feature-name/
 ├── components/          # Feature-specific components
@@ -207,6 +218,7 @@ feature-name/
 ```
 
 **Key Features:**
+
 - **Auth**: Login, registration, password reset
 - **Dashboard**: Overview, statistics, charts
 - **Transactions**: CRUD operations for transactions
@@ -214,12 +226,14 @@ feature-name/
 - **Categories**: Expense/income categorization
 - **Tags**: Transaction tagging system
 - **Tenants**: Multi-tenant workspace management
+- **Profile**: User profile management
 
 ### Shared Module (`src/app/shared/`)
 
 Reusable components, directives, pipes, and utilities used across multiple features.
 
 **Contents:**
+
 - **Components**: UI components like dialogs, loaders, empty states
 - **Directives**: Click-outside, auto-focus, etc.
 - **Pipes**: Data transformation (date, currency, truncate)
@@ -230,6 +244,7 @@ Reusable components, directives, pipes, and utilities used across multiple featu
 Application shell and layout components.
 
 **Contents:**
+
 - Main layout wrapper
 - Navigation header
 - Sidebar navigation
@@ -240,6 +255,7 @@ Application shell and layout components.
 Auto-generated type-safe API client from OpenAPI specification using **ng-openapi-gen**.
 
 **Actual Structure:**
+
 ```
 src/api/
 ├── providers/       # Generated API client (ng-openapi-gen output)
@@ -270,6 +286,7 @@ src/api/
 ```
 
 **⚠️ Critical Rules:**
+
 - **DO NOT** manually edit any files except `openapi.yaml` and `openapi.config.ts`
 - **DO** regenerate after backend API changes: `npm run generate:api`
 - **DO** import from `src/api` (root index.ts), not from nested paths
@@ -277,6 +294,7 @@ src/api/
 - **DO NOT** commit generated files (add to .gitignore, regenerate on build)
 
 **Usage Pattern:**
+
 ```typescript
 // ✅ Correct - import from root api barrel
 import { AccountsService, Dto_AccountResponse } from 'src/api';
@@ -286,6 +304,7 @@ import { AccountsService } from 'src/api/providers/services/accounts.service';
 ```
 
 **Regeneration Workflow:**
+
 1. Copy updated `swagger.yaml` from backend: `cp ../fintrack-api/docs/swagger.yaml ./src/api/openapi.yaml`
 2. Run generation: `npm run generate:api`
 3. Review changes and fix TypeScript errors
@@ -309,7 +328,13 @@ component-name/
 @Component({
   selector: 'app-simple',
   template: `<div>Simple content</div>`,
-  styles: [`div { padding: 1rem; }`]
+  styles: [
+    `
+      div {
+        padding: 1rem;
+      }
+    `,
+  ],
 })
 export class SimpleComponent {}
 ```
@@ -325,13 +350,14 @@ Features are lazy-loaded for optimal performance:
 export const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: () => import('./features/auth/auth.routes').then(m => m.AUTH_ROUTES)
+    loadChildren: () => import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES),
   },
   {
     path: 'transactions',
-    loadChildren: () => import('./features/transactions/transactions.routes').then(m => m.TRANSACTION_ROUTES),
-    canActivate: [authGuard, tenantGuard]
-  }
+    loadChildren: () =>
+      import('./features/transactions/transactions.routes').then((m) => m.TRANSACTION_ROUTES),
+    canActivate: [authGuard, tenantGuard],
+  },
 ];
 ```
 
@@ -350,9 +376,9 @@ Use Angular Signals for reactive state:
 export class TransactionService {
   private transactionsSignal = signal<Transaction[]>([]);
   transactions = this.transactionsSignal.asReadonly();
-  
-  private totalSignal = computed(() => 
-    this.transactionsSignal().reduce((sum, t) => sum + t.amount, 0)
+
+  private totalSignal = computed(() =>
+    this.transactionsSignal().reduce((sum, t) => sum + t.amount, 0),
   );
 }
 ```

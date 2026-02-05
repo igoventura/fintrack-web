@@ -25,6 +25,7 @@ This document outlines the coding standards, best practices, and development wor
 ### Type Safety
 
 ✅ **DO:**
+
 ```typescript
 // Use strict type checking
 interface User {
@@ -43,6 +44,7 @@ const users = ['Alice', 'Bob']; // TypeScript infers string[]
 ```
 
 ❌ **DON'T:**
+
 ```typescript
 // Avoid using 'any'
 function processData(data: any) {
@@ -79,6 +81,7 @@ Ensure strict type checking in `tsconfig.json`:
 ### Standalone Components (Mandatory)
 
 ✅ **DO:**
+
 ```typescript
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -88,7 +91,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './transaction-list.component.html',
   styleUrl: './transaction-list.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionListComponent {
   // Component logic
@@ -96,6 +99,7 @@ export class TransactionListComponent {
 ```
 
 ❌ **DON'T:**
+
 ```typescript
 // Do NOT use NgModules
 // Do NOT set standalone: true (it's default in Angular 21+)
@@ -125,16 +129,16 @@ Load features on demand:
 export const routes: Routes = [
   {
     path: 'transactions',
-    loadChildren: () => 
-      import('./features/transactions/transactions.routes')
-        .then(m => m.TRANSACTION_ROUTES)
-  }
+    loadChildren: () =>
+      import('./features/transactions/transactions.routes').then((m) => m.TRANSACTION_ROUTES),
+  },
 ];
 ```
 
 ### Avoid Deprecated Decorators
 
 ❌ **DON'T:**
+
 ```typescript
 // Don't use @HostBinding and @HostListener
 @HostBinding('class.active') isActive = true;
@@ -142,13 +146,14 @@ export const routes: Routes = [
 ```
 
 ✅ **DO:**
+
 ```typescript
 // Use host object instead
 @Component({
   host: {
     '[class.active]': 'isActive',
-    '(click)': 'onClick($event)'
-  }
+    '(click)': 'onClick($event)',
+  },
 })
 export class MyComponent {
   isActive = true;
@@ -159,6 +164,7 @@ export class MyComponent {
 ### Optimized Images
 
 ✅ **DO:**
+
 ```typescript
 import { NgOptimizedImage } from '@angular/common';
 
@@ -171,6 +177,7 @@ import { NgOptimizedImage } from '@angular/common';
 ```
 
 ❌ **DON'T:**
+
 ```typescript
 // NgOptimizedImage does NOT work with inline base64 images
 <img ngSrc="data:image/png;base64,..." alt="Icon">
@@ -193,44 +200,42 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './transaction-item.component.html',
   styleUrl: './transaction-item.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionItemComponent implements OnInit {
   // Use input() function instead of @Input decorator
   transaction = input.required<Transaction>();
-  
+
   // Use output() function instead of @Output decorator
   edit = output<Transaction>();
   delete = output<string>();
-  
+
   // Use signals for local state
   isExpanded = signal(false);
-  
+
   // Use computed() for derived state
-  formattedAmount = computed(() => 
-    this.formatCurrency(this.transaction().amount)
-  );
-  
+  formattedAmount = computed(() => this.formatCurrency(this.transaction().amount));
+
   ngOnInit() {
     // Initialization logic
   }
-  
+
   toggleExpand() {
-    this.isExpanded.update(v => !v);
+    this.isExpanded.update((v) => !v);
   }
-  
+
   onEdit() {
     this.edit.emit(this.transaction());
   }
-  
+
   onDelete() {
     this.delete.emit(this.transaction().id);
   }
-  
+
   private formatCurrency(amount: number): string {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'BRL'
+      currency: 'BRL',
     }).format(amount);
   }
 }
@@ -239,6 +244,7 @@ export class TransactionItemComponent implements OnInit {
 ### Inline vs External Templates
 
 **Small components** (< 10 lines of HTML):
+
 ```typescript
 @Component({
   selector: 'app-badge',
@@ -247,10 +253,18 @@ export class TransactionItemComponent implements OnInit {
       {{ label() }}
     </span>
   `,
-  styles: [`
-    .badge { padding: 0.25rem 0.5rem; border-radius: 4px; }
-    .badge--success { background: green; color: white; }
-  `]
+  styles: [
+    `
+      .badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+      }
+      .badge--success {
+        background: green;
+        color: white;
+      }
+    `,
+  ],
 })
 export class BadgeComponent {
   type = input<'success' | 'error' | 'warning'>('success');
@@ -259,6 +273,7 @@ export class BadgeComponent {
 ```
 
 **Larger components** - use external files with relative paths:
+
 ```typescript
 @Component({
   selector: 'app-transaction-form',
@@ -278,34 +293,32 @@ Use signals for reactive state management:
 ```typescript
 export class TransactionService {
   private readonly http = inject(HttpClient);
-  
+
   // Private writable signal
   private transactionsState = signal<Transaction[]>([]);
-  
+
   // Public readonly signal
   transactions = this.transactionsState.asReadonly();
-  
+
   // Computed signal for derived state
-  total = computed(() => 
-    this.transactionsState().reduce((sum, t) => sum + t.amount, 0)
-  );
-  
+  total = computed(() => this.transactionsState().reduce((sum, t) => sum + t.amount, 0));
+
   income = computed(() =>
     this.transactionsState()
-      .filter(t => t.type === 'income')
-      .reduce((sum, t) => sum + t.amount, 0)
+      .filter((t) => t.type === 'income')
+      .reduce((sum, t) => sum + t.amount, 0),
   );
-  
+
   // Use set() to replace entire state
   setTransactions(transactions: Transaction[]) {
     this.transactionsState.set(transactions);
   }
-  
+
   // Use update() to modify based on current state
   addTransaction(transaction: Transaction) {
-    this.transactionsState.update(current => [...current, transaction]);
+    this.transactionsState.update((current) => [...current, transaction]);
   }
-  
+
   // ❌ DON'T use mutate() - use update() or set()
 }
 ```
@@ -315,26 +328,26 @@ export class TransactionService {
 ```typescript
 export class TransactionListComponent {
   private service = inject(TransactionService);
-  
+
   // Component signals
   isLoading = signal(false);
   error = signal<string | null>(null);
   selectedId = signal<string | null>(null);
-  
+
   // Reference service signals
   transactions = this.service.transactions;
   total = this.service.total;
-  
+
   // Computed from multiple signals
   selectedTransaction = computed(() => {
     const id = this.selectedId();
-    return this.transactions().find(t => t.id === id);
+    return this.transactions().find((t) => t.id === id);
   });
-  
+
   async loadTransactions() {
     this.isLoading.set(true);
     this.error.set(null);
-    
+
     try {
       const data = await firstValueFrom(this.service.fetchTransactions());
       this.service.setTransactions(data);
@@ -370,45 +383,42 @@ function calculateTotal(transactions: Transaction[]): number {
 ### Native Control Flow (Mandatory)
 
 ✅ **DO:**
+
 ```html
 <!-- Use @if instead of *ngIf -->
 @if (isLoading()) {
-  <app-loading-spinner />
-}
-
-@if (error()) {
-  <app-error-message [message]="error()!" />
+<app-loading-spinner />
+} @if (error()) {
+<app-error-message [message]="error()!" />
 } @else if (transactions().length === 0) {
-  <app-empty-state message="No transactions found" />
+<app-empty-state message="No transactions found" />
 } @else {
-  <app-transaction-list [transactions]="transactions()" />
+<app-transaction-list [transactions]="transactions()" />
 }
 
 <!-- Use @for instead of *ngFor -->
 @for (transaction of transactions(); track transaction.id) {
-  <app-transaction-item 
-    [transaction]="transaction"
-    (edit)="onEdit($event)"
-    (delete)="onDelete($event)" />
+<app-transaction-item
+  [transaction]="transaction"
+  (edit)="onEdit($event)"
+  (delete)="onDelete($event)"
+/>
 } @empty {
-  <p>No transactions to display</p>
+<p>No transactions to display</p>
 }
 
 <!-- Use @switch instead of *ngSwitch -->
-@switch (status()) {
-  @case ('pending') {
-    <span class="badge badge--warning">Pending</span>
-  }
-  @case ('completed') {
-    <span class="badge badge--success">Completed</span>
-  }
-  @default {
-    <span class="badge">Unknown</span>
-  }
-}
+@switch (status()) { @case ('pending') {
+<span class="badge badge--warning">Pending</span>
+} @case ('completed') {
+<span class="badge badge--success">Completed</span>
+} @default {
+<span class="badge">Unknown</span>
+} }
 ```
 
 ❌ **DON'T:**
+
 ```html
 <!-- Don't use old structural directives -->
 <div *ngIf="isLoading">Loading...</div>
@@ -422,14 +432,10 @@ function calculateTotal(transactions: Transaction[]): number {
 
 ```html
 <!-- ✅ Use class bindings instead of ngClass -->
-<div [class.active]="isActive()" [class.disabled]="isDisabled()">
-  Content
-</div>
+<div [class.active]="isActive()" [class.disabled]="isDisabled()">Content</div>
 
 <!-- ✅ Use style bindings instead of ngStyle -->
-<div [style.color]="textColor()" [style.font-size.px]="fontSize()">
-  Content
-</div>
+<div [style.color]="textColor()" [style.font-size.px]="fontSize()">Content</div>
 
 <!-- ❌ Don't use ngClass or ngStyle -->
 <div [ngClass]="{ active: isActive() }">Content</div>
@@ -444,9 +450,7 @@ function calculateTotal(transactions: Transaction[]): number {
 
 <!-- ❌ Don't write arrow functions in templates -->
 <!-- Bad: -->
-<button (click)="items().filter(i => i.active).forEach(i => process(i))">
-  Process
-</button>
+<button (click)="items().filter(i => i.active).forEach(i => process(i))">Process</button>
 
 <!-- Good: -->
 <button (click)="processActiveItems()">Process</button>
@@ -458,7 +462,7 @@ Use the async pipe for observables:
 
 ```html
 @if (user$ | async; as user) {
-  <p>Welcome, {{ user.name }}!</p>
+<p>Welcome, {{ user.name }}!</p>
 }
 ```
 
@@ -473,25 +477,22 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root' // Singleton service
+  providedIn: 'root', // Singleton service
 })
 export class TransactionService {
   // Use inject() function instead of constructor injection
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiConfiguration);
-  
+
   private transactionsState = signal<Transaction[]>([]);
   transactions = this.transactionsState.asReadonly();
-  
+
   fetchTransactions(): Observable<Transaction[]> {
     return this.http.get<Transaction[]>(`${this.api.baseUrl}/transactions`);
   }
-  
+
   createTransaction(data: CreateTransactionRequest): Observable<Transaction> {
-    return this.http.post<Transaction>(
-      `${this.api.baseUrl}/transactions`,
-      data
-    );
+    return this.http.post<Transaction>(`${this.api.baseUrl}/transactions`, data);
   }
 }
 ```
@@ -554,10 +555,11 @@ src/api/
 1. **NEVER manually edit files in `src/api/providers/`** - They are auto-generated
 2. **Always regenerate after OpenAPI spec changes**: `npm run generate:api`
 3. **Import from `src/api`** (which re-exports from providers/index.ts), not from nested paths:
+
    ```typescript
    // ✅ Good
    import { AccountsService, Dto_AccountResponse } from 'src/api';
-   
+
    // ❌ Bad
    import { AccountsService } from 'src/api/providers/services/accounts.service';
    ```
@@ -579,20 +581,18 @@ import { firstValueFrom } from 'rxjs';
 })
 export class AccountFormComponent {
   private readonly accountsApi = inject(AccountsService);
-  
+
   isSubmitting = signal(false);
   error = signal<string | null>(null);
-  
+
   async createAccount(data: Dto_CreateAccountRequest) {
     this.isSubmitting.set(true);
     this.error.set(null);
-    
+
     try {
       // Generated service returns Observable, convert to Promise
-      const account = await firstValueFrom(
-        this.accountsApi.accountsPost(data)
-      );
-      
+      const account = await firstValueFrom(this.accountsApi.accountsPost(data));
+
       console.log('Account created:', account);
       return account;
     } catch (err) {
@@ -616,58 +616,48 @@ import { AccountsService, Dto_AccountResponse, Dto_CreateAccountRequest } from '
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AccountService {
   // Inject generated API service
   private readonly accountsApi = inject(AccountsService);
-  
+
   // State management with signals
   private accountsState = signal<Dto_AccountResponse[]>([]);
   accounts = this.accountsState.asReadonly();
-  
+
   // Computed signals for derived state
-  totalBalance = computed(() => 
-    this.accountsState().reduce((sum, acc) => sum + acc.initial_balance, 0)
+  totalBalance = computed(() =>
+    this.accountsState().reduce((sum, acc) => sum + acc.initial_balance, 0),
   );
-  
-  bankAccounts = computed(() =>
-    this.accountsState().filter(acc => acc.type === 'bank')
-  );
-  
+
+  bankAccounts = computed(() => this.accountsState().filter((acc) => acc.type === 'bank'));
+
   // Wrap API calls with state updates
   async loadAccounts(): Promise<void> {
     try {
-      const accounts = await firstValueFrom(
-        this.accountsApi.accountsGet()
-      );
+      const accounts = await firstValueFrom(this.accountsApi.accountsGet());
       this.accountsState.set(accounts);
     } catch (err) {
       console.error('Failed to load accounts:', err);
       throw err;
     }
   }
-  
+
   async createAccount(data: Dto_CreateAccountRequest): Promise<Dto_AccountResponse> {
-    const account = await firstValueFrom(
-      this.accountsApi.accountsPost(data)
-    );
-    
+    const account = await firstValueFrom(this.accountsApi.accountsPost(data));
+
     // Update local state
-    this.accountsState.update(current => [...current, account]);
-    
+    this.accountsState.update((current) => [...current, account]);
+
     return account;
   }
-  
+
   async deleteAccount(id: string): Promise<void> {
-    await firstValueFrom(
-      this.accountsApi.accountsIdDelete(id)
-    );
-    
+    await firstValueFrom(this.accountsApi.accountsIdDelete(id));
+
     // Update local state
-    this.accountsState.update(current => 
-      current.filter(acc => acc.id !== id)
-    );
+    this.accountsState.update((current) => current.filter((acc) => acc.id !== id));
   }
 }
 ```
@@ -681,13 +671,13 @@ Add authentication and tenant headers globally:
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.getToken();
-  
+
   if (token) {
     req = req.clone({
-      setHeaders: { Authorization: `Bearer ${token}` }
+      setHeaders: { Authorization: `Bearer ${token}` },
     });
   }
-  
+
   return next(req);
 };
 
@@ -695,23 +685,19 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 export const tenantInterceptor: HttpInterceptorFn = (req, next) => {
   const tenantService = inject(TenantService);
   const tenantId = tenantService.getCurrentTenantId();
-  
+
   if (tenantId && !req.headers.has('X-Tenant-ID')) {
     req = req.clone({
-      setHeaders: { 'X-Tenant-ID': tenantId }
+      setHeaders: { 'X-Tenant-ID': tenantId },
     });
   }
-  
+
   return next(req);
 };
 
 // app.config.ts
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideHttpClient(
-      withInterceptors([authInterceptor, tenantInterceptor])
-    )
-  ]
+  providers: [provideHttpClient(withInterceptors([authInterceptor, tenantInterceptor]))],
 };
 ```
 
@@ -724,7 +710,7 @@ Handle API errors consistently:
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const toastService = inject(ToastService);
   const router = inject(Router);
-  
+
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       // Handle specific error codes
@@ -734,28 +720,28 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           router.navigate(['/auth/login']);
           toastService.error('Session expired. Please login again.');
           break;
-          
+
         case 403:
           // Forbidden
           toastService.error('You do not have permission to perform this action.');
           break;
-          
+
         case 404:
           toastService.error('Resource not found.');
           break;
-          
+
         case 500:
           toastService.error('Server error. Please try again later.');
           break;
-          
+
         default:
           // Generic error message
           const message = error.error?.error || 'An error occurred';
           toastService.error(message);
       }
-      
+
       return throwError(() => error);
-    })
+    }),
   );
 };
 ```
@@ -776,18 +762,12 @@ export const appConfig: ApplicationConfig = {
     // Set API base URL
     {
       provide: BASE_PATH_FINTRACK,
-      useValue: environment.apiUrl
+      useValue: environment.apiUrl,
     },
-    
+
     // Configure HTTP client with interceptors
-    provideHttpClient(
-      withInterceptors([
-        authInterceptor,
-        tenantInterceptor,
-        errorInterceptor
-      ])
-    )
-  ]
+    provideHttpClient(withInterceptors([authInterceptor, tenantInterceptor, errorInterceptor])),
+  ],
 };
 ```
 
@@ -795,13 +775,13 @@ export const appConfig: ApplicationConfig = {
 // environment.ts
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080'
+  apiUrl: 'http://localhost:8080',
 };
 
 // environment.prod.ts
 export const environment = {
   production: true,
-  apiUrl: 'https://api.fintrack.app'
+  apiUrl: 'https://api.fintrack.app',
 };
 ```
 
@@ -810,11 +790,13 @@ export const environment = {
 When the backend OpenAPI spec changes:
 
 1. **Copy the updated spec**:
+
    ```bash
    cp ../fintrack-api/docs/swagger.yaml ./src/api/openapi.yaml
    ```
 
 2. **Regenerate the client**:
+
    ```bash
    npm run generate:api
    ```
@@ -836,12 +818,13 @@ When the backend OpenAPI spec changes:
 4. **Type Safety**: Leverage generated TypeScript types
 5. **Convert Observables**: Use `firstValueFrom()` to convert to Promises in async functions
 6. **Never Mutate**: Always use immutable updates when modifying state:
+
    ```typescript
    // ✅ Good
-   this.accountsState.update(current => [...current, newAccount]);
-   
+   this.accountsState.update((current) => [...current, newAccount]);
+
    // ❌ Bad
-   this.accountsState.mutate(current => current.push(newAccount));
+   this.accountsState.mutate((current) => current.push(newAccount));
    ```
 
 ---
@@ -857,22 +840,22 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 @Component({
   selector: 'app-transaction-form',
   imports: [ReactiveFormsModule, MaterialModules],
-  templateUrl: './transaction-form.component.html'
+  templateUrl: './transaction-form.component.html',
 })
 export class TransactionFormComponent {
   private fb = inject(FormBuilder);
-  
+
   form = this.fb.group({
     description: ['', [Validators.required, Validators.minLength(3)]],
     amount: [0, [Validators.required, Validators.min(0.01)]],
     type: ['expense', Validators.required],
     categoryId: ['', Validators.required],
     accountId: ['', Validators.required],
-    date: [new Date(), Validators.required]
+    date: [new Date(), Validators.required],
   });
-  
+
   isSubmitting = signal(false);
-  
+
   onSubmit() {
     if (this.form.valid) {
       this.isSubmitting.set(true);
@@ -889,25 +872,22 @@ export class TransactionFormComponent {
     <mat-label>Description</mat-label>
     <input matInput formControlName="description" />
     @if (form.controls.description.hasError('required')) {
-      <mat-error>Description is required</mat-error>
+    <mat-error>Description is required</mat-error>
     }
   </mat-form-field>
-  
+
   <mat-form-field>
     <mat-label>Amount</mat-label>
     <input matInput type="number" formControlName="amount" />
   </mat-form-field>
-  
-  <button 
-    mat-raised-button 
-    color="primary" 
+
+  <button
+    mat-raised-button
+    color="primary"
     type="submit"
-    [disabled]="form.invalid || isSubmitting()">
-    @if (isSubmitting()) {
-      Submitting...
-    } @else {
-      Submit
-    }
+    [disabled]="form.invalid || isSubmitting()"
+  >
+    @if (isSubmitting()) { Submitting... } @else { Submit }
   </button>
 </form>
 ```
@@ -917,18 +897,18 @@ export class TransactionFormComponent {
 ```typescript
 export class CustomValidators {
   static futureDate(): ValidatorFn {
-   return (control: AbstractControl): ValidationErrors | null => {
+    return (control: AbstractControl): ValidationErrors | null => {
       const value = control.value;
       if (!value) return null;
-      
+
       const selected = new Date(value);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      
+
       return selected > today ? { futureDate: true } : null;
     };
   }
-  
+
   static positiveNumber(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const value = control.value;
@@ -952,27 +932,27 @@ Use BEM naming convention:
   display: flex;
   padding: 1rem;
   border-bottom: 1px solid #eee;
-  
+
   &__icon {
     margin-right: 1rem;
   }
-  
+
   &__content {
     flex: 1;
   }
-  
+
   &__amount {
     font-weight: bold;
-    
+
     &--income {
       color: green;
     }
-    
+
     &--expense {
       color: red;
     }
   }
-  
+
   &--selected {
     background-color: #f0f0f0;
   }
@@ -990,15 +970,17 @@ $custom-primary: mat.define-palette(mat.$indigo-palette);
 $custom-accent: mat.define-palette(mat.$pink-palette);
 $custom-warn: mat.define-palette(mat.$red-palette);
 
-$custom-theme: mat.define-light-theme((
-  color: (
-    primary: $custom-primary,
-    accent: $custom-accent,
-    warn: $custom-warn,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$custom-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $custom-primary,
+      accent: $custom-accent,
+      warn: $custom-warn,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
 
 @include mat.all-component-themes($custom-theme);
 ```
@@ -1012,11 +994,11 @@ Use Material breakpoints:
 
 .container {
   padding: 1rem;
-  
+
   @media (min-width: mat.$breakpoint-tablet) {
     padding: 2rem;
   }
-  
+
   @media (min-width: mat.$breakpoint-desktop) {
     padding: 3rem;
   }
@@ -1030,6 +1012,7 @@ Use Material breakpoints:
 ### WCAG AA Compliance (Mandatory)
 
 All components MUST:
+
 - Pass AXE accessibility checks
 - Meet WCAG AA color contrast requirements (4.5:1 for normal text)
 - Include proper ARIA attributes
@@ -1062,19 +1045,16 @@ All components MUST:
 ### ARIA Attributes
 
 ```html
-<button 
+<button
   aria-label="Delete transaction"
   [attr.aria-expanded]="isExpanded()"
   [attr.aria-pressed]="isActive()"
-  (click)="toggle()">
+  (click)="toggle()"
+>
   <mat-icon>delete</mat-icon>
 </button>
 
-<div role="alert" aria-live="polite">
-  @if (error()) {
-    {{ error() }}
-  }
-</div>
+<div role="alert" aria-live="polite">@if (error()) { {{ error() }} }</div>
 ```
 
 ### Focus Management
@@ -1082,7 +1062,7 @@ All components MUST:
 ```typescript
 export class DialogComponent implements AfterViewInit {
   @ViewChild('firstInput') firstInput!: ElementRef<HTMLInputElement>;
-  
+
   ngAfterViewInit() {
     // Focus first input when dialog opens
     setTimeout(() => this.firstInput.nativeElement.focus());
@@ -1103,39 +1083,39 @@ import { TransactionItemComponent } from './transaction-item.component';
 describe('TransactionItemComponent', () => {
   let component: TransactionItemComponent;
   let fixture: ComponentFixture<TransactionItemComponent>;
-  
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TransactionItemComponent]
+      imports: [TransactionItemComponent],
     }).compileComponents();
-    
+
     fixture = TestBed.createComponent(TransactionItemComponent);
     component = fixture.componentInstance;
   });
-  
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  
+
   it('should format amount correctly', () => {
     fixture.componentRef.setInput('transaction', {
       id: '1',
       amount: 1000,
-      description: 'Test'
+      description: 'Test',
     });
-    
+
     expect(component.formattedAmount()).toBe('R$ 1.000,00');
   });
-  
+
   it('should emit edit event', () => {
     const transaction = { id: '1', amount: 100 };
     fixture.componentRef.setInput('transaction', transaction);
-    
+
     let emittedValue: any;
-    component.edit.subscribe(value => emittedValue = value);
-    
+    component.edit.subscribe((value) => (emittedValue = value));
+
     component.onEdit();
-    
+
     expect(emittedValue).toEqual(transaction);
   });
 });
@@ -1151,32 +1131,32 @@ import { TransactionService } from './transaction.service';
 describe('TransactionService', () => {
   let service: TransactionService;
   let httpMock: HttpTestingController;
-  
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [TransactionService]
+      providers: [TransactionService],
     });
-    
+
     service = TestBed.inject(TransactionService);
     httpMock = TestBed.inject(HttpTestingController);
   });
-  
+
   afterEach(() => {
     httpMock.verify();
   });
-  
+
   it('should fetch transactions', (done) => {
     const mockTransactions = [
       { id: '1', amount: 100 },
-      { id: '2', amount: 200 }
+      { id: '2', amount: 200 },
     ];
-    
-    service.fetchTransactions().subscribe(transactions => {
+
+    service.fetchTransactions().subscribe((transactions) => {
       expect(transactions).toEqual(mockTransactions);
       done();
     });
-    
+
     const req = httpMock.expectOne('/api/transactions');
     expect(req.request.method).toBe('GET');
     req.flush(mockTransactions);
@@ -1204,7 +1184,7 @@ Always provide trackBy for lists:
 
 ```html
 @for (item of items(); track item.id) {
-  <app-item [data]="item" />
+<app-item [data]="item" />
 }
 ```
 
@@ -1217,12 +1197,7 @@ Load features on demand to reduce initial bundle size.
 Use NgOptimizedImage for all static images:
 
 ```html
-<img 
-  ngSrc="assets/logo.png" 
-  alt="Logo" 
-  width="200" 
-  height="100"
-  priority>
+<img ngSrc="assets/logo.png" alt="Logo" width="200" height="100" priority />
 ```
 
 ---
@@ -1292,6 +1267,7 @@ Configure Prettier in `package.json`:
 ### Pre-commit Hooks
 
 Consider adding pre-commit hooks for:
+
 - Linting
 - Formatting
 - Running tests

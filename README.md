@@ -53,6 +53,7 @@ npm run generate:api
 ```
 
 This command will:
+
 1. Convert Swagger 2.0 spec to OpenAPI 3.0 (if needed)
 2. Generate TypeScript services and models in `src/api/providers/`
 
@@ -80,8 +81,8 @@ The build artifacts will be stored in the `dist/` directory, optimized for produ
 
 The application uses environment-specific configuration files:
 
-- **Development**: `src/environments/environment.ts` - Uses proxy for API calls
-- **Production**: `src/environments/environment.prod.ts` - Direct API URL
+- **Development**: `src/environments/environment.ts` - Local API URL
+- **Production**: `src/environments/environment.prod.ts` - Production API URL
 
 ### Available Environment Variables
 
@@ -104,14 +105,6 @@ npm run build -- --configuration development
 npm run build
 ```
 
-## Proxy Configuration
-
-During development, the application uses a proxy to avoid CORS issues. API requests made to `/api/*` are automatically forwarded to `http://localhost:8080`.
-
-**Example**: A request to `/api/auth/login` becomes `http://localhost:8080/auth/login`
-
-The proxy is configured in `proxy.conf.json` and only applies during `ng serve`.
-
 ## Angular DevTools
 
 For enhanced debugging and profiling:
@@ -122,6 +115,7 @@ For enhanced debugging and profiling:
 4. Look for the "Angular" tab in DevTools
 
 Use Angular DevTools to:
+
 - Inspect component tree and properties
 - View and debug signals
 - Profile application performance
