@@ -95,6 +95,10 @@ export interface Dto_CreateTransactionRequest {
     transaction_type: 'credit' | 'debit' | 'transfer' | 'payment';
 }
 
+export interface Dto_RefreshTokenRequest {
+    refresh_token: string;
+}
+
 export interface Dto_RegisterRequest {
     email: string;
     full_name: string;
@@ -139,6 +143,13 @@ export interface Dto_TransactionResponse {
     transaction_type?: Domain_TransactionType;
     updated_at?: string;
     updated_by?: string;
+}
+
+export interface Dto_UpdateAccountRequest {
+    color?: string;
+    icon?: string;
+    initial_balance?: number;
+    name: string;
 }
 
 export interface Dto_UpdateCategoryRequest {

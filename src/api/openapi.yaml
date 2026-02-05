@@ -77,6 +77,41 @@ paths:
       tags:
         - accounts
   "/accounts/{id}":
+    delete:
+      description: delete an account by ID
+      parameters:
+        - description: Account ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handler.ErrorResponse"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handler.ErrorResponse"
+      security:
+        - AuthPassword: []
+      summary: Delete an account
+      tags:
+        - accounts
     get:
       description: get account by ID
       parameters:
@@ -102,6 +137,52 @@ paths:
       security:
         - AuthPassword: []
       summary: Get an account
+      tags:
+        - accounts
+    put:
+      description: update an existing account (cannot change type or currency)
+      parameters:
+        - description: Account ID
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/dto.UpdateAccountRequest"
+        description: Update account
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/dto.AccountResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handler.ErrorResponse"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handler.ErrorResponse"
+      security:
+        - AuthPassword: []
+      summary: Update an account
       tags:
         - accounts
   /auth/login:
@@ -137,6 +218,38 @@ paths:
               schema:
                 $ref: "#/components/schemas/handler.ErrorResponse"
       summary: Login
+      tags:
+        - auth
+  /auth/refresh-token:
+    post:
+      description: Refresh access token using refresh token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/dto.RefreshTokenRequest"
+        description: Refresh Token Request
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/dto.AuthResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handler.ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/handler.ErrorResponse"
+      summary: Refresh access token
       tags:
         - auth
   /auth/register:
@@ -1047,6 +1160,13 @@ components:
         - from_account_id
         - transaction_type
       type: object
+    dto.RefreshTokenRequest:
+      properties:
+        refresh_token:
+          type: string
+      required:
+        - refresh_token
+      type: object
     dto.RegisterRequest:
       properties:
         email:
@@ -1131,6 +1251,19 @@ components:
           type: string
         updated_by:
           type: string
+      type: object
+    dto.UpdateAccountRequest:
+      properties:
+        color:
+          type: string
+        icon:
+          type: string
+        initial_balance:
+          type: number
+        name:
+          type: string
+      required:
+        - name
       type: object
     dto.UpdateCategoryRequest:
       properties:

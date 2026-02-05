@@ -12,7 +12,7 @@ import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { BASE_PATH_FINTRACK, CLIENT_CONTEXT_TOKEN_FINTRACK } from "../tokens";
 import { HttpParamsBuilder } from "../utils/http-params-builder";
-import { RequestOptions, Dto_AuthResponse, Dto_RegisterRequest } from "../models";
+import { RequestOptions, Dto_AuthResponse, Dto_RefreshTokenRequest, Dto_RegisterRequest } from "../models";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
@@ -58,6 +58,23 @@ export class AuthService {
         };
 
         return this.httpClient.post(url, formData, requestOptions);
+    }
+
+    authRefreshTokenPost(dtoRefreshTokenRequest: Dto_RefreshTokenRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<Dto_AuthResponse>;
+    authRefreshTokenPost(dtoRefreshTokenRequest: Dto_RefreshTokenRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<Dto_AuthResponse>>;
+    authRefreshTokenPost(dtoRefreshTokenRequest: Dto_RefreshTokenRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<Dto_AuthResponse>>;
+    /** Refresh access token using refresh token */
+    authRefreshTokenPost(dtoRefreshTokenRequest: Dto_RefreshTokenRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const url = `${this.basePath}/auth/refresh-token`;
+
+        const requestOptions: any = {
+            observe: observe as any,
+            reportProgress: options?.reportProgress,
+            withCredentials: options?.withCredentials,
+            context: this.createContextWithClientId(options?.context)
+        };
+
+        return this.httpClient.post(url, dtoRefreshTokenRequest, requestOptions);
     }
 
     authRegisterPost(dtoRegisterRequest: Dto_RegisterRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<Dto_AuthResponse>;

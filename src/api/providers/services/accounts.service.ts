@@ -12,7 +12,7 @@ import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { BASE_PATH_FINTRACK, CLIENT_CONTEXT_TOKEN_FINTRACK } from "../tokens";
 import { HttpParamsBuilder } from "../utils/http-params-builder";
-import { RequestOptions, Dto_AccountResponse, Dto_CreateAccountRequest } from "../models";
+import { RequestOptions, Dto_AccountResponse, Dto_CreateAccountRequest, Dto_UpdateAccountRequest } from "../models";
 
 @Injectable({ providedIn: "root" })
 export class AccountsService {
@@ -74,5 +74,39 @@ export class AccountsService {
         };
 
         return this.httpClient.get(url, requestOptions);
+    }
+
+    accountsIdPut(id: string, dtoUpdateAccountRequest: Dto_UpdateAccountRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<Dto_AccountResponse>;
+    accountsIdPut(id: string, dtoUpdateAccountRequest: Dto_UpdateAccountRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<Dto_AccountResponse>>;
+    accountsIdPut(id: string, dtoUpdateAccountRequest: Dto_UpdateAccountRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<Dto_AccountResponse>>;
+    /** update an existing account (cannot change type or currency) */
+    accountsIdPut(id: string, dtoUpdateAccountRequest: Dto_UpdateAccountRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const url = `${this.basePath}/accounts/${id}`;
+
+        const requestOptions: any = {
+            observe: observe as any,
+            reportProgress: options?.reportProgress,
+            withCredentials: options?.withCredentials,
+            context: this.createContextWithClientId(options?.context)
+        };
+
+        return this.httpClient.put(url, dtoUpdateAccountRequest, requestOptions);
+    }
+
+    accountsIdDelete(id: string, observe?: 'body', options?: RequestOptions<'json'>): Observable<any>;
+    accountsIdDelete(id: string, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<any>>;
+    accountsIdDelete(id: string, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<any>>;
+    /** delete an account by ID */
+    accountsIdDelete(id: string, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const url = `${this.basePath}/accounts/${id}`;
+
+        const requestOptions: any = {
+            observe: observe as any,
+            reportProgress: options?.reportProgress,
+            withCredentials: options?.withCredentials,
+            context: this.createContextWithClientId(options?.context)
+        };
+
+        return this.httpClient.delete(url, requestOptions);
     }
 }
