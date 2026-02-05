@@ -524,34 +524,80 @@ export class DataService {
 
 ## HTTP & API Integration
 
+### Generated API Client (ng-openapi-gen)
+
+The FinTrack Web application uses **ng-openapi-gen** to automatically generate a type-safe API client from the backend's OpenAPI specification.
+
+#### Generated Structure
+
+```
+src/api/
+└── providers/       # Generated API client (ng-openapi-gen output)
+    ├── services/    # API service classes
+    │   ├── accounts.service.ts
+    │   ├── auth.service.ts
+    │   ├── categories.service.ts
+    │   ├── tags.service.ts
+    │   ├── tenants.service.ts
+    │   ├── transactions.service.ts
+    │   └── users.service.ts
+    ├── models/      # TypeScript interfaces for DTOs
+    ├── tokens/      # Injection tokens (BASE_PATH, etc.)
+    ├── utils/       # Helper utilities
+    ├── resources/   # Resource definitions
+    ├── providers.ts # Provider configuration
+    └── index.ts     # Main export file
+```
+
+#### ⚠️ Critical Rules
+
+1. **NEVER manually edit files in `src/api/providers/`** - They are auto-generated
+2. **Always regenerate after OpenAPI spec changes**: `npm run generate:api`
+3. **Import from `src/api`** (which re-exports from providers/index.ts), not from nested paths:
+   ```typescript
+   // ✅ Good
+   import { AccountsService, Dto_AccountResponse } from 'src/api';
+   
+   // ❌ Bad
+   import { AccountsService } from 'src/api/providers/services/accounts.service';
+   ```
+
 ### Using Generated API Services
+
+#### Direct Usage in Components
+
+For simple use cases, inject generated services directly:
 
 ```typescript
 import { Component, inject, signal } from '@angular/core';
-import { TransactionsService } from '@/api/providers/transactions.service';
-import { CreateTransactionRequest } from '@/api/models';
+import { AccountsService, Dto_CreateAccountRequest } from 'src/api';
+import { firstValueFrom } from 'rxjs';
 
-export class TransactionFormComponent {
-  private readonly transactionsApi = inject(TransactionsService);
+@Component({
+  selector: 'app-account-form',
+  // ...
+})
+export class AccountFormComponent {
+  private readonly accountsApi = inject(AccountsService);
   
   isSubmitting = signal(false);
   error = signal<string | null>(null);
   
-  async onSubmit(data: CreateTransactionRequest) {
+  async createAccount(data: Dto_CreateAccountRequest) {
     this.isSubmitting.set(true);
     this.error.set(null);
     
     try {
-      const result = await firstValueFrom(
-        this.transactionsApi.createTransaction({
-          'X-Tenant-ID': this.tenantId(),
-          body: data
-        })
+      // Generated service returns Observable, convert to Promise
+      const account = await firstValueFrom(
+        this.accountsApi.accountsPost(data)
       );
       
-      this.success.emit(result);
+      console.log('Account created:', account);
+      return account;
     } catch (err) {
-      this.error.set('Failed to create transaction');
+      this.error.set('Failed to create account');
+      throw err;
     } finally {
       this.isSubmitting.set(false);
     }
@@ -559,9 +605,76 @@ export class TransactionFormComponent {
 }
 ```
 
+#### Wrapping in Feature Services (Recommended)
+
+For complex features, wrap generated services in feature-specific services with state management:
+
+```typescript
+// src/app/features/accounts/services/account.service.ts
+import { Injectable, inject, signal, computed } from '@angular/core';
+import { AccountsService, Dto_AccountResponse, Dto_CreateAccountRequest } from 'src/api';
+import { firstValueFrom } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AccountService {
+  // Inject generated API service
+  private readonly accountsApi = inject(AccountsService);
+  
+  // State management with signals
+  private accountsState = signal<Dto_AccountResponse[]>([]);
+  accounts = this.accountsState.asReadonly();
+  
+  // Computed signals for derived state
+  totalBalance = computed(() => 
+    this.accountsState().reduce((sum, acc) => sum + acc.initial_balance, 0)
+  );
+  
+  bankAccounts = computed(() =>
+    this.accountsState().filter(acc => acc.type === 'bank')
+  );
+  
+  // Wrap API calls with state updates
+  async loadAccounts(): Promise<void> {
+    try {
+      const accounts = await firstValueFrom(
+        this.accountsApi.accountsGet()
+      );
+      this.accountsState.set(accounts);
+    } catch (err) {
+      console.error('Failed to load accounts:', err);
+      throw err;
+    }
+  }
+  
+  async createAccount(data: Dto_CreateAccountRequest): Promise<Dto_AccountResponse> {
+    const account = await firstValueFrom(
+      this.accountsApi.accountsPost(data)
+    );
+    
+    // Update local state
+    this.accountsState.update(current => [...current, account]);
+    
+    return account;
+  }
+  
+  async deleteAccount(id: string): Promise<void> {
+    await firstValueFrom(
+      this.accountsApi.accountsIdDelete(id)
+    );
+    
+    // Update local state
+    this.accountsState.update(current => 
+      current.filter(acc => acc.id !== id)
+    );
+  }
+}
+```
+
 ### HTTP Interceptors
 
-Add authentication and tenant headers:
+Add authentication and tenant headers globally:
 
 ```typescript
 // auth.interceptor.ts
@@ -601,6 +714,135 @@ export const appConfig: ApplicationConfig = {
   ]
 };
 ```
+
+### Error Handling
+
+Handle API errors consistently:
+
+```typescript
+// error.interceptor.ts
+export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  const toastService = inject(ToastService);
+  const router = inject(Router);
+  
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      // Handle specific error codes
+      switch (error.status) {
+        case 401:
+          // Unauthorized - redirect to login
+          router.navigate(['/auth/login']);
+          toastService.error('Session expired. Please login again.');
+          break;
+          
+        case 403:
+          // Forbidden
+          toastService.error('You do not have permission to perform this action.');
+          break;
+          
+        case 404:
+          toastService.error('Resource not found.');
+          break;
+          
+        case 500:
+          toastService.error('Server error. Please try again later.');
+          break;
+          
+        default:
+          // Generic error message
+          const message = error.error?.error || 'An error occurred';
+          toastService.error(message);
+      }
+      
+      return throwError(() => error);
+    })
+  );
+};
+```
+
+### API Configuration
+
+Configure the base URL for generated services:
+
+```typescript
+// app.config.ts
+import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { BASE_PATH_FINTRACK } from 'src/api';
+import { environment } from '../environments/environment';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    // Set API base URL
+    {
+      provide: BASE_PATH_FINTRACK,
+      useValue: environment.apiUrl
+    },
+    
+    // Configure HTTP client with interceptors
+    provideHttpClient(
+      withInterceptors([
+        authInterceptor,
+        tenantInterceptor,
+        errorInterceptor
+      ])
+    )
+  ]
+};
+```
+
+```typescript
+// environment.ts
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:8080'
+};
+
+// environment.prod.ts
+export const environment = {
+  production: true,
+  apiUrl: 'https://api.fintrack.app'
+};
+```
+
+### Regenerating API Client
+
+When the backend OpenAPI spec changes:
+
+1. **Copy the updated spec**:
+   ```bash
+   cp ../fintrack-api/docs/swagger.yaml ./src/api/openapi.yaml
+   ```
+
+2. **Regenerate the client**:
+   ```bash
+   npm run generate:api
+   ```
+
+3. **Review changes**:
+   - Check for new services/models
+   - Update affected components/services
+   - Fix TypeScript errors
+
+4. **Test**:
+   - Ensure existing functionality still works
+   - Test new endpoints
+
+### Best Practices
+
+1. **Wrap in Feature Services**: Don't use generated services directly in components for complex features
+2. **Use Signals for State**: Store API responses in signals for reactive updates
+3. **Handle Errors Globally**: Use interceptors for common error scenarios
+4. **Type Safety**: Leverage generated TypeScript types
+5. **Convert Observables**: Use `firstValueFrom()` to convert to Promises in async functions
+6. **Never Mutate**: Always use immutable updates when modifying state:
+   ```typescript
+   // ✅ Good
+   this.accountsState.update(current => [...current, newAccount]);
+   
+   // ❌ Bad
+   this.accountsState.mutate(current => current.push(newAccount));
+   ```
 
 ---
 

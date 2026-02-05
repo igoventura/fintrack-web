@@ -237,9 +237,59 @@ Application shell and layout components.
 
 ### API Module (`src/api/`)
 
-Auto-generated API client from OpenAPI specification.
+Auto-generated type-safe API client from OpenAPI specification using **ng-openapi-gen**.
 
-**⚠️ Important**: Do not manually edit files in `src/api/providers/` or `src/api/models/`. These are regenerated when running `npm run generate:api`.
+**Actual Structure:**
+```
+src/api/
+├── providers/       # Generated API client (ng-openapi-gen output)
+│   ├── services/    # API service classes
+│   │   ├── accounts.service.ts
+│   │   ├── auth.service.ts
+│   │   ├── categories.service.ts
+│   │   ├── tags.service.ts
+│   │   ├── tenants.service.ts
+│   │   ├── transactions.service.ts
+│   │   ├── users.service.ts
+│   │   └── index.ts
+│   ├── models/      # TypeScript interfaces (DTOs)
+│   │   └── *.ts
+│   ├── tokens/      # Angular injection tokens
+│   │   └── *.ts     # BASE_PATH, CLIENT_CONTEXT_TOKEN, etc.
+│   ├── utils/       # Generated helper utilities
+│   │   ├── file-download.ts
+│   │   ├── http-params-builder.ts
+│   │   ├── date-transformer.ts
+│   │   └── *.ts
+│   ├── resources/   # Resource definitions
+│   │   └── *.ts
+│   ├── providers.ts # Provider configuration helpers
+│   └── index.ts     # Main export (use this for imports!)
+├── openapi.yaml     # OpenAPI spec (copied from backend)
+└── openapi.config.ts # ng-openapi-gen configuration
+```
+
+**⚠️ Critical Rules:**
+- **DO NOT** manually edit any files except `openapi.yaml` and `openapi.config.ts`
+- **DO** regenerate after backend API changes: `npm run generate:api`
+- **DO** import from `src/api` (root index.ts), not from nested paths
+- **DO** commit `openapi.config.ts` to version control
+- **DO NOT** commit generated files (add to .gitignore, regenerate on build)
+
+**Usage Pattern:**
+```typescript
+// ✅ Correct - import from root api barrel
+import { AccountsService, Dto_AccountResponse } from 'src/api';
+
+// ❌ Wrong - don't import from nested paths
+import { AccountsService } from 'src/api/providers/services/accounts.service';
+```
+
+**Regeneration Workflow:**
+1. Copy updated `swagger.yaml` from backend: `cp ../fintrack-api/docs/swagger.yaml ./src/api/openapi.yaml`
+2. Run generation: `npm run generate:api`
+3. Review changes and fix TypeScript errors
+4. Test affected features
 
 ## Component Structure
 
