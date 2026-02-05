@@ -38,7 +38,7 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
         </div>
         <app-sidenav></app-sidenav>
       </mat-sidenav>
-      <mat-sidenav-content [style.margin-left]="(isHandset$ | async) ? '0' : '250px'">
+      <mat-sidenav-content>
         <app-toolbar (menuClick)="drawer.toggle()"></app-toolbar>
         <main class="content">
           <router-outlet></router-outlet>
