@@ -42,7 +42,7 @@ Foundation for the frontend application.
 ### Development Environment
 
 - [x] Configure environments (`environment.ts`, `environment.prod.ts`)
-- [x] Set up proxy configuration for local API (`proxy.conf.json`)
+- [x] Configure direct API access (CORS) - `proxy.conf.json` removed
 - [x] Create VS Code workspace settings
 - [x] Configure launch configurations for debugging
 - [x] Set up Angular DevTools
@@ -247,20 +247,21 @@ Main application shell and navigation structure.
 
 ---
 
-## Phase 5: Dashboard & Statistics (0%)
+## Phase 5: Dashboard & Statistics (100%)
 
 Overview and statistics.
 
 ### Dashboard Service
 
-- [ ] **Dashboard Service** (`src/app/features/dashboard/services/dashboard.service.ts`)
+- [x] **Dashboard Service** (`src/app/features/dashboard/services/dashboard.service.ts`)
   - Aggregate data from multiple sources
   - State management for dashboard metrics
   - Methods to fetch summary statistics
+  - **Note**: Currently uses mock data. Real API integration planned for **Phase 7 (Accounts)** and **Phase 10 (Transactions)**.
 
 ### Dashboard Page
 
-- [ ] **Dashboard Component** (`src/app/features/dashboard/components/dashboard/`)
+- [x] **Dashboard Component** (`src/app/features/dashboard/components/dashboard/`)
   - Overview cards:
     - Total balance across all accounts
     - Monthly income
@@ -272,7 +273,7 @@ Overview and statistics.
 
 ### Overview Card Component
 
-- [ ] **Overview Card** (`src/app/features/dashboard/components/overview-card/`)
+- [x] **Overview Card** (`src/app/features/dashboard/components/overview-card/`)
   - Reusable card for metrics
   - Inputs: title, value, icon, trend
   - Color coding (green for income, red for expenses)
@@ -280,7 +281,7 @@ Overview and statistics.
 
 ### Recent Transactions Component
 
-- [ ] **Recent Transactions** (`src/app/features/dashboard/components/recent-transactions/`)
+- [x] **Recent Transactions** (`src/app/features/dashboard/components/recent-transactions/`)
   - List last 10 transactions
   - Show amount, category, account, date
   - Link to full transaction list
@@ -288,7 +289,7 @@ Overview and statistics.
 
 ### Dashboard Routes
 
-- [ ] **Dashboard Routing** (`src/app/features/dashboard/dashboard.routes.ts`)
+- [x] **Dashboard Routing** (`src/app/features/dashboard/dashboard.routes.ts`)
   - `/dashboard` - Dashboard page (auth + tenant guards)
   - Default route after login
 

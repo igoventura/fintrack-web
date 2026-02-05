@@ -83,8 +83,7 @@
               "buildTarget": "fintrack-web:build:production"
             },
             "development": {
-              "buildTarget": "fintrack-web:build:development",
-              "proxyConfig": "proxy.conf.json"
+              "buildTarget": "fintrack-web:build:development"
             }
           },
           "defaultConfiguration": "development"
