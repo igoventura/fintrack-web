@@ -39,4 +39,48 @@ body {
   margin: 0;
   height: 100%;
 }
+
+// Dark theme configuration
+body.dark-theme {
+  color-scheme: dark;
+
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+      theme-type: dark,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
+
+// Toast notification styles
+.toast-success {
+  --mdc-snackbar-container-color: #{$color-success};
+  --mdc-snackbar-supporting-text-color: #{$color-white};
+  --mat-snack-bar-button-color: #{$color-white};
+}
+
+.toast-error {
+  --mdc-snackbar-container-color: #{$color-error};
+  --mdc-snackbar-supporting-text-color: #{$color-white};
+  --mat-snack-bar-button-color: #{$color-white};
+}
+
+.toast-warning {
+  --mdc-snackbar-container-color: #{$color-warning};
+  --mdc-snackbar-supporting-text-color: #{$color-white};
+  --mat-snack-bar-button-color: #{$color-white};
+}
+
+.toast-info {
+  --mdc-snackbar-container-color: #{$color-info};
+  --mdc-snackbar-supporting-text-color: #{$color-white};
+  --mat-snack-bar-button-color: #{$color-white};
+}
+
 /* You can add global styles to this file, and also import other style files */

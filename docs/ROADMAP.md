@@ -62,17 +62,17 @@ Essential services, interceptors, and guards.
 
 ### Core Services
 
-- [ ] **Storage Service** (`src/app/core/services/storage.service.ts`)
+- [x] **Storage Service** (`src/app/core/services/storage.service.ts`)
   - LocalStorage wrapper with type safety
   - Methods: `set()`, `get()`, `remove()`, `clear()`
   - Store JWT tokens, tenant ID, user preferences
 
-- [ ] **Toast/Notification Service** (`src/app/core/services/toast.service.ts`)
+- [x] **Toast/Notification Service** (`src/app/core/services/toast.service.ts`)
   - Success, error, warning, info notifications
   - Integration with Angular Material Snackbar
   - Global notification management with signals
 
-- [ ] **Theme Service** (`src/app/core/services/theme.service.ts`)
+- [x] **Theme Service** (`src/app/core/services/theme.service.ts`)
   - Light/dark mode toggle
   - Persist theme preference in local storage
   - Signal-based theme state

@@ -31,6 +31,8 @@ export default [
         window: 'readonly',
         document: 'readonly',
         navigator: 'readonly',
+        localStorage: 'readonly',
+        DOMException: 'readonly',
       },
     },
     plugins: {
