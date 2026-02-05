@@ -97,23 +97,23 @@ Essential services, interceptors, and guards.
 
 ### Guards
 
-- [ ] **Auth Guard** (`src/app/core/guards/auth.guard.ts`)
+- [x] **Auth Guard** (`src/app/core/guards/auth.guard.ts`)
   - Check if user is authenticated
   - Redirect to login if not authenticated
   - Allow access if valid token exists
 
-- [ ] **Tenant Guard** (`src/app/core/guards/tenant.guard.ts`)
+- [x] **Tenant Guard** (`src/app/core/guards/tenant.guard.ts`)
   - Check if tenant context is set
   - Redirect to tenant selection if no tenant
   - Allow access if tenant ID exists
 
-- [ ] **Guest Guard** (`src/app/core/guards/guest.guard.ts`)
+- [x] **Guest Guard** (`src/app/core/guards/guest.guard.ts`)
   - Prevent authenticated users from accessing auth pages
   - Redirect to dashboard if already logged in
 
 ### Application Configuration
 
-- [ ] **App Config** (`src/app/app.config.ts`)
+- [x] **App Config** (`src/app/app.config.ts`)
   - Configure HTTP client with interceptors
   - Set up Angular Material providers
   - Configure routing with guards
