@@ -18,6 +18,11 @@ export const routes: Routes = [
     canActivate: [authGuard, tenantGuard],
     children: [
       {
+        path: 'profile',
+        loadChildren: () =>
+          import('./features/profile/profile.routes').then((m) => m.PROFILE_ROUTES),
+      },
+      {
         path: 'dashboard',
         loadChildren: () =>
           import('./features/dashboard/dashboard.routes').then((m) => m.dashboardRoutes),

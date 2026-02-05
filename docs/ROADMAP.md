@@ -295,13 +295,15 @@ Overview and statistics.
 
 ---
 
-## Phase 6: User Profile (0%)
+## Phase 6: User Profile (100%)
 
 User profile viewing and editing.
 
 ### User Service
 
-- [ ] **User Service** (`src/app/core/services/user.service.ts`)
+### User Service
+
+- [x] **User Service** (`src/app/core/services/user.service.ts`)
   - State management:
     - `userProfile` signal (UserProfile | null)
   - Methods:
@@ -310,7 +312,7 @@ User profile viewing and editing.
 
 ### Profile Component
 
-- [ ] **Profile Page** (`src/app/features/profile/components/profile/`)
+- [x] **Profile Page** (`src/app/features/profile/components/profile/`)
   - Display user information (name, email, created date)
   - Edit mode toggle
   - Reactive form for editing
@@ -320,7 +322,7 @@ User profile viewing and editing.
 
 ### Profile Routes
 
-- [ ] **Profile Routing** (`src/app/features/profile/profile.routes.ts`)
+- [x] **Profile Routing** (`src/app/features/profile/profile.routes.ts`)
   - `/profile` - User profile page (auth + tenant guards)
 
 ---

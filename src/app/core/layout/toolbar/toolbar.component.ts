@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,7 +14,14 @@ import { TenantService } from '../../services/tenant.service';
  */
 @Component({
   selector: 'app-toolbar',
-  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule],
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    RouterModule,
+  ],
   template: `
     <mat-toolbar color="primary" class="toolbar">
       <button mat-icon-button (click)="menuClick.emit()" class="menu-button">
@@ -32,7 +40,7 @@ import { TenantService } from '../../services/tenant.service';
       </button>
 
       <mat-menu #userMenu="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item routerLink="/profile">
           <mat-icon>person</mat-icon>
           <span>Profile</span>
         </button>
