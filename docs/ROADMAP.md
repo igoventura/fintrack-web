@@ -121,13 +121,13 @@ Essential services, interceptors, and guards.
 
 ---
 
-## Phase 2: Authentication (0%)
+## Phase 2: Authentication (100%)
 
 User authentication and registration flows.
 
 ### Auth Service
 
-- [ ] **Auth Service** (`src/app/features/auth/services/auth-api.service.ts`)
+- [x] **Auth Service** (`src/app/features/auth/services/auth-api.service.ts`)
   - Wrap generated `AuthService` from API
   - State management with signals:
     - `currentUser` signal (User | null)
@@ -141,7 +141,7 @@ User authentication and registration flows.
 
 ### Login Component
 
-- [ ] **Login Component** (`src/app/features/auth/components/login/`)
+- [x] **Login Component** (`src/app/features/auth/components/login/`)
   - Reactive form with email and password fields
   - Form validation (required, email format, min length)
   - Show/hide password toggle
@@ -153,7 +153,7 @@ User authentication and registration flows.
 
 ### Register Component
 
-- [ ] **Register Component** (`src/app/features/auth/components/register/`)
+- [x] **Register Component** (`src/app/features/auth/components/register/`)
   - Reactive form with full name, email, password, confirm password
   - Form validation:
     - Full name required
@@ -168,7 +168,7 @@ User authentication and registration flows.
 
 ### Auth Routes
 
-- [ ] **Auth Routing** (`src/app/features/auth/auth.routes.ts`)
+- [x] **Auth Routing** (`src/app/features/auth/auth.routes.ts`)
   - `/auth/login` - Login page (guest guard)
   - `/auth/register` - Register page (guest guard)
   - Default redirect to login
