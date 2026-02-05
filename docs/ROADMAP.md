@@ -220,80 +220,34 @@ Tenant selection and management.
 
 ---
 
-## Phase 4: User Profile (0%)
+## Phase 4: Layout & Navigation (100%)
 
-User profile viewing and editing.
-
-### User Service
-
-- [ ] **User Service** (`src/app/core/services/user.service.ts`)
-  - State management:
-    - `userProfile` signal (UserProfile | null)
-  - Methods:
-    - `loadProfile()` - Fetch user profile
-    - `updateProfile(data)` - Update user name/email
-
-### Profile Component
-
-- [ ] **Profile Page** (`src/app/features/profile/components/profile/`)
-  - Display user information (name, email, created date)
-  - Edit mode toggle
-  - Reactive form for editing
-  - Save/Cancel buttons
-  - Show success message on update
-  - Material card layout
-
-### Profile Routes
-
-- [ ] **Profile Routing** (`src/app/features/profile/profile.routes.ts`)
-  - `/profile` - User profile page (auth + tenant guards)
-
----
-
-## Phase 5: Layout & Navigation (0%)
-
-Application shell and navigation structure.
+Main application shell and navigation structure.
 
 ### Main Layout
 
-- [ ] **Main Layout Component** (`src/app/layout/main-layout/`)
-  - Material toolbar with app title
-  - Sidebar navigation (drawer on mobile)
-  - Router outlet for content
-  - Responsive design (collapsible sidebar on mobile)
+- [x] **Main Layout Component** (`src/app/core/layout/main-layout/`)
+  - Toolbar (Top bar)
+  - Sidenav (Sidebar navigation)
+  - Content area
+  - Responsive design (mobile/desktop)
 
-### Header Component
+### Navigation Components
 
-- [ ] **Header** (`src/app/layout/header/`)
-  - App logo and title
-  - Tenant selector dropdown
-  - User menu dropdown (profile, logout)
-  - Theme toggle button
-  - Mobile menu button
-
-### Sidebar Component
-
-- [ ] **Sidebar Navigation** (`src/app/layout/sidebar/`)
-  - Navigation links:
-    - Dashboard
-    - Transactions
-    - Accounts
-    - Categories
-    - Tags
+- [x] **Sidenav** (`src/app/core/layout/sidenav/`)
+  - Navigation links
   - Active route highlighting
-  - Icons for each menu item
-  - Collapsible on mobile
+  - Responsive behavior
 
-### Footer Component
-
-- [ ] **Footer** (`src/app/layout/footer/`)
-  - Copyright information
-  - Version number
-  - Links (optional: Privacy Policy, Terms)
+- [x] **Toolbar** (`src/app/core/layout/toolbar/`)
+  - App branding
+  - Mobile menu toggle
+  - Tenant name display
+  - User menu (Profile, Logout)
 
 ---
 
-## Phase 6: Dashboard (0%)
+## Phase 5: Dashboard & Statistics (0%)
 
 Overview and statistics.
 
@@ -337,6 +291,36 @@ Overview and statistics.
 - [ ] **Dashboard Routing** (`src/app/features/dashboard/dashboard.routes.ts`)
   - `/dashboard` - Dashboard page (auth + tenant guards)
   - Default route after login
+
+---
+
+## Phase 6: User Profile (0%)
+
+User profile viewing and editing.
+
+### User Service
+
+- [ ] **User Service** (`src/app/core/services/user.service.ts`)
+  - State management:
+    - `userProfile` signal (UserProfile | null)
+  - Methods:
+    - `loadProfile()` - Fetch user profile
+    - `updateProfile(data)` - Update user name/email
+
+### Profile Component
+
+- [ ] **Profile Page** (`src/app/features/profile/components/profile/`)
+  - Display user information (name, email, created date)
+  - Edit mode toggle
+  - Reactive form for editing
+  - Save/Cancel buttons
+  - Show success message on update
+  - Material card layout
+
+### Profile Routes
+
+- [ ] **Profile Routing** (`src/app/features/profile/profile.routes.ts`)
+  - `/profile` - User profile page (auth + tenant guards)
 
 ---
 
