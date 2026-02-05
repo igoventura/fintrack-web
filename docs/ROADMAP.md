@@ -483,6 +483,8 @@ Flexible transaction labeling system.
   - Multi-select component for forms
   - Autocomplete with chip list
   - Create new tag on the fly
+    - Show "Add [tag text]" when filtering returns no results
+    - On click: call create API -> reload tags -> auto-select new tag
   - Used in transaction forms
   - Material chip autocomplete
 
