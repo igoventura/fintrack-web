@@ -1,13 +1,1 @@
-<form [formGroup]="loginForm" (ngSubmit)="doLogin()">
-  <label>
-    Username:
-    <input type="text" formControlName="username" />
-  </label>
-  <label>
-    Password:
-    <input type="password" formControlName="password" />
-  </label>
-  <p>Hello {{ loginForm.controls.username.value }}!</p>
-  <p>Password length: {{ loginForm.controls.password.value.length }}</p>
-  <button type="submit" [disabled]="!loginForm.valid">Login</button>
-</form>
+<h1>App works!</h1>
