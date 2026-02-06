@@ -172,4 +172,43 @@ $transition-slow: 350ms ease-in-out;
   --color-burnt-orange: rgba(253, 126, 20, 1);
   --color-teal: rgba(32, 201, 151, 1);
   --color-graphite: rgba(73, 80, 87, 1);
+
+  // Category Colors
+  // Housing & Bills
+  --color-housing-dark-blue: rgba(44, 62, 80, 1);
+  --color-housing-light-blue: rgba(52, 152, 219, 1);
+  --color-housing-gray: rgba(149, 165, 166, 1);
+  --color-housing-blue-gray: rgba(96, 125, 139, 1);
+
+  // Food & Drink
+  --color-food-red: rgba(231, 76, 60, 1);
+  --color-food-orange: rgba(243, 156, 18, 1);
+  --color-food-pumpkin: rgba(211, 84, 0, 1);
+  --color-food-wine: rgba(192, 57, 43, 1);
+
+  // Transport & Travel
+  --color-transport-purple: rgba(142, 68, 173, 1);
+  --color-transport-blue: rgba(41, 128, 185, 1);
+  --color-transport-green: rgba(22, 160, 133, 1);
+  --color-transport-gray: rgba(127, 140, 141, 1);
+
+  // Health & Wellness
+  --color-health-emerald: rgba(39, 174, 96, 1);
+  --color-health-turquoise: rgba(26, 188, 156, 1);
+  --color-health-light-green: rgba(46, 204, 113, 1);
+
+  // Leisure & Shopping
+  --color-leisure-lilac: rgba(155, 89, 182, 1);
+  --color-leisure-pink: rgba(236, 64, 122, 1);
+  --color-leisure-coral: rgba(255, 112, 67, 1);
+  --color-leisure-yellow: rgba(255, 202, 40, 1);
+
+  // Education & Family
+  --color-edu-brown: rgba(121, 85, 72, 1);
+  --color-edu-light-brown: rgba(141, 110, 99, 1);
+  --color-edu-olive: rgba(205, 220, 57, 1);
+
+  // Income & Investments
+  --color-income-teal: rgba(0, 150, 136, 1);
+  --color-income-gold: rgba(255, 215, 0, 1);
 }

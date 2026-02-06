@@ -58,10 +58,44 @@ export class CategoryFormComponent implements OnInit {
     { value: 'transfer', label: 'Transfer' },
   ];
 
+  readonly colorPalette = [
+    // Housing & Bills
+    'var(--color-housing-dark-blue)',
+    'var(--color-housing-light-blue)',
+    'var(--color-housing-gray)',
+    'var(--color-housing-blue-gray)',
+    // Food & Drink
+    'var(--color-food-red)',
+    'var(--color-food-orange)',
+    'var(--color-food-pumpkin)',
+    'var(--color-food-wine)',
+    // Transport & Travel
+    'var(--color-transport-purple)',
+    'var(--color-transport-blue)',
+    'var(--color-transport-green)',
+    'var(--color-transport-gray)',
+    // Health & Wellness
+    'var(--color-health-emerald)',
+    'var(--color-health-turquoise)',
+    'var(--color-health-light-green)',
+    // Leisure & Shopping
+    'var(--color-leisure-lilac)',
+    'var(--color-leisure-pink)',
+    'var(--color-leisure-coral)',
+    'var(--color-leisure-yellow)',
+    // Education & Family
+    'var(--color-edu-brown)',
+    'var(--color-edu-light-brown)',
+    'var(--color-edu-olive)',
+    // Income & Investments
+    'var(--color-income-teal)',
+    'var(--color-income-gold)',
+  ];
+
   readonly form = this.fb.group({
     name: ['', [Validators.required]],
     parent_category_id: [''],
-    color: ['#000000'],
+    color: ['var(--color-housing-dark-blue)'],
     icon: ['folder'],
     type: ['expense', [Validators.required]],
   });
@@ -151,10 +185,8 @@ export class CategoryFormComponent implements OnInit {
     }
   }
 
-  onColorChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input) {
-      this.form.patchValue({ color: input.value });
-    }
+  selectColor(color: string) {
+    this.form.patchValue({ color });
+    this.form.markAsDirty();
   }
 }

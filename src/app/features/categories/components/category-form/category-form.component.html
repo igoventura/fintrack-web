@@ -39,18 +39,28 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Color</mat-label>
-            <input matInput formControlName="color" placeholder="#RRGGBB" />
-            <input
-              matSuffix
-              type="color"
-              [value]="form.get('color')?.value"
-              (input)="onColorChange($event)"
-              class="color-picker-suffix"
-              aria-label="Select color"
-            />
-          </mat-form-field>
+          <div class="color-selection-container" role="radiogroup" aria-labelledby="color-label">
+            <span id="color-label" class="form-label">Color</span>
+            <div class="color-grid">
+              @for (color of colorPalette; track color) {
+                <button
+                  type="button"
+                  class="color-circle"
+                  [style.background-color]="color"
+                  [class.selected]="form.controls.color.value === color"
+                  [attr.aria-label]="'Select color ' + color"
+                  [attr.aria-pressed]="form.controls.color.value === color"
+                  (click)="selectColor(color)"
+                >
+                  @if (form.controls.color.value === color) {
+                    <mat-icon class="check-icon">check</mat-icon>
+                  }
+                </button>
+              }
+            </div>
+            <!-- Hidden input to maintain form control binding if needed, or rely on patchValue -->
+            <input type="hidden" formControlName="color" />
+          </div>
 
           <mat-form-field appearance="outline">
             <mat-label>Icon</mat-label>
