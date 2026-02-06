@@ -140,6 +140,7 @@ export interface Dto_TransactionResponse {
     id?: string;
     parent_transaction_id?: string;
     payment_date?: string;
+    tag_ids?: Array<string>;
     tenant_id?: string;
     to_account_id?: string;
     transaction_type?: Domain_TransactionType;

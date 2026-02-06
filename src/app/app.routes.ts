@@ -37,6 +37,11 @@ export const routes: Routes = [
         loadChildren: () => import('./features/tags/tags.routes').then((m) => m.TAGS_ROUTES),
       },
       {
+        path: 'transactions',
+        loadChildren: () =>
+          import('./features/transactions/transactions.routes').then((m) => m.TRANSACTIONS_ROUTES),
+      },
+      {
         path: 'dashboard',
         loadChildren: () =>
           import('./features/dashboard/dashboard.routes').then((m) => m.dashboardRoutes),
