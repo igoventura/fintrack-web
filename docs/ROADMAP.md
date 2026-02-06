@@ -816,7 +816,20 @@ Performance, accessibility, and user experience improvements.
 
 ---
 
-## Phase 15: Future Enhancements (Future)
+## Phase 15: Internationalization (0%)
+
+Runtime internationalization for the application.
+
+### Core i18n
+
+- [ ] Install and configure `@ngx-translate/core`
+- [ ] Create language service
+- [ ] Extract existing text to JSON files
+- [ ] Implement language switcher
+
+---
+
+## Phase 16: Future Enhancements (Future)
 
 Features for consideration after MVP.
 
@@ -933,7 +946,8 @@ For detailed usage patterns, see: [WEB_GUIDELINES.md - HTTP & API Integration](f
 | Phase 12: Shared Utilities      | ⏳ Planned  | 0%         |
 | Phase 13: Testing               | ⏳ Planned  | 0%         |
 | Phase 14: Polish & Optimization | ⏳ Planned  | 0%         |
-| Phase 15: Future Enhancements   | ⏳ Planned  | 0%         |
+| Phase 15: Internationalization  | ⏳ Planned  | 0%         |
+| Phase 16: Future Enhancements   | ⏳ Planned  | 0%         |
 
 **Overall Progress**: 62.5% (10/16 phases complete) | **MVP Status**: 71.4% (10/14 phases, excluding Phase 15)
 

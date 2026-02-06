@@ -183,6 +183,38 @@ import { NgOptimizedImage } from '@angular/common';
 <img ngSrc="data:image/png;base64,..." alt="Icon">
 ```
 
+### Internationalization (i18n)
+
+We use `@ngx-translate/core` for runtime translations.
+
+✅ **DO:**
+
+- Use the `translate` pipe for static text:
+  ```html
+  <h1>{{ 'TENANTS.SELECT_TITLE' | translate }}</h1>
+  ```
+- Use the `TranslateService` for dynamic text (e.g., in TypeScript):
+  ```typescript
+  this.translate.get('MESSAGES.SUCCESS').subscribe((res) => {
+    this.toast.success(res);
+  });
+  ```
+- Structure JSON files by feature/component:
+  ```json
+  {
+    "TENANTS": {
+      "SELECT_TITLE": "Select Tenant"
+    }
+  }
+  ```
+
+❌ **DON'T:**
+
+- Hardcode text in templates:
+  ```html
+  <h1>Select Tenant</h1>
+  ```
+
 ---
 
 ## Component Guidelines

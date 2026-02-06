@@ -1,0 +1,13 @@
+{
+  "TENANTS": {
+    "SELECT_TITLE": "Select Tenant",
+    "SUBTITLE": "Choose a tenant to continue",
+    "LOADING": "Loading tenants...",
+    "EMPTY": {
+      "TITLE": "No tenants found",
+      "SUBTITLE": "Create your first tenant to get started",
+      "ACTION": "Create Tenant"
+    },
+    "CREATE_NEW": "Create New Tenant"
+  }
+}

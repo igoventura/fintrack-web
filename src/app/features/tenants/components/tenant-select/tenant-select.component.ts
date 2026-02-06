@@ -8,6 +8,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TenantService } from '../../../../core/services/tenant.service';
 import { CreateTenantDialogComponent } from '../create-tenant-dialog/create-tenant-dialog.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { LanguageService } from '../../../../core/services/language.service';
+import { MatMenuModule } from '@angular/material/menu';
 
 /**
  * Tenant Selection Component
@@ -22,6 +25,8 @@ import { CreateTenantDialogComponent } from '../create-tenant-dialog/create-tena
     MatIconModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    TranslateModule,
+    MatMenuModule,
   ],
   templateUrl: './tenant-select.component.html',
   styleUrl: './tenant-select.component.scss',
@@ -31,6 +36,7 @@ export class TenantSelectComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private dialog = inject(MatDialog);
+  languageService = inject(LanguageService); // Public for template access
 
   loading = signal(false);
   tenants = this.tenantService.userTenants;

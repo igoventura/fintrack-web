@@ -1,21 +1,37 @@
 <div class="tenant-select-container">
   <div class="tenant-select-card">
-    <h1>Select Tenant</h1>
-    <p class="subtitle">Choose a tenant to continue</p>
+    <div class="header-actions">
+      <h1>{{ 'TENANTS.SELECT_TITLE' | translate }}</h1>
+      <button mat-icon-button [matMenuTriggerFor]="langMenu">
+        <mat-icon>language</mat-icon>
+      </button>
+      <mat-menu #langMenu="matMenu">
+        @for (lang of languageService.supportedLanguages; track lang.code) {
+          <button mat-menu-item (click)="languageService.setLanguage(lang.code)">
+            <span>{{ lang.label }}</span>
+            @if (languageService.currentLang() === lang.code) {
+              <mat-icon>check</mat-icon>
+            }
+          </button>
+        }
+      </mat-menu>
+    </div>
+
+    <p class="subtitle">{{ 'TENANTS.SUBTITLE' | translate }}</p>
 
     @if (loading()) {
       <div class="loading-container">
         <mat-spinner diameter="50"></mat-spinner>
-        <p>Loading tenants...</p>
+        <p>{{ 'TENANTS.LOADING' | translate }}</p>
       </div>
     } @else if (tenants().length === 0) {
       <div class="empty-state">
         <mat-icon>business</mat-icon>
-        <p>No tenants found</p>
-        <p class="empty-subtitle">Create your first tenant to get started</p>
+        <p>{{ 'TENANTS.EMPTY.TITLE' | translate }}</p>
+        <p class="empty-subtitle">{{ 'TENANTS.EMPTY.SUBTITLE' | translate }}</p>
         <button mat-raised-button color="primary" (click)="openCreateDialog()">
           <mat-icon>add</mat-icon>
-          Create Tenant
+          {{ 'TENANTS.EMPTY.ACTION' | translate }}
         </button>
       </div>
     } @else {
@@ -37,7 +53,7 @@
 
       <button mat-raised-button color="accent" class="create-button" (click)="openCreateDialog()">
         <mat-icon>add</mat-icon>
-        Create New Tenant
+        {{ 'TENANTS.CREATE_NEW' | translate }}
       </button>
     }
   </div>

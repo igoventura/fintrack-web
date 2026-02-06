@@ -1,0 +1,13 @@
+{
+  "TENANTS": {
+    "SELECT_TITLE": "Selecionar Organização",
+    "SUBTITLE": "Escolha uma organização para continuar",
+    "LOADING": "Carregando organizações...",
+    "EMPTY": {
+      "TITLE": "Nenhuma organização encontrada",
+      "SUBTITLE": "Crie sua primeira organização para começar",
+      "ACTION": "Criar Organização"
+    },
+    "CREATE_NEW": "Criar Nova Organização"
+  }
+}
