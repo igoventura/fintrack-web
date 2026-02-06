@@ -10,7 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AccountService } from '../../../../core/services/account.service';
 import { ToastService } from '../../../../core/services/toast.service';
-import { ACCOUNT_COLORS } from '../../../../core/constants';
+import { ACCOUNT_COLORS, ACCOUNT_ICONS } from '../../../../core/constants';
+import { AppIconComponent } from '../../../../shared/components/app-icon/app-icon.component';
 import {
   Domain_AccountType,
   Dto_CreateAccountRequest,
@@ -31,6 +32,7 @@ import { map, take } from 'rxjs';
     MatInputModule,
     MatSelectModule,
     MatIconModule,
+    AppIconComponent,
   ],
   templateUrl: './account-form.component.html',
   styleUrl: './account-form.component.scss',
@@ -53,18 +55,26 @@ export class AccountFormComponent implements OnInit {
 
   // Colors matching CSS variables
   readonly colorPalette = ACCOUNT_COLORS;
+  readonly icons = ACCOUNT_ICONS;
 
   readonly form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     type: [Domain_AccountType.Bank, [Validators.required]],
     initial_balance: [0, [Validators.required]],
     currency: ['BRL', [Validators.required]], // Default to BRL
-    color: ['var(--color-nu-purple)', [Validators.required]], // Default Nu Purple
-    icon: ['💰', [Validators.required]],
+    color: ['var(--color-bronze)', [Validators.required]], // Default Bronze
+    icon: ['wallet', [Validators.required]],
   });
 
   selectColor(color: string) {
     this.form.controls.color.setValue(color);
+  }
+
+  selectIcon(icon: (typeof ACCOUNT_ICONS)[0]) {
+    this.form.patchValue({
+      icon: icon.name,
+      color: icon.defaultColor,
+    });
   }
 
   ngOnInit(): void {

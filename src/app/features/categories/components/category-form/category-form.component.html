@@ -39,6 +39,34 @@
             </mat-select>
           </mat-form-field>
 
+          <div class="icon-selection-container" role="radiogroup" aria-labelledby="icon-label">
+            <span id="icon-label" class="form-label">Icon</span>
+            <div class="icon-grid">
+              @for (icon of icons; track icon.name) {
+                <button
+                  type="button"
+                  class="icon-circle"
+                  [class.selected]="form.controls.icon.value === icon.name"
+                  [attr.aria-label]="'Select icon ' + icon.name"
+                  [attr.aria-pressed]="form.controls.icon.value === icon.name"
+                  (click)="selectIcon(icon)"
+                >
+                  <app-icon
+                    class="icon-svg"
+                    [name]="icon.name"
+                    [color]="icon.defaultColor"
+                    [size]="32"
+                  ></app-icon>
+                  @if (form.controls.icon.value === icon.name) {
+                    <div class="selected-overlay">
+                      <mat-icon class="check-icon">check</mat-icon>
+                    </div>
+                  }
+                </button>
+              }
+            </div>
+          </div>
+
           <div class="color-selection-container" role="radiogroup" aria-labelledby="color-label">
             <span id="color-label" class="form-label">Color</span>
             <div class="color-grid">
@@ -62,12 +90,7 @@
             <input type="hidden" formControlName="color" />
           </div>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Icon</mat-label>
-            <input matInput formControlName="icon" placeholder="Material Icon Name" />
-            <mat-icon matSuffix>{{ form.get('icon')?.value }}</mat-icon>
-            <mat-hint>Enter a Material Icon name (e.g. 'home', 'work')</mat-hint>
-          </mat-form-field>
+          <input type="hidden" formControlName="icon" />
         </div>
 
         <div class="actions">

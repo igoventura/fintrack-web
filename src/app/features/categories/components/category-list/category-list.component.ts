@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, effect, inject, OnInit } from '@angular/core';
+import { AppIconComponent } from '../../../../shared/components/app-icon/app-icon.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,7 +30,9 @@ interface FlatNode {
     MatIconModule,
     MatTreeModule,
     MatMenuModule,
+    MatMenuModule,
     MatProgressSpinnerModule,
+    AppIconComponent,
   ],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.scss',

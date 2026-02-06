@@ -16,15 +16,16 @@
       @for (account of accounts(); track account.id) {
         <mat-card class="account-card" [style.border-top-color]="account.color">
           <mat-card-header>
-            <div
+            <app-icon
               mat-card-avatar
               class="account-icon"
               [style.background-color]="
                 'color-mix(in srgb, ' + account.color + ', transparent 80%)'
               "
-            >
-              {{ account.icon || '💰' }}
-            </div>
+              [name]="account.icon || '💰'"
+              [color]="account.color"
+              [size]="32"
+            ></app-icon>
             <mat-card-title>{{ account.name }}</mat-card-title>
             <mat-card-subtitle>{{ account.type | titlecase }}</mat-card-subtitle>
             <span class="spacer"></span>

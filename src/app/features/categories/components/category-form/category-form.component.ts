@@ -18,7 +18,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CategoryService } from '../../../../core/services/category.service';
 import { Dto_CreateCategoryRequest } from '../../../../../api/providers';
-import { CATEGORY_COLORS } from '../../../../core/constants';
+import { CATEGORY_COLORS, CATEGORY_ICONS } from '../../../../core/constants';
+import { AppIconComponent } from '../../../../shared/components/app-icon/app-icon.component';
 import { map, take } from 'rxjs';
 
 @Component({
@@ -35,6 +36,7 @@ import { map, take } from 'rxjs';
     MatSelectModule,
     MatRadioModule,
     MatIconModule,
+    AppIconComponent,
   ],
   templateUrl: './category-form.component.html',
   styleUrl: './category-form.component.scss',
@@ -61,11 +63,13 @@ export class CategoryFormComponent implements OnInit {
 
   readonly colorPalette = CATEGORY_COLORS;
 
+  readonly icons = CATEGORY_ICONS;
+
   readonly form = this.fb.group({
     name: ['', [Validators.required]],
     parent_category_id: [''],
     color: ['var(--color-housing-dark-blue)'],
-    icon: ['folder'],
+    icon: ['category_home'],
     type: ['expense', [Validators.required]],
   });
 
@@ -156,6 +160,14 @@ export class CategoryFormComponent implements OnInit {
 
   selectColor(color: string) {
     this.form.patchValue({ color });
+    this.form.markAsDirty();
+  }
+
+  selectIcon(icon: (typeof CATEGORY_ICONS)[0]) {
+    this.form.patchValue({
+      icon: icon.name,
+      color: icon.defaultColor,
+    });
     this.form.markAsDirty();
   }
 }

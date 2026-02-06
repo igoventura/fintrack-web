@@ -9,6 +9,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AccountService } from '../../../../core/services/account.service';
 import { Dto_AccountResponse } from '../../../../../api/providers';
 
+import { AppIconComponent } from '../../../../shared/components/app-icon/app-icon.component';
+
 @Component({
   selector: 'app-account-list',
   standalone: true,
@@ -20,6 +22,7 @@ import { Dto_AccountResponse } from '../../../../../api/providers';
     MatIconModule,
     MatMenuModule,
     MatProgressSpinnerModule,
+    AppIconComponent,
   ],
   templateUrl: './account-list.component.html',
   styleUrl: './account-list.component.scss',
