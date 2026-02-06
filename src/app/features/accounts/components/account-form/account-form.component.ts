@@ -9,6 +9,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AccountService } from '../../../../core/services/account.service';
+import { ToastService } from '../../../../core/services/toast.service';
+
 import {
   Domain_AccountType,
   Dto_CreateAccountRequest,
@@ -37,7 +39,9 @@ import { map, take } from 'rxjs';
 export class AccountFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly accountService = inject(AccountService);
+  private readonly toastService = inject(ToastService);
   private readonly router = inject(Router);
+
   private readonly route = inject(ActivatedRoute);
 
   readonly loading = this.accountService.loading;
@@ -111,6 +115,10 @@ export class AccountFormComponent implements OnInit {
 
       this.accountService.updateAccount(this.accountId()!, updateData).subscribe({
         next: () => this.router.navigate(['/accounts']),
+        error: (error) => {
+          console.error('Error updating account:', error);
+          this.toastService.error('Failed to update account. Please try again.');
+        },
       });
     } else {
       // For create
@@ -124,7 +132,13 @@ export class AccountFormComponent implements OnInit {
       };
 
       this.accountService.createAccount(createData).subscribe({
-        next: () => this.router.navigate(['/accounts']),
+        next: () => {
+          this.router.navigate(['/accounts']);
+        },
+        error: (error) => {
+          console.error('Error creating account:', error);
+          this.toastService.error('Failed to create account. Please try again.');
+        },
       });
     }
   }
