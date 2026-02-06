@@ -1,30 +1,30 @@
 definitions:
   domain.AccountType:
     enum:
-    - bank
-    - cash
-    - credit_card
-    - investment
-    - other
+      - bank
+      - cash
+      - credit_card
+      - investment
+      - other
     type: string
     x-enum-varnames:
-    - AccountTypeBank
-    - AccountTypeCash
-    - AccountTypeCreditCard
-    - AccountTypeInvestment
-    - AccountTypeOther
+      - AccountTypeBank
+      - AccountTypeCash
+      - AccountTypeCreditCard
+      - AccountTypeInvestment
+      - AccountTypeOther
   domain.TransactionType:
     enum:
-    - credit
-    - debit
-    - transfer
-    - payment
+      - credit
+      - debit
+      - transfer
+      - payment
     type: string
     x-enum-varnames:
-    - TransactionTypeCredit
-    - TransactionTypeDebit
-    - TransactionTypeTransfer
-    - TransactionTypePayment
+      - TransactionTypeCredit
+      - TransactionTypeDebit
+      - TransactionTypeTransfer
+      - TransactionTypePayment
   dto.AccountResponse:
     properties:
       color:
@@ -97,8 +97,8 @@ definitions:
       type:
         $ref: '#/definitions/domain.AccountType'
     required:
-    - name
-    - type
+      - name
+      - type
     type: object
   dto.CreateCategoryRequest:
     properties:
@@ -112,27 +112,27 @@ definitions:
         type: string
       type:
         enum:
-        - income
-        - expense
-        - transfer
+          - income
+          - expense
+          - transfer
         type: string
     required:
-    - name
-    - type
+      - name
+      - type
     type: object
   dto.CreateTagRequest:
     properties:
       name:
         type: string
     required:
-    - name
+      - name
     type: object
   dto.CreateTenantRequest:
     properties:
       name:
         type: string
     required:
-    - name
+      - name
     type: object
   dto.CreateTransactionRequest:
     properties:
@@ -164,26 +164,26 @@ definitions:
         type: string
       transaction_type:
         allOf:
-        - $ref: '#/definitions/domain.TransactionType'
+          - $ref: '#/definitions/domain.TransactionType'
         enum:
-        - credit
-        - debit
-        - transfer
-        - payment
+          - credit
+          - debit
+          - transfer
+          - payment
     required:
-    - accrual_month
-    - amount
-    - category_id
-    - due_date
-    - from_account_id
-    - transaction_type
+      - accrual_month
+      - amount
+      - category_id
+      - due_date
+      - from_account_id
+      - transaction_type
     type: object
   dto.RefreshTokenRequest:
     properties:
       refresh_token:
         type: string
     required:
-    - refresh_token
+      - refresh_token
     type: object
   dto.RegisterRequest:
     properties:
@@ -195,9 +195,9 @@ definitions:
         minLength: 6
         type: string
     required:
-    - email
-    - full_name
-    - password
+      - email
+      - full_name
+      - password
     type: object
   dto.TagResponse:
     properties:
@@ -281,7 +281,7 @@ definitions:
       name:
         type: string
     required:
-    - name
+      - name
     type: object
   dto.UpdateCategoryRequest:
     properties:
@@ -294,14 +294,53 @@ definitions:
       parent_category_id:
         type: string
     required:
-    - name
+      - name
     type: object
   dto.UpdateTagRequest:
     properties:
       name:
         type: string
     required:
-    - name
+      - name
+    type: object
+  dto.UpdateTransactionRequest:
+    properties:
+      accrual_month:
+        description: YYYYMM
+        type: string
+      amount:
+        type: number
+      category_id:
+        type: string
+      comments:
+        type: string
+      due_date:
+        type: string
+      from_account_id:
+        type: string
+      payment_date:
+        type: string
+      tag_ids:
+        items:
+          type: string
+        type: array
+      to_account_id:
+        type: string
+      transaction_type:
+        allOf:
+          - $ref: '#/definitions/domain.TransactionType'
+        enum:
+          - credit
+          - debit
+          - transfer
+          - payment
+    required:
+      - accrual_month
+      - amount
+      - category_id
+      - due_date
+      - from_account_id
+      - transaction_type
     type: object
   dto.UpdateUserRequest:
     properties:
@@ -310,8 +349,8 @@ definitions:
       name:
         type: string
     required:
-    - email
-    - name
+      - email
+      - name
     type: object
   dto.User:
     properties:
@@ -356,891 +395,873 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
   title: FinTrack API
-  version: "1.0"
+  version: '1.0'
 paths:
   /accounts:
     get:
       consumes:
-      - application/json
+        - application/json
       description: list accounts by tenant ID
       parameters:
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             items:
               $ref: '#/definitions/dto.AccountResponse'
             type: array
-        "400":
+        '400':
           description: Bad Request
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: List accounts
       tags:
-      - accounts
+        - accounts
     post:
       consumes:
-      - application/json
+        - application/json
       description: create a new account
       parameters:
-      - description: Create account
-        in: body
-        name: account
-        required: true
-        schema:
-          $ref: '#/definitions/dto.CreateAccountRequest'
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
+        - description: Create account
+          in: body
+          name: account
+          required: true
+          schema:
+            $ref: '#/definitions/dto.CreateAccountRequest'
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
-        "201":
+        '201':
           description: Created
           schema:
             $ref: '#/definitions/dto.AccountResponse'
-        "400":
+        '400':
           description: Bad Request
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Create an account
       tags:
-      - accounts
+        - accounts
   /accounts/{id}:
     delete:
       consumes:
-      - application/json
+        - application/json
       description: delete an account by ID
       parameters:
-      - description: Account ID
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
+        - description: Account ID
+          in: path
+          name: id
+          required: true
+          type: string
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
-        "204":
+        '204':
           description: No Content
-        "400":
+        '400':
           description: Bad Request
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
-        "404":
+        '404':
           description: Not Found
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Delete an account
       tags:
-      - accounts
+        - accounts
     get:
       consumes:
-      - application/json
+        - application/json
       description: get account by ID
       parameters:
-      - description: Account ID
-        in: path
-        name: id
-        required: true
-        type: string
+        - description: Account ID
+          in: path
+          name: id
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             $ref: '#/definitions/dto.AccountResponse'
-        "404":
+        '404':
           description: Not Found
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Get an account
       tags:
-      - accounts
+        - accounts
     put:
       consumes:
-      - application/json
+        - application/json
       description: update an existing account (cannot change type or currency)
       parameters:
-      - description: Account ID
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: Update account
-        in: body
-        name: account
-        required: true
-        schema:
-          $ref: '#/definitions/dto.UpdateAccountRequest'
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
+        - description: Account ID
+          in: path
+          name: id
+          required: true
+          type: string
+        - description: Update account
+          in: body
+          name: account
+          required: true
+          schema:
+            $ref: '#/definitions/dto.UpdateAccountRequest'
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             $ref: '#/definitions/dto.AccountResponse'
-        "400":
+        '400':
           description: Bad Request
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
-        "404":
+        '404':
           description: Not Found
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Update an account
       tags:
-      - accounts
+        - accounts
   /auth/login:
     post:
       consumes:
-      - multipart/form-data
+        - multipart/form-data
       description: Login with username and password
       parameters:
-      - description: Username
-        in: formData
-        name: username
-        required: true
-        type: string
-      - description: Password
-        in: formData
-        name: password
-        required: true
-        type: string
+        - description: Username
+          in: formData
+          name: username
+          required: true
+          type: string
+        - description: Password
+          in: formData
+          name: password
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             $ref: '#/definitions/dto.AuthResponse'
-        "400":
+        '400':
           description: Bad Request
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       summary: Login
       tags:
-      - auth
+        - auth
   /auth/refresh-token:
     post:
       consumes:
-      - application/json
+        - application/json
       description: Refresh access token using refresh token
       parameters:
-      - description: Refresh Token Request
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/dto.RefreshTokenRequest'
+        - description: Refresh Token Request
+          in: body
+          name: request
+          required: true
+          schema:
+            $ref: '#/definitions/dto.RefreshTokenRequest'
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             $ref: '#/definitions/dto.AuthResponse'
-        "400":
+        '400':
           description: Bad Request
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
-        "401":
+        '401':
           description: Unauthorized
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       summary: Refresh access token
       tags:
-      - auth
+        - auth
   /auth/register:
     post:
       consumes:
-      - application/json
+        - application/json
       description: Register a new user with full name, email and password
       parameters:
-      - description: Register User
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/dto.RegisterRequest'
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        type: string
+        - description: Register User
+          in: body
+          name: request
+          required: true
+          schema:
+            $ref: '#/definitions/dto.RegisterRequest'
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
-        "201":
+        '201':
           description: Created
           schema:
             $ref: '#/definitions/dto.AuthResponse'
-        "400":
+        '400':
           description: Bad Request
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       summary: Register a new user
       tags:
-      - auth
+        - auth
   /categories:
     get:
       description: Get all categories for the authenticated user's tenant
       parameters:
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             items:
               $ref: '#/definitions/dto.CategoryResponse'
             type: array
-        "500":
+        '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: List categories
       tags:
-      - categories
+        - categories
     post:
       consumes:
-      - application/json
+        - application/json
       description: Create a new category for the authenticated user's tenant
       parameters:
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
-      - description: Create Category Request
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/dto.CreateCategoryRequest'
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
+        - description: Create Category Request
+          in: body
+          name: request
+          required: true
+          schema:
+            $ref: '#/definitions/dto.CreateCategoryRequest'
       produces:
-      - application/json
+        - application/json
       responses:
-        "201":
+        '201':
           description: Created
           schema:
             $ref: '#/definitions/dto.CategoryResponse'
-        "400":
+        '400':
           description: Bad Request
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
-        "500":
+        '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Create category
       tags:
-      - categories
+        - categories
   /categories/{id}:
     delete:
       description: Soft Delete a category
       parameters:
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
-      - description: Category ID
-        in: path
-        name: id
-        required: true
-        type: string
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
+        - description: Category ID
+          in: path
+          name: id
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
-        "204":
+        '204':
           description: No Content
-        "500":
+        '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Delete category
       tags:
-      - categories
+        - categories
     get:
       description: Get a category by its ID
       parameters:
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
-      - description: Category ID
-        in: path
-        name: id
-        required: true
-        type: string
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
+        - description: Category ID
+          in: path
+          name: id
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             $ref: '#/definitions/dto.CategoryResponse'
-        "500":
+        '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Get category
       tags:
-      - categories
+        - categories
     put:
       consumes:
-      - application/json
+        - application/json
       description: Update an existing category
       parameters:
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
-      - description: Category ID
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: Update Category Request
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/dto.UpdateCategoryRequest'
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
+        - description: Category ID
+          in: path
+          name: id
+          required: true
+          type: string
+        - description: Update Category Request
+          in: body
+          name: request
+          required: true
+          schema:
+            $ref: '#/definitions/dto.UpdateCategoryRequest'
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             $ref: '#/definitions/dto.CategoryResponse'
-        "400":
+        '400':
           description: Bad Request
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
-        "500":
+        '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Update category
       tags:
-      - categories
+        - categories
   /tags:
     get:
       description: Get all tags for the authenticated user's tenant
       parameters:
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             items:
               $ref: '#/definitions/dto.TagResponse'
             type: array
-        "500":
+        '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: List tags
       tags:
-      - tags
+        - tags
     post:
       consumes:
-      - application/json
+        - application/json
       description: Create a new tag for the authenticated user's tenant
       parameters:
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
-      - description: Create Tag Request
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/dto.CreateTagRequest'
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
+        - description: Create Tag Request
+          in: body
+          name: request
+          required: true
+          schema:
+            $ref: '#/definitions/dto.CreateTagRequest'
       produces:
-      - application/json
+        - application/json
       responses:
-        "201":
+        '201':
           description: Created
           schema:
             $ref: '#/definitions/dto.TagResponse'
-        "400":
+        '400':
           description: Bad Request
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
-        "500":
+        '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Create tag
       tags:
-      - tags
+        - tags
   /tags/{id}:
     delete:
       description: Soft Delete a tag
       parameters:
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
-      - description: Tag ID
-        in: path
-        name: id
-        required: true
-        type: string
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
+        - description: Tag ID
+          in: path
+          name: id
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
-        "204":
+        '204':
           description: No Content
-        "500":
+        '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Delete tag
       tags:
-      - tags
+        - tags
     get:
       description: Get a tag by its ID
       parameters:
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
-      - description: Tag ID
-        in: path
-        name: id
-        required: true
-        type: string
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
+        - description: Tag ID
+          in: path
+          name: id
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             $ref: '#/definitions/dto.TagResponse'
-        "500":
+        '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Get tag
       tags:
-      - tags
+        - tags
     put:
       consumes:
-      - application/json
+        - application/json
       description: Update an existing tag
       parameters:
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
-      - description: Tag ID
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: Update Tag Request
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/dto.UpdateTagRequest'
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
+        - description: Tag ID
+          in: path
+          name: id
+          required: true
+          type: string
+        - description: Update Tag Request
+          in: body
+          name: request
+          required: true
+          schema:
+            $ref: '#/definitions/dto.UpdateTagRequest'
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             $ref: '#/definitions/dto.TagResponse'
-        "400":
+        '400':
           description: Bad Request
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
-        "500":
+        '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Update tag
       tags:
-      - tags
+        - tags
   /tenants:
     post:
       consumes:
-      - application/json
+        - application/json
       description: Create a new tenant (workspace) and links the creator to it.
       parameters:
-      - description: Create tenant
-        in: body
-        name: tenant
-        required: true
-        schema:
-          $ref: '#/definitions/dto.CreateTenantRequest'
+        - description: Create tenant
+          in: body
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/definitions/dto.CreateTenantRequest'
       produces:
-      - application/json
+        - application/json
       responses:
-        "201":
+        '201':
           description: Created
           schema:
             $ref: '#/definitions/dto.TenantResponse'
-        "400":
+        '400':
           description: Bad Request
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
-        "500":
+        '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Create a new tenant
       tags:
-      - tenants
+        - tenants
   /transactions:
     get:
       description: Lists transactions for the tenant, optionally filtered.
       parameters:
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
-      - description: Accrual Month (YYYYMM)
-        in: query
-        name: accrual_month
-        type: string
-      - description: Account ID
-        in: query
-        name: account_id
-        type: string
-      - description: Transaction Type
-        in: query
-        name: transaction_type
-        type: string
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
+        - description: Accrual Month (YYYYMM)
+          in: query
+          name: accrual_month
+          type: string
+        - description: Account ID
+          in: query
+          name: account_id
+          type: string
+        - description: Transaction Type
+          in: query
+          name: transaction_type
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             items:
               $ref: '#/definitions/dto.TransactionResponse'
             type: array
-        "400":
-          description: Invalid query params
+        '400':
+          description: Bad Request
           schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal server error
+            $ref: '#/definitions/handler.ErrorResponse'
+        '500':
+          description: Internal Server Error
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: List transactions
       tags:
-      - transactions
+        - transactions
     post:
       consumes:
-      - application/json
+        - application/json
       description: Creates a new transaction for the authenticated user's tenant.
       parameters:
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
-      - description: Transaction data
-        in: body
-        name: transaction
-        required: true
-        schema:
-          $ref: '#/definitions/dto.CreateTransactionRequest'
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
+        - description: Transaction data
+          in: body
+          name: transaction
+          required: true
+          schema:
+            $ref: '#/definitions/dto.CreateTransactionRequest'
       produces:
-      - application/json
+        - application/json
       responses:
-        "201":
+        '201':
           description: Created
           schema:
             $ref: '#/definitions/dto.TransactionResponse'
-        "400":
-          description: Invalid input
+        '400':
+          description: Bad Request
           schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal server error
+            $ref: '#/definitions/handler.ErrorResponse'
+        '500':
+          description: Internal Server Error
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Create a new transaction
       tags:
-      - transactions
+        - transactions
   /transactions/{id}:
     delete:
       description: Soft-deletes a transaction by ID.
       parameters:
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
-      - description: Transaction ID
-        in: path
-        name: id
-        required: true
-        type: string
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
+        - description: Transaction ID
+          in: path
+          name: id
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
-        "204":
+        '204':
           description: No Content
-        "500":
-          description: Internal server error
+        '500':
+          description: Internal Server Error
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Delete a transaction
       tags:
-      - transactions
+        - transactions
     get:
       description: Retrieves a transaction by its ID.
       parameters:
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
-      - description: Transaction ID
-        in: path
-        name: id
-        required: true
-        type: string
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
+        - description: Transaction ID
+          in: path
+          name: id
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             $ref: '#/definitions/dto.TransactionResponse'
-        "404":
-          description: Transaction not found
+        '404':
+          description: Not Found
           schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal server error
+            $ref: '#/definitions/handler.ErrorResponse'
+        '500':
+          description: Internal Server Error
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Get transaction by ID
       tags:
-      - transactions
+        - transactions
     put:
       consumes:
-      - application/json
+        - application/json
       description: Updates a transaction by ID.
       parameters:
-      - description: Tenant ID
-        in: header
-        name: X-Tenant-ID
-        required: true
-        type: string
-      - description: Transaction ID
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: Transaction data
-        in: body
-        name: transaction
-        required: true
-        schema:
-          $ref: '#/definitions/dto.CreateTransactionRequest'
+        - description: Tenant ID
+          in: header
+          name: X-Tenant-ID
+          required: true
+          type: string
+        - description: Transaction ID
+          in: path
+          name: id
+          required: true
+          type: string
+        - description: Transaction data
+          in: body
+          name: transaction
+          required: true
+          schema:
+            $ref: '#/definitions/dto.UpdateTransactionRequest'
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             $ref: '#/definitions/dto.TransactionResponse'
-        "400":
-          description: Invalid input
+        '400':
+          description: Bad Request
           schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal server error
+            $ref: '#/definitions/handler.ErrorResponse'
+        '500':
+          description: Internal Server Error
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Update a transaction
       tags:
-      - transactions
+        - transactions
   /users/profile:
     get:
       description: Get the profile of the authenticated user
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             $ref: '#/definitions/dto.UserResponse'
-        "500":
+        '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Get user profile
       tags:
-      - users
+        - users
     put:
       consumes:
-      - application/json
+        - application/json
       description: Update the profile of the authenticated user
       parameters:
-      - description: Update User Request
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/dto.UpdateUserRequest'
+        - description: Update User Request
+          in: body
+          name: request
+          required: true
+          schema:
+            $ref: '#/definitions/dto.UpdateUserRequest'
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             $ref: '#/definitions/dto.UserResponse'
-        "400":
+        '400':
           description: Bad Request
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
-        "404":
+        '404':
           description: Not Found
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
-        "500":
+        '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: Update user profile
       tags:
-      - users
+        - users
   /users/tenants:
     get:
       description: Get the tenants of the authenticated user
       produces:
-      - application/json
+        - application/json
       responses:
-        "200":
+        '200':
           description: OK
           schema:
             items:
               $ref: '#/definitions/dto.UserTenantResponse'
             type: array
-        "500":
+        '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handler.ErrorResponse'
       security:
-      - AuthPassword: []
+        - AuthPassword: []
       summary: List user tenants
       tags:
-      - users
+        - users
 securityDefinitions:
   AuthPassword:
     flow: password
     tokenUrl: /auth/login
     type: oauth2
-swagger: "2.0"
+swagger: '2.0'

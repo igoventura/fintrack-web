@@ -12,7 +12,6 @@ const config: GeneratorConfig = {
         dateType: 'Date',
         enumStyle: 'enum',
         generateEnumBasedOnDescription: true,
-
     },
 };
 
