@@ -17,7 +17,7 @@ import { ACCOUNT_ICONS, CATEGORY_ICONS } from '../../../core/constants';
       [style.background-color]="color() || 'transparent'"
     >
       @if (svgIcon()) {
-        <div class="app-icon-svg" [innerHTML]="svgIcon()" matTooltip="{{ name() }}"></div>
+        <div class="app-icon-svg" [innerHTML]="svgIcon()" matTooltip="{{ _description }}"></div>
       } @else {
         <mat-icon>{{ name() }}</mat-icon>
       }
@@ -70,6 +70,7 @@ export class AppIconComponent {
   readonly name = input.required<string>();
   readonly color = input<string>();
   readonly size = input<number>(24);
+  public _description = '';
 
   // Computed
   readonly svgIcon = computed(() => {
@@ -79,6 +80,7 @@ export class AppIconComponent {
     const iconData = accountIcon || categoryIcon;
 
     if (iconData) {
+      this._description = iconData.description;
       return this.sanitizer.bypassSecurityTrustHtml(iconData.icon);
     }
     return null;
