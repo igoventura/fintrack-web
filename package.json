@@ -11,7 +11,7 @@
     "lint:fix": "eslint \"src/**/*.{ts,html}\" --fix",
     "format": "prettier --write \"src/**/*.{ts,html,scss,css,json}\"",
     "format:check": "prettier --check \"src/**/*.{ts,html,scss,css,json}\"",
-    "convert:api": "swagger2openapi http://localhost:8080/swagger.yaml -o ./src/api/openapi.yaml",
+    "convert:api": "swagger2openapi ./src/api/swagger.yaml -o ./src/api/openapi.yaml",
     "generate:api": "ng-openapi -c ./src/api/openapi.config.ts"
   },
   "prettier": {
