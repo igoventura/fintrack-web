@@ -7,11 +7,12 @@ import {
 } from '../../../api/providers';
 import { finalize, tap } from 'rxjs';
 import { ToastService } from './toast.service';
+import { TenantScopedServiceBase } from './base/tenant-scoped.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TagService {
+export class TagService extends TenantScopedServiceBase {
   private readonly apiService = inject(TagsService);
   private readonly toastService = inject(ToastService);
 
@@ -20,6 +21,18 @@ export class TagService {
 
   readonly tags = this._tags.asReadonly();
   readonly loading = this._loading.asReadonly();
+
+  constructor() {
+    super();
+  }
+
+  protected loadData(): void {
+    this.loadTags();
+  }
+
+  protected setEmptyData(): void {
+    this._tags.set([]);
+  }
 
   loadTags() {
     this._loading.set(true);

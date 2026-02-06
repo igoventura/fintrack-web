@@ -7,19 +7,32 @@ import {
 } from '../../../api/providers';
 import { finalize, tap } from 'rxjs';
 import { ToastService } from './toast.service';
+import { TenantScopedServiceBase } from './base/tenant-scoped.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AccountService {
+export class AccountService extends TenantScopedServiceBase {
   private readonly apiService = inject(AccountsService);
   private readonly toastService = inject(ToastService);
 
   private readonly _accounts = signal<Dto_AccountResponse[]>([]);
   private readonly _loading = signal<boolean>(false);
 
+  constructor() {
+    super();
+  }
+
   readonly accounts = this._accounts.asReadonly();
   readonly loading = this._loading.asReadonly();
+
+  protected loadData(): void {
+    this.loadAccounts();
+  }
+
+  protected setEmptyData(): void {
+    this._accounts.set([]);
+  }
 
   // Computed signals can be added here, e.g., total balance
   readonly totalBalance = computed(() => {

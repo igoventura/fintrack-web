@@ -7,6 +7,7 @@ import {
 } from '../../../api/providers';
 import { finalize, tap } from 'rxjs';
 import { ToastService } from './toast.service';
+import { TenantScopedServiceBase } from './base/tenant-scoped.service';
 
 export interface CategoryNode extends Dto_CategoryResponse {
   children?: CategoryNode[];
@@ -16,15 +17,27 @@ export interface CategoryNode extends Dto_CategoryResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class CategoryService {
+export class CategoryService extends TenantScopedServiceBase {
   private readonly apiService = inject(CategoriesService);
   private readonly toastService = inject(ToastService);
 
   private readonly _categories = signal<Dto_CategoryResponse[]>([]);
   private readonly _loading = signal<boolean>(false);
 
+  constructor() {
+    super();
+  }
+
   readonly categories = this._categories.asReadonly();
   readonly loading = this._loading.asReadonly();
+
+  protected loadData(): void {
+    this.loadCategories();
+  }
+
+  protected setEmptyData(): void {
+    this._categories.set([]);
+  }
 
   // Computed tree structure for display
   readonly categoryTree = computed(() => {

@@ -415,6 +415,29 @@ export class TransactionService {
 }
 ```
 
+### Reactive Data Reloading
+
+When data depends on global context (like the selected Tenant), services should extend `TenantScopedServiceBase`. This abstract class automatically handles reloading data when the tenant context changes.
+
+✅ **DO:**
+
+```typescript
+@Injectable({ providedIn: 'root' })
+export class TransactionService extends TenantScopedServiceBase {
+  // ... other dependencies (do NOT inject TenantService here)
+
+  protected loadData(): void {
+    // Called when tenant is selected or changed
+    this.loadTransactions();
+  }
+
+  protected setEmptyData(): void {
+    // Called when no tenant is selected
+    this._transactions.set([]);
+  }
+}
+```
+
 ### Component State
 
 ```typescript

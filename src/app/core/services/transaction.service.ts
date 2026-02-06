@@ -7,6 +7,7 @@ import {
 } from '../../../api/providers';
 import { finalize, tap } from 'rxjs';
 import { ToastService } from './toast.service';
+import { TenantScopedServiceBase } from './base/tenant-scoped.service';
 
 export interface TransactionFilters {
   accrualMonth?: string; // YYYYMM format
@@ -22,7 +23,7 @@ export interface TransactionFilters {
 @Injectable({
   providedIn: 'root',
 })
-export class TransactionService {
+export class TransactionService extends TenantScopedServiceBase {
   private readonly apiService = inject(TransactionsService);
   private readonly toastService = inject(ToastService);
 
@@ -30,9 +31,21 @@ export class TransactionService {
   private readonly _loading = signal<boolean>(false);
   private readonly _filters = signal<TransactionFilters>({});
 
+  constructor() {
+    super();
+  }
+
   readonly transactions = this._transactions.asReadonly();
   readonly loading = this._loading.asReadonly();
   readonly filters = this._filters.asReadonly();
+
+  protected loadData(): void {
+    this.loadTransactions();
+  }
+
+  protected setEmptyData(): void {
+    this._transactions.set([]);
+  }
 
   // Computed signal to filter transactions based on current filters
   readonly filteredTransactions = computed(() => {
