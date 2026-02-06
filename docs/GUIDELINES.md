@@ -282,6 +282,66 @@ export class BadgeComponent {
 })
 ```
 
+### Custom Shared Components
+
+#### App Icon Component
+
+Use the `app-icon` component for displaying account and category icons:
+
+```typescript
+import { AppIconComponent } from 'src/app/shared/components/app-icon/app-icon.component';
+
+@Component({
+  imports: [AppIconComponent],
+  template: `
+    <app-icon
+      [name]="'wallet'"
+      [color]="'var(--color-bronze)'"
+      [size]="32"
+    />
+  `
+})
+```
+
+**Properties:**
+
+- `name` (required): Icon name from `ACCOUNT_ICONS` or `CATEGORY_ICONS` constants
+- `color` (optional): Background color (use CSS variables from constants)
+- `size` (optional): Icon size in pixels (default: 24)
+
+**Available Icons:**
+
+- Account icons: `wallet`, `bank_traditional`, `bank_digital`, `credit_card`, `bitcoin`, `savings`, `investment`, `pix`, `money_cash`, `brand_mastercard`, `brand_visa`
+- Category icons: `category_home`, `category_food`, `category_grocery`, `category_transport`, `category_fuel`, `category_health`, `category_fitness`, `category_shopping`, `category_travel`, `category_education`, `category_entertainment`, `category_pets`, `category_utilities`, `category_income`, `category_gift`
+
+### Application Constants
+
+Use predefined constants from `src/app/core/constants.ts`:
+
+```typescript
+import {
+  ACCOUNT_COLORS,
+  CATEGORY_COLORS,
+  ACCOUNT_ICONS,
+  CATEGORY_ICONS,
+} from 'src/app/core/constants';
+
+// Color palettes
+const accountColors = ACCOUNT_COLORS; // Contains CSS variable references
+const categoryColors = CATEGORY_COLORS;
+
+// Icon definitions with default colors and descriptions
+const accountIcons = ACCOUNT_ICONS;
+const categoryIcons = CATEGORY_ICONS;
+```
+
+**Color Palettes:**
+
+- `ACCOUNT_COLORS`: Fintech brands, traditional banks, premium cards, auxiliary colors
+- `CATEGORY_COLORS`: Housing, food, transport, health, leisure, education, income themes
+
+**Note:** All colors are CSS custom properties defined in global styles. Always use the CSS variable (e.g., `var(--color-nu-purple)`) rather than hardcoding hex values.
+
 ---
 
 ## State Management

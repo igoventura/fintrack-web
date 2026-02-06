@@ -1,657 +1,722 @@
-# FinTrack Core - Implemented Features
+# FinTrack Web - Implemented Features
 
-This document provides a comprehensive overview of all implemented features in FinTrack Core, organized by functional area.
-
----
-
-## 🏗️ Infrastructure & Configuration
-
-### Project Structure
-
-- **Architecture**: Clean Architecture implementation with clear separation of concerns
-  - **Domain Layer**: Pure Go entities and repository interfaces with no external dependencies
-  - **Service Layer**: Business logic orchestration, framework-agnostic
-  - **API Layer**: HTTP transport layer using Gin framework
-  - **Database Layer**: PostgreSQL implementation using `pgx`
-- **Configuration Management**: Environment-based configuration via `.env` files
-- **Build Automation**: Comprehensive Makefile with commands for:
-  - Database migrations (apply, rollback, create new)
-  - Docker composition
-  - Code tidying and testing
-  - Swagger documentation generation
-  - Git hooks installation
-
-### Database Infrastructure
-
-- **Migration System**: [tern](https://github.com/jackc/tern) for version-controlled schema changes
-- **Migrations Workflow**:
-  - `make migrate` - Apply migrations locally
-  - `make rollback` - Rollback last migration
-  - `make new-migration name=xxx` - Create new migration file
-- **Immutable History**: Migration files are never modified after application
-- **Audit Trail**: All migrations tracked with version numbers and timestamps
-
-### Docker Support
-
-- **Containerization**: Full Docker and Docker Compose support for development
-- **Services**:
-  - PostgreSQL database with automatic initialization
-  - API server with hot-reload support
-  - Migration service for automated schema updates
-- **Commands**: `make compose` starts entire stack with database and migrations
-
-### API Documentation
-
-- **OpenAPI 3.0**: Auto-generated documentation from code annotations
-- **Interactive UI**: Scalar UI for exploring and testing endpoints
-- **Endpoints**:
-  - Documentation UI: `http://localhost:8080/docs`
-  - OpenAPI Spec: `http://localhost:8080/swagger.yaml`
-- **Update Command**: `make swagger` regenerates documentation after code changes
-
-### Health Monitoring
-
-- **Health Check Endpoint**: `GET /health`
-  - Returns API status and version information
-  - Used for container orchestration and monitoring
+This document provides a comprehensive overview of all implemented features in the FinTrack Web Angular application, organized by functional area.
 
 ---
 
-## 🔐 Authentication & Authorization
+## 🏗️ Project Infrastructure
 
-### Supabase Authentication Integration
+### Technology Stack
 
-- **Provider**: Supabase Auth for secure identity management
-- **Token Type**: JWT (JSON Web Tokens)
-- **Validation**: Server-side JWT validation using Supabase's JWKS endpoint
-- **User Mapping**: Users linked via `supabase_id` column in database
+- **Framework**: Angular 21 with standalone components
+- **UI Library**: Angular Material 21
+- **State Management**: Angular Signals (primary) + RxJS (for HTTP)
+- **API Client**: Auto-generated from OpenAPI spec via `ng-openapi-gen`
+- **Styling**: SCSS with BEM methodology + Material Design theming
+- **Testing**: Vitest
+- **Language**: TypeScript 5.9+ with strict mode
+- **Package Manager**: npm 10.9.4
 
-### Authentication Middleware
+### Build & Development
 
-- **Implementation**: `AuthMiddleware` in `/internal/api/middleware`
-- **Flow**:
-  1. Extracts Bearer token from `Authorization` header
-  2. Validates JWT signature and expiration
-  3. Verifies token against Supabase JWKS
-  4. Injects authenticated user context into request
-- **Error Handling**: Returns `401 Unauthorized` for invalid or missing tokens
+- **Development Server**: Angular CLI with hot-reload (`ng serve`)
+- **API Client Generation**: Automated via `npm run generate:api`
+- **Configuration Management**: Environment-based configuration (development, production)
+- **Code Quality**: ESLint + Prettier integration
+- **Project Structure**: Clean architecture with feature modules
 
-### Authorization Endpoints
+---
 
-#### User Registration
+## 🔐 Authentication
 
-- **Endpoint**: `POST /auth/register`
-- **Security**: Public endpoint (no authentication required)
-- **Input**: Email, password, name
-- **Process**: Proxies request to Supabase Auth
-- **Response**: User object with authentication tokens
+Complete user authentication flow with secure token management.
 
-#### User Login
+### Features Implemented
 
-- **Endpoint**: `POST /auth/login`
-- **Security**: Public endpoint
-- **Content Type**: `multipart/form-data`
-- **Input**: Email and password
-- **Process**: Validates credentials via Supabase
-- **Response**: JWT access and refresh tokens
+#### Login Component
+
+- **Location**: `src/app/features/auth/components/login/`
+- **Features**:
+  - Reactive form with email and password fields
+  - Client-side validation (required fields, email format)
+  - Show/hide password toggle
+  - Loading state indicator during authentication
+  - Error message display from API responses
+  - Link to registration page
+  - Material Card and Form Field components
+
+#### Register Component
+
+- **Location**: `src/app/features/auth/components/register/`
+- **Features**:
+  - Reactive form with email and password
+  - Form validation with real-time feedback
+  - Password visibility toggle
+  - Loading state during submission
+  - API error handling and display
+  - Automatic redirect to login after successful registration
+  - Material design UI components
+
+### Authentication Services
+
+- **Auth API Service** (`src/app/features/auth/services/auth-api.service.ts`)
+  - Integration with generated `AuthService` from API client
+  - Session management with tokens stored in `StorageService`
+  - User state tracking with signals
+  - Methods: `login()`, `register()`, `logout()`
+
+### Routes
+
+- `/auth/login` - Login page (protected by guest guard)
+- `/auth/register` - Registration page (protected by guest guard)
 
 ---
 
 ## 🏢 Multi-Tenancy
 
-### Tenant Isolation
+Workspace isolation and tenant management system.
 
-- **Enforcement**: Strict multi-tenancy via request headers
-- **Header Required**: `X-Tenant-ID` (UUID format)
-- **Validation**: `TenantMiddleware` verifies tenant existence in database
-- **Context Injection**: Valid tenant IDs injected into request context
-- **Error Handling**: Returns `401 Unauthorized` for invalid/missing tenant ID
+### Features Implemented
 
-### Tenant Management
+#### Tenant Selector Component
 
-#### Create Tenant
-
-- **Endpoint**: `POST /tenants`
-- **Security**: Requires authentication
-- **Input**: Tenant name
-- **Process**:
-  1. Creates new tenant record
-  2. Automatically associates creator as tenant member
-  3. Returns tenant details
-- **Use Case**: Onboarding new organizations/workspaces
-
-#### List User's Tenants
-
-- **Endpoint**: `GET /users/tenants`
-- **Security**: Requires authentication
-- **Response**: Array of all tenants the authenticated user belongs to
-- **Use Case**: Tenant selection in multi-tenant applications
-
-### Data Isolation
-
-- **Repository Level**: All queries automatically filter by `tenant_id`
-- **Service Level**: Tenant ID extracted from context and passed to repositories
-- **Validation**: Related entities (accounts, categories, tags) verified to belong to same tenant
-- **Foreign Keys**: Database-level constraints ensure referential integrity
-
----
-
-## 👤 User Management
-
-### User Profile
-
-#### Get User Profile
-
-- **Endpoint**: `GET /users/profile`
-- **Security**: Requires authentication
-- **Response**: User details (ID, name, email, timestamps)
-- **Data Source**: Fetched from local database, not Supabase
-
-#### Update User Profile
-
-- **Endpoint**: `PUT /users/profile`
-- **Security**: Requires authentication
-- **Input**: Name (email cannot be changed via this endpoint)
-- **Process**:
-  1. Validates user exists
-  2. Updates name in database
-  3. Sets `updated_at` timestamp
-- **Response**: Updated user object
-
-### User-Tenant Association
-
-- **Join Table**: `users_tenants` enables many-to-many relationships
+- **Location**: `src/app/features/tenants/components/tenant-selector/`
 - **Features**:
-  - Soft delete support via `deactivated_at`
-  - Audit timestamps (`created_at`, `updated_at`)
-  - Prevents duplicate associations via composite primary key
-- **Access Control**: Users can only access resources from tenants they belong to
+  - Display user's tenants as Material cards
+  - Show tenant name and metadata
+  - Click-to-select interaction
+  - Create new tenant button
+  - Empty state when no tenants exist
+  - Automatic redirect to dashboard after selection
+
+#### Create Tenant Dialog
+
+- **Location**: `src/app/features/tenants/components/create-tenant-dialog/`
+- **Features**:
+  - Material dialog component
+  - Reactive form with tenant name field
+  - Validation (required, minimum length)
+  - Auto-select newly created tenant
+  - Close and refresh on success
+
+### Tenant Services
+
+- **Tenant Service** (`src/app/core/services/tenant.service.ts`)
+  - State management with signals:
+    - `currentTenantId` - Active tenant ID
+    - `currentTenant` - Full tenant object
+    - `userTenants` - Array of user's tenants
+  - Methods: `loadUserTenants()`, `setCurrentTenant()`, `createTenant()`
+  - LocalStorage persistence for tenant selection
+
+### Tenant Context
+
+- **Tenant Interceptor** (`src/app/core/interceptors/tenant.interceptor.ts`)
+  - Automatically adds `X-Tenant-ID` header to all API requests
+  - Retrieves tenant ID from TenantService
+  - Skips header for auth and tenant selection endpoints
+
+- **Tenant Guard** (`src/app/core/guards/tenant.guard.ts`)
+  - Ensures tenant context is set before accessing protected routes
+  - Redirects to tenant selection if no active tenant
+  - Validates tenant ID existence
+
+### Routes
+
+- `/tenants/select` - Tenant selection page
 
 ---
 
-## 💰 Account Management
+## 📊 Dashboard & Statistics
 
-### Account Types
+Overview page with key financial metrics and recent activity.
 
-Supports diverse financial account types:
+### Features Implemented
+
+#### Dashboard Component
+
+- **Location**: `src/app/features/dashboard/`
+- **Features**:
+  - Grid layout of overview cards
+  - Key metrics display:
+    - Total balance across all accounts
+    - Monthly income summary
+    - Monthly expenses summary
+    - Pending transactions count
+  - Loading skeleton states
+  - Error handling and retry capability
+  - Material card grid responsive layout
+
+#### Overview Card Component
+
+- **Location**: `src/app/features/dashboard/components/overview-card/`
+- **Features**:
+  - Reusable metric display component
+  - Inputs: title, value, icon, trend indicator
+  - Color-coded values (green for positive, red for negative)
+  - Material card design with elevation
+  - Responsive sizing
+
+#### Recent Transactions Component
+
+- **Location**: `src/app/features/dashboard/components/recent-transactions/`
+- **Features**:
+  - Display last 10 transactions
+  - Show amount, category, account, date
+  - Link to full transaction list
+  - Empty state display
+  - Material list component
+
+### Dashboard Services
+
+- **Dashboard Service** (`src/app/features/dashboard/services/dashboard.service.ts`)
+  - Aggregates data from multiple API sources
+  - Signal-based state for metrics
+  - **Note**: Currently uses mock data pending Transactions API integration
+
+### Routes
+
+- `/dashboard` - Main dashboard page (default route after login)
+
+---
+
+## 👤 User Profile
+
+User profile viewing and editing capabilities.
+
+### Features Implemented
+
+#### Profile Component
+
+- **Location**: `src/app/features/profile/components/profile/`
+- **Features**:
+  - Display user information (name, email, created date)
+  - Edit mode toggle
+  - Reactive form for profile editing
+  - Save/Cancel buttons
+  - Success notification on update
+  - Material card layout
+  - Form validation
+
+### User Services
+
+- **User Service** (`src/app/core/services/user.service.ts`)
+  - State management:
+    - `userProfile` signal
+  - Methods:
+    - `loadProfile()` - Fetch user profile from API
+    - `updateProfile(data)` - Update user information
+
+### Routes
+
+- `/profile` - User profile page
+
+---
+
+## 🏦 Account Management
+
+Financial account CRUD operations with visual customization.
+
+### Features Implemented
+
+#### Account List Component
+
+- **Location**: `src/app/features/accounts/components/account-list/`
+- **Features**:
+  - Display accounts as Material cards
+  - Show: name, type, balance, currency, icon, color
+  - Visual grouping by account type
+  - Filter and search capabilities
+  - Sort options (name, balance, type)
+  - Floating action button for creating new account
+  - Empty state when no accounts exist
+  - Click card to view/edit details
+
+#### Account Form Component
+
+- **Location**: `src/app/features/accounts/components/account-form/`
+- **Features**:
+  - Reactive form with comprehensive validation
+  - Fields:
+    - Name (required)
+    - Type (dropdown: bank, cash, credit_card, investment, other)
+    - Initial balance (number, default 0)
+    - Currency (dropdown: BRL, USD, EUR, etc.)
+    - Color (color picker with predefined palette)
+    - Icon (visual icon selector with preview)
+  - Real-time form validation
+  - Submit to create or update account
+  - Cancel button with confirmation if dirty
+  - Material form components throughout
+  - Custom `app-icon` component for icon display
+
+#### Account Detail Component
+
+- **Location**: `src/app/features/accounts/components/account-detail/`
+- **Features**:
+  - Display full account information
+  - Edit button (navigate to form)
+  - Delete button with confirmation dialog
+  - Balance summary display
+  - Material card layout
+  - Icon and color visualization
+
+### Account Services
+
+- **Account Service** (`src/app/core/services/account.service.ts`)
+  - Wraps generated `AccountsService` from API client
+  - State management with signals:
+    - `accounts` - Array of all accounts
+    - `selectedAccount` - Currently selected account
+  - Methods:
+    - `loadAccounts()` - Fetch all accounts
+    - `createAccount(data)` - Create new account
+    - `updateAccount(id, data)` - Update account
+    - `deleteAccount(id)` - Soft delete account
+    - `getAccountById(id)` - Get single account
+
+### Routes
+
+- `/accounts` - List all accounts
+- `/accounts/new` - Create account form
+- `/accounts/:id` - Account detail view (not edit mode)
+- `/accounts/:id/edit` - Edit account form
+
+### Supported Account Types
 
 - **Bank**: Traditional checking/savings accounts
 - **Cash**: Physical cash holdings
-- **Credit Card**: Credit card accounts (with extended metadata support)
+- **Credit Card**: Credit card accounts
 - **Investment**: Investment portfolios and brokerage accounts
 - **Other**: Custom account types
 
-### Account Features
+---
 
-#### Create Account
+## 🏷️ Category Management
 
-- **Endpoint**: `POST /accounts`
-- **Security**: Requires authentication and tenant context
-- **Input**:
-  - Name (e.g., "Chase Checking")
-  - Type (enum: bank, cash, credit_card, investment, other)
-  - Initial balance (decimal, 2 decimal places)
-  - Currency (ISO 4217 code: USD, BRL, EUR, etc.)
-  - Color (RGBA hex: `#ffAABB11`)
-  - Icon (emoji or icon identifier, max 256 chars)
-- **Auto-Population**:
-  - `tenant_id`: From request context
-  - `created_by`/`updated_by`: Authenticated user ID
-  - Timestamps: Current server time
-- **Validation**: Domain-level validation ensures all required fields present
+Hierarchical category system with visual customization.
 
-#### List Accounts
+### Features Implemented
 
-- **Endpoint**: `GET /accounts`
-- **Security**: Requires authentication and tenant context
-- **Filtering**: Automatically scoped to current tenant
-- **Soft Delete**: Excludes deactivated accounts
-- **Response**: Array of account objects with full details
+#### Category List Component
 
-#### Update Account
+- **Location**: `src/app/features/categories/components/category- list/`
+- **Features**:
+  - Hierarchical tree view OR flat grouped list
+  - Display parent-child relationships visually
+  - Filter by category type (income, expense, transfer)
+  - Search by name
+  - Visual display of icon and color
+  - Edit/Delete actions for each category
+  - Floating action button for new category
+  - Empty state UI
 
-- **Endpoint**: `PUT /accounts/{id}`
-- **Security**: Requires authentication and tenant context
-- **Validation**: Verifies account belongs to current tenant
-- **Updatable Fields**: Name, type, initial balance, currency, color, icon
-- **Audit**: Updates `updated_by` and `updated_at`
+#### Category Form Component
 
-#### Delete Account (Soft)
+- **Location**: `src/app/features/categories/components/category-form/`
+- **Features**:
+  - Reactive form with validation
+  - Fields:
+    - Name (required)
+    - Type (income, expense, transfer) - immutable after creation
+    - Parent category (dropdown, optional for subcategories)
+    - Color (color picker with predefined palette)
+    - Icon (visual icon selector)
+  - Parent category validation (must belong to same tenant)
+  - Material form fields
+  - Custom `app-icon` component integration
 
-- **Endpoint**: `DELETE /accounts/{id}`
-- **Security**: Requires authentication and tenant context
-- **Behavior**: Sets `deactivated_at` and `deactivated_by`, preserves data
-- **Rationale**: Maintains transaction history and audit trail
+#### Category Chip Component
 
-### Credit Card Metadata
+- **Location**: `src/app/features/categories/components/category-chip/`
+- **Features**:
+  - Reusable component for displaying category as chip
+  - Shows icon, name, and color
+  - Input: category object
+  - Used in transaction lists and forms
+  - Material chip component styling
 
-- **Table**: `credit_card_info` (one-to-one with accounts)
-- **Fields**:
-  - Last four digits of card number
-  - Card name (e.g., "Chase Sapphire Reserve")
-  - Brand (visa, mastercard, amex, discover, jcb, unionpay, diners_club, maestro, unknown)
-  - Closing date (day of month statement closes)
-  - Due date (day of month payment is due)
-- **Audit Trail**: Full tracking with created/updated/deactivated by/at
-- **Use Case**: Statement generation and payment scheduling
+### Category Services
+
+- **Category Service** (`src/app/core/services/category.service.ts`)
+  - Wraps generated `CategoriesService`
+  - State management with signals:
+    - `categories` - Array of all categories
+    - `categoryTree` - Computed hierarchical structure
+  - Methods:
+    - `loadCategories()` - Fetch all categories
+    - `createCategory(data)` - Create new category
+    - `updateCategory(id, data)` - Update category
+    - `deleteCategory(id)` - Soft delete category
+    - `buildCategoryTree()` - Build hierarchical structure
+
+### Routes
+
+- `/categories` - List all categories
+- `/categories/new` - Create category form
+- `/categories/:id/edit` - Edit category form
+
+### Category Types
+
+- **Income**: Categories for money coming in
+- **Expense**: Categories for money going out
+- **Transfer**: Categories for internal transfers (immutable type)
 
 ---
 
-## 🏷️ Classification System
+## 🔖 Tag Management
 
-### Categories
+Flexible transaction labeling system with on-the-fly creation.
 
-#### Category Features
+### Features Implemented
 
-- **Hierarchical**: Support for parent-child relationships (e.g., "Food" → "Restaurants")
-- **Visual Identity**: Each category has color and icon
-- **Tenant Scoped**: Categories isolated per tenant
+#### Tag List Component
 
-#### Category Endpoints
+- **Location**: `src/app/features/tags/components/tag-list/`
+- **Features**:
+  - Display tags as Material chips
+  - Search and filter tags
+  - Add new tag inline
+  - Edit tag name inline
+  - Delete with confirmation dialog
+  - Compact list view
+  - Empty state display
 
-##### Create Category
+#### Tag Selector Component
 
-- **Endpoint**: `POST /categories`
-- **Security**: Requires authentication and tenant context
-- **Input**:
-  - Name (e.g., "Groceries")
-  - Parent category ID (optional, for subcategories)
-  - Color (RGBA hex)
-  - Icon (emoji or identifier)
-- **Validation**:
-  - Parent category must belong to same tenant (if specified)
-  - Name required and non-empty
-- **Auto-Population**: Tenant ID from context, audit fields
+- **Location**: `src/app/features/tags/components/tag-selector/`
+- **Features**:
+  - Multi-select autocomplete component
+  - Material chip list for selected tags
+  - **On-the-fly tag creation**:
+    - Shows "Add [tag name]" when filtering returns no matches
+    - Click to create -> API call -> reload tags -> auto-select new tag
+  - Used in transaction forms
+  - Material autocomplete with chips
 
-##### List Categories
+### Tag Services
 
-- **Endpoint**: `GET /categories`
-- **Security**: Requires authentication and tenant context
-- **Filtering**: Tenant-scoped, excludes soft-deleted
-- **Response**: All categories with parent references
+- **Tag Service** (`src/app/core/services/tag.service.ts`)
+  - Wraps generated `TagsService`
+  - State management with signals:
+    - `tags` - Array of all tags
+  - Methods:
+    - `loadTags()` - Fetch all tags
+    - `createTag(name)` - Create new tag
+    - `updateTag(id, name)` - Update tag name
+    - `deleteTag(id)` - Soft delete tag
 
-##### Get Category by ID
+### Routes
 
-- **Endpoint**: `GET /categories/{id}`
-- **Security**: Requires authentication and tenant context
-- **Validation**: Verifies category belongs to tenant
-- **Response**: Single category object
-
-##### Update Category
-
-- **Endpoint**: `PUT /categories/{id}`
-- **Security**: Requires authentication and tenant context
-- **Updatable**: Name, parent category, color, icon
-- **Validation**: Parent category ownership verification
-
-##### Delete Category (Soft)
-
-- **Endpoint**: `DELETE /categories/{id}`
-- **Security**: Requires authentication and tenant context
-- **Behavior**: Soft delete via `deactivated_at`
-
-### Tags
-
-#### Tag Features
-
-- **Flexible Labeling**: Free-form tags for additional transaction metadata
-- **On-the-fly Creation**: Create new tags directly within transaction forms if the tag doesn't exist
-  - Flow: Filter -> "Add [Tag]" -> API Create -> Reload -> Auto-select
-- **Many-to-Many**: Transactions can have multiple tags
-- **Lightweight**: Minimal schema (ID, name, tenant, deactivation)
-
-#### Tag Endpoints
-
-##### Create Tag
-
-- **Endpoint**: `POST /tags`
-- **Security**: Requires authentication and tenant context
-- **Input**: Tag name (e.g., "tax-deductible", "reimbursable")
-- **Auto-Population**: Tenant ID from context
-
-##### List Tags
-
-- **Endpoint**: `GET /tags`
-- **Security**: Requires authentication and tenant context
-- **Filtering**: Tenant-scoped, excludes deactivated
-- **Response**: Array of tag objects
-
-##### Get Tag by ID
-
-- **Endpoint**: `GET /tags/{id}`
-- **Security**: Requires authentication and tenant context
-- **Validation**: Verifies ownership
-
-##### Update Tag
-
-- **Endpoint**: `PUT /tags/{id}`
-- **Security**: Requires authentication and tenant context
-- **Updatable**: Name only
-
-##### Delete Tag (Soft)
-
-- **Endpoint**: `DELETE /tags/{id}`
-- **Security**: Requires authentication and tenant context
-- **Behavior**: Soft delete, removes from future queries
+- `/tags` - List and manage tags
 
 ---
 
-## 💸 Transaction Management
+## 🧭 Layout & Navigation
 
-### Transaction Types
+Main application shell and navigation structure.
 
-- **Credit**: Money coming into an account (income, refunds)
-- **Debit**: Money leaving an account (expenses)
-- **Transfer**: Moving money between accounts (internal)
-- **Payment**: Paying off balances (e.g., credit card payment)
+### Features Implemented
 
-### Transaction Core Features
+#### Main Layout Component
 
-#### Create Transaction
+- **Location**: `src/app/core/layout/main-layout/`
+- **Features**:
+  - Material toolbar (top bar)
+  - Material sidenav (sidebar navigation)
+  - Content area with router outlet
+  - Responsive design (mobile/desktop breakpoints)
+  - Drawer toggle for mobile
 
-- **Endpoint**: `POST /transactions`
-- **Security**: Requires authentication and tenant context
-- **Input**:
-  - Amount (positive decimal)
-  - Transaction type (credit, debit, transfer, payment)
-  - From account ID (source account)
-  - To account ID (optional, for transfers/payments)
-  - Category ID
-  - Tag IDs (array, optional)
-  - Currency (ISO 4217 code)
-  - Due date
-  - Payment date (optional, null means unpaid)
-  - Accrual month (YYYYMM format, defaults to due date's month)
-  - Comments (optional)
-- **Validation**:
-  - All accounts and categories must belong to same tenant
-  - Tags must belong to tenant
-  - Amount must be positive
-  - From account is required
-- **Auto-Population**:
-  - Tenant ID from context
-  - Created/updated by/at fields
-  - Accrual month defaults to due date's month if not specified
+#### Toolbar Component
 
-#### List Transactions
+- **Location**: `src/app/core/layout/toolbar/`
+- **Features**:
+  - App branding/logo
+  - Mobile menu toggle button
+  - Current tenant name display
+  - User menu dropdown:
+    - Profile link
+    - Logout action
+  - Material toolbar and menu components
 
-- **Endpoint**: `GET /transactions`
-- **Security**: Requires authentication and tenant context
-- **Filtering**: Tenant-scoped, excludes soft-deleted
-- **Response**: Array with embedded tags
+#### Sidenav Component
 
-#### Get Transaction by ID
-
-- **Endpoint**: `GET /transactions/{id}`
-- **Security**: Requires authentication and tenant context
-- **Response**: Transaction with full tag details
-
-#### Update Transaction
-
-- **Endpoint**: `PUT /transactions/{id}`
-- **Security**: Requires authentication and tenant context
-- **Updatable**: All fields except ID, tenant, timestamps
-- **Tag Management**: Replaces all tags (upsert pattern)
-- **Validation**: Same ownership checks as create
-
-#### Delete Transaction (Soft)
-
-- **Endpoint**: `DELETE /transactions/{id}`
-- **Security**: Requires authentication and tenant context
-- **Behavior**: Sets deactivated_at and deactivated_by
-
-### Advanced Transaction Logic
-
-#### Credit Card Installments
-
-- **Feature**: Automatic splitting of purchases into multiple installments
-- **Input Parameters**:
-  - Base transaction details
-  - Number of installments (integer)
-  - Accrual month (starting month)
-- **Calculation Logic**:
-  - Divides amount by number of installments
-  - First installment absorbs rounding remainder
-  - Example: R$10.00 ÷ 3 → R$3.34, R$3.33, R$3.33
-  - Total always equals original amount exactly
-- **Due Date Logic**:
-  - Each installment: accrual month + 1 month
-  - Handles month-end edge cases (31st → 28th/29th in Feb)
-- **Domain Implementation**: `installment_calculator.go` handles all split logic
-
-#### Recurring Transactions
-
-- **Support**: Schema prepared for recurring/subscription transactions
-- **Parent-Child Model**: `parent_transaction_id` links related transactions
-- **Use Cases**: Subscriptions, recurring bills, split payments
-
-#### Payment Tracking
-
-- **Payment Date Field**: Tracks when transaction was actually paid
-- **Unpaid Status**: Null `payment_date` indicates pending payment
-- **Credit Card Logic**: Payment date defaults to due date except for Payment transactions
+- **Location**: `src/app/core/layout/sidenav/`
+- **Features**:
+  - Navigation links to all features:
+    - Dashboard
+    - Accounts
+    - Categories
+    - Tags
+    - Transactions (planned)
+    - Profile
+  - Active route highlighting
+  - Material list navigation
+  - Responsive behavior (drawer on mobile, persistent on desktop)
+  - Icons for each navigation item
 
 ---
 
-## 🌐 CORS (Cross-Origin Resource Sharing)
+## 🛡️ Core Infrastructure
 
-### CORS Configuration
+Essential services, guards, and interceptors.
 
-- **Middleware**: `gin-contrib/cors` package
-- **Allowed Origins**:
-  - Development: `http://localhost:4200` (Angular dev server)
-  - Production: Configurable via environment
-- **Allowed Methods**: GET, POST, PUT, DELETE, OPTIONS
-- **Allowed Headers**:
-  - `Origin`
-  - `Content-Type`
-  - `Authorization` (for JWT tokens)
-  - `X-Tenant-ID` (for multi-tenancy)
-- **Credentials**: Enabled (supports cookies and auth tokens)
-- **Configuration Location**: `internal/api/router/router.go`
+### HTTP Interceptors
 
----
+#### Auth Interceptor
 
-## 🗄️ Data Management
+- **Location**: `src/app/core/interceptors/auth.interceptor.ts`
+- **Features**:
+  - Automatically adds `Authorization: Bearer <token>` header
+  - Retrieves token from StorageService
+  - Skips header for public endpoints (login, register)
+  - Handles token refresh scenarios
 
-### Soft Delete Strategy
+#### Tenant Interceptor
 
-#### Traceable Deletion (Financial Entities)
+- **Location**: `src/app/core/interceptors/tenant.interceptor.ts`
+- **Features**:
+  - Automatically adds `X-Tenant-ID` header
+  - Retrieves tenant ID from TenantService
+  - Skips for auth and tenant selection endpoints
 
-Applied to: Accounts, Transactions, Attachments, Credit Card Info
+#### Error Interceptor
 
-- **Fields**:
-  - `deactivated_at` (timestamp of deletion)
-  - `deactivated_by` (UUID of user who deleted)
-- **Purpose**: Full audit trail and accountability
+- **Location**: `src/app/core/interceptors/error.interceptor.ts`
+- **Features**:
+  - Global error handling
+  - Shows toast notifications for API errors
+  - Handles specific status codes:
+    - 401: Redirect to login
+    - 403: Show forbidden message
+    - 404: Resource not found
+    - 500: Server error
+  - Console logging in development mode
 
-#### Standard Soft Delete (Operational Entities)
+### Route Guards
 
-Applied to: Users, Tenants, Tags, Categories
+#### Auth Guard
 
-- **Field**: `deactivated_at` only
-- **Purpose**: Preserve data integrity without full traceability
+- **Location**: `src/app/core/guards/auth.guard.ts`
+- **Features**:
+  - Checks if user is authenticated
+  - Redirects to `/auth/login` if not authenticated
+  - Validates token existence in storage
 
-#### Repository Pattern
+#### Tenant Guard
 
-- **Read Operations**: Automatically filter `WHERE deactivated_at IS NULL`
-- **Delete Operations**: Set `deactivated_at = NOW()` instead of hard delete
-- **Join Tables**:
-  - `users_tenants`: Soft delete (has timestamps)
-  - `transactions_tags`: Hard delete (lightweight, no audit requirement)
+- **Location**: `src/app/core/guards/tenant.guard.ts`
+- **Features**:
+  - Checks if tenant context is set
+  - Redirects to `/tenants/select` if no active tenant
+  - Validates tenant ID
 
-### Data Integrity
+#### Guest Guard
 
-#### Domain Validation
+- **Location**: `src/app/core/guards/guest.guard.ts`
+- **Features**:
+  - Prevents authenticated users from accessing auth pages
+  - Redirects to dashboard if already logged in
 
-- **Implementation**: `IsValid()` method on all entities
-- **Checks**:
-  - Required fields present
-  - Numeric values valid (non-negative balances, positive amounts)
-  - String length constraints
-  - Format validation (currency codes, color codes)
-- **Enforcement**: Validation before persistence
+### Core Services
 
-#### Database Constraints
+#### Storage Service
 
-- **Foreign Keys**: All relationships enforced at database level
-- **Unique Indexes**: Prevent duplicate data
-- **Not Null**: Required fields enforced
-- **Check Constraints**: Data type validation (enums)
+- **Location**: `src/app/core/services/storage.service.ts`
+- **Features**:
+  - Type-safe LocalStorage wrapper
+  - Methods: `set()`, `get()`, `remove()`, `clear()`
+  - Stores JWT tokens, tenant ID, user preferences
+  - JSON serialization/deserialization
 
-### Audit Trail
+#### Toast Service
 
-#### Timestamp Management
+- **Location**: `src/app/core/services/toast.service.ts`
+- **Features**:
+  - Success, error, warning, info notifications
+  - Integration with Angular Material Snackbar
+  - Global notification management
+  - Configurable duration and position
 
-- **Created At**: Auto-populated on insert
-- **Updated At**: Explicitly set in UPDATE queries (no triggers)
-- **Return Policy**: Timestamps returned via `RETURNING` clause for client sync
+#### Theme Service
 
-#### User Tracking
-
-- **Created By**: User who created the record
-- **Updated By**: User who last modified the record
-- **Deactivated By**: User who soft-deleted the record (financial entities only)
-
-#### Database Schema
-
-```mermaid
-erDiagram
-    tenants ||--o{ users_tenants : has
-    users ||--o{ users_tenants : has
-    tenants ||--o{ accounts : owns
-    tenants ||--o{ categories : owns
-    tenants ||--o{ tags : owns
-    tenants ||--o{ transactions : owns
-    accounts ||--o| credit_card_info : "has (optional)"
-    accounts ||--o{ transactions : "from account"
-    accounts ||--o{ transactions : "to account"
-    categories ||--o{ transactions : categorizes
-    categories ||--o{ categories : "parent of"
-    transactions ||--o{ transactions_tags : has
-    tags ||--o{ transactions_tags : has
-    transactions ||--o{ transaction_attachments : has
-    transactions ||--o{ transactions : "parent of"
-```
+- **Location**: `src/app/core/services/theme.service.ts`
+- **Features**:
+  - Light/dark mode toggle
+  - Persist theme preference in LocalStorage
+  - Signal-based theme state
+  - Apply theme to Material components
 
 ---
 
-## 🧪 Testing
+## 🎨 Shared Components
 
-### Testing Infrastructure
+Reusable UI components used across features.
 
-- **Framework**: Go standard testing package
-- **Mocking**: `pgxmock` for database layer testing
-- **Command**: `make test` runs all tests
-- **Coverage**: Unit tests for repository layer implemented
+### App Icon Component
 
-### Test Strategy
-
-- **Unit Tests**: Service layer with mocked repositories
-- **Integration Tests**: Handlers with test database (planned)
-- **Target Coverage**: >80% (roadmap goal)
-
----
-
-## 📦 Database Schema Overview
-
-### Core Entities
-
-1. **Tenants**: Organizations/workspaces
-2. **Users**: Individual user accounts
-3. **Users_Tenants**: Many-to-many user-tenant relationships
-4. **Accounts**: Financial accounts (bank, cash, credit card, etc.)
-5. **Credit_Card_Info**: Extended metadata for credit card accounts
-6. **Categories**: Hierarchical expense/income categories
-7. **Tags**: Flexible labels for transactions
-8. **Transactions**: Financial movements between accounts
-9. **Transactions_Tags**: Many-to-many transaction-tag relationships
-10. **Transaction_Attachments**: File attachments for transactions (schema ready)
-
-### Enums
-
-- **account_type**: bank, cash, credit_card, investment, other
-- **credit_card_brand**: visa, mastercard, amex, discover, jcb, unionpay, diners_club, maestro, unknown
-- **transaction_type**: credit, debit, transfer, payment
-
-### Indexes
-
-- **Performance Optimization**:
-  - Tenant ID indexes on all multi-tenant tables
-  - Account ID index on credit card info
-  - Transaction ID index on attachments
-  - Accrual month and transaction type indexes on transactions
-  - Composite unique index on credit card per account
+- **Location**: `src/app/shared/components/app-icon/`
+- **Features**:
+  - Displays SVG icons or emoji
+  - Inputs: name (SVG id or emoji), color, size, description
+  - Handles icon rendering from constants
+  - Supports custom sizing
+  - Material tooltip integration
+  - Used in account and category displays
 
 ---
 
-## 🚀 Deployment
+## 🌐 API Integration
 
-### Development Workflow
+Integration with FinTrack API backend via auto-generated client.
 
-```bash
-# Start entire stack
-make compose
+### Generated API Client
 
-# Run migrations only
-make migrate
+- **Location**: `src/api/providers/`
+- **Generator**: `ng-openapi-gen` from `src/api/openapi.yaml`
+- **Structure**:
+  - `services/` - Type-safe service classes for each API resource
+  - `models/` - TypeScript interfaces for all DTOs
+  - `tokens/` - Injection tokens (BASE_PATH, etc.)
+  - `utils/` - Helper utilities
+  - `index.ts` - Main export file
 
-# Create new migration
-make new-migration name=add_feature_x
+### API Services Used
 
-# Run tests
-make test
+- `AccountsService` - Account CRUD operations
+- `AuthService` - Authentication endpoints
+- `CategoriesService` - Category CRUD operations
+- `TagsService` - Tag CRUD operations
+- `TenantsService` - Tenant management
+- `UsersService` - User profile operations
 
-# Update API docs
-make swagger
+### Configuration
 
-# Clean dependencies
-make tidy
-```
+- **Base URL**: Configured via `BASE_PATH_FINTRACK` injection token
+- **Environments**:
+  - Development: `http://localhost:8080`
+  - Production: Configurable via environment files
 
-### Production Considerations
+---
 
-- **CORS**: Update allowed origins in router configuration
-- **Environment Variables**: Configure via `.env.prod`
-- **Database**: PostgreSQL 12+ required
-- **Migrations**: Run via Docker migration service or `make migrate`
+## 🎯 State Management
+
+Signal-based reactive state management throughout the application.
+
+### Patterns Used
+
+- **Signals**: Primary state management mechanism
+  - Local component state
+  - Service-level shared state
+  - Computed derived values
+
+- **RxJS Observables**: Used for HTTP operations
+  - Converted to Promises with `firstValueFrom()` in async functions
+  - Used with async pipe in templates
+
+### State Organization
+
+- **Service State**: Shared state managed in feature services
+- **Component State**: Local UI state in components
+- **Computed State**: Derived values using `computed()`
+- **Immutable Updates**: Always use `set()` or `update()`, never `mutate()`
+
+---
+
+## 🧪 Testing Status
+
+Testing infrastructure configured but not yet implemented:
+
+- **Framework**: Vitest
+- **Coverage**: Pending implementation
+- **Target**: Unit tests for services, components, guards, interceptors
+- **Status**: Phase 13 in roadmap (planned)
+
+---
+
+## 🎨 Styling & Design
+
+Custom design system built on Material Design.
+
+### Design Tokens
+
+- **Colors**: Predefined color palette in `src/app/core/constants.ts`
+- **Typography**: Material Design typography system
+- **Spacing**: Material Design spacing scale
+- **Breakpoints**: Material responsive breakpoints
+
+### Styling Approach
+
+- **SCSS**: Component-scoped styles
+- **BEM Methodology**: Block-Element-Modifier naming
+- **Material Theming**: Custom theme configuration
+- **Responsive Design**: Mobile-first approach
+
+---
+
+## ♿ Accessibility
+
+WCAG AA compliance is mandatory across all components.
+
+### Implemented
+
+- Semantic HTML structure
+- ARIA labels and attributes
+- Keyboard navigation support
+- Focus management
+- Color contrast compliance
+- Screen reader friendly
+
+### Testing
+
+- AXE checks required for all new components
+- Manual keyboard navigation testing
+
+---
+
+## 🚀 Performance Optimizations
+
+Performance best practices implemented throughout.
+
+### Techniques Used
+
+- **OnPush Change Detection**: Used in all components
+- **Lazy Loading**: Routes lazy-loaded by feature
+- **TrackBy Functions**: Used in all `@for` loops
+- **Signal-based Reactivity**: Minimizes unnecessary re-renders
+- **Material Tree-shaking**: Only imports needed components
+
+---
+
+## 📦 Feature Status Summary
+
+| Feature Area        | Status      | Components                   | Routes | Services                                                        |
+| ------------------- | ----------- | ---------------------------- | ------ | --------------------------------------------------------------- |
+| Authentication      | ✅ Complete | 2 (Login, Register)          | 2      | 1                                                               |
+| Multi-Tenancy       | ✅ Complete | 2 (Selector, Dialog)         | 1      | 1                                                               |
+| Dashboard           | ✅ Complete | 3 (Dashboard, Cards, Recent) | 1      | 1                                                               |
+| User Profile        | ✅ Complete | 1 (Profile)                  | 1      | 1                                                               |
+| Accounts            | ✅ Complete | 3 (List, Form, Detail)       | 4      | 1                                                               |
+| Categories          | ✅ Complete | 3 (List, Form, Chip)         | 3      | 1                                                               |
+| Tags                | ✅ Complete | 2 (List, Selector)           | 1      | 1                                                               |
+| Layout & Navigation | ✅ Complete | 3 (Main, Toolbar, Sidenav)   | -      | -                                                               |
+| Core Infrastructure | ✅ Complete | -                            | -      | 6 (Storage, Toast, Theme, Account, Category, Tag, Tenant, User) |
+| Transactions        | ⏳ Planned  | 0                            | 0      | 0                                                               |
+| Shared Components   | 🚧 Partial  | 1 (app-icon)                 | -      | -                                                               |
+| Shared Utilities    | ⏳ Planned  | 0                            | -      | -                                                               |
+
+**Overall Implementation**: 10/16 roadmap phases complete (62.5%)
 
 ---
 
 ## 📚 Related Documentation
 
-- [ROADMAP.md](file:///Users/igoventura/Developer/Personal/fintrack-api/ROADMAP.md) - Feature implementation status and priorities
-- [PROJECT_STRUCTURE.md](file:///Users/igoventura/Developer/Personal/fintrack-api/PROJECT_STRUCTURE.md) - Codebase organization and architecture
-- [GUIDELINES.md](file:///Users/igoventura/Developer/Personal/fintrack-api/GUIDELINES.md) - Development standards and workflows
-- [README.md](file:///Users/igoventura/Developer/Personal/fintrack-api/README.md) - Getting started and setup instructions
+- [ROADMAP.md](./ROADMAP.md) - Feature implementation roadmap and status
+- [GUIDELINES.md](./GUIDELINES.md) - Development standards and best practices
+- [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md) - Codebase organization
+- [README.md](../README.md) - Getting started and setup instructions
 
 ---
 
-## 🎯 Feature Status Summary
-
-| Phase          | Feature                    | Status         | Completion |
-| -------------- | -------------------------- | -------------- | ---------- |
-| Phase 1        | Project Structure          | ✅ Complete    | 100%       |
-| Phase 1        | Database & Migrations      | ✅ Complete    | 100%       |
-| Phase 1        | Authentication             | ✅ Complete    | 100%       |
-| Phase 1        | Multi-Tenancy              | ✅ Complete    | 100%       |
-| Phase 1        | User Management            | ✅ Complete    | 100%       |
-| Phase 1        | Accounts                   | ✅ Complete    | 100%       |
-| Phase 2        | Categories                 | ✅ Complete    | 100%       |
-| Phase 2        | Tags                       | ✅ Complete    | 100%       |
-| Phase 3        | Transactions               | ✅ Complete    | 100%       |
-| Phase 3        | Installment Logic          | ✅ Complete    | 100%       |
-| Phase 4        | Credit Card Management     | 🚧 Schema Only | 20%        |
-| Phase 4        | Reporting                  | ⏳ Planned     | 0%         |
-| Phase 4        | Invitations                | ⏳ Planned     | 0%         |
-| Phase 4        | Attachments                | 🚧 Schema Only | 20%        |
-| Infrastructure | Docker & API Docs          | ✅ Complete    | 100%       |
-| Infrastructure | CI/CD                      | ⏳ Planned     | 0%         |
-| Infrastructure | Unit Tests                 | 🚧 Partial     | 30%        |
-| **Web App**    | **Phase 6: User Profile**  | ✅ Complete    | 100%       |
-| **Web App**    | **Phase 7: Accounts**      | ✅ Complete    | 100%       |
-| **Web App**    | **Phase 8: Categories**    | ✅ Complete    | 100%       |
-| **Web App**    | **Phase 9: Tags**          | ✅ Complete    | 100%       |
-| **Web App**    | **Phase 10: Transactions** | ⏳ Planned     | 0%         |
-
-**Overall Progress**: Core API (Phase 1-3) ✅ | Web App (Phase 6-9) ✅ | Phase 4 & 10 🚧
+**Last Updated**: 2026-02-06
