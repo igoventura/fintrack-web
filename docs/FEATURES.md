@@ -548,6 +548,16 @@ Essential services, guards, and interceptors.
   - Signal-based theme state
   - Apply theme to Material components
 
+### Internationalization (i18n)
+
+- **Library**: `@ngx-translate/core`
+- **Features**:
+  - Runtime translation loading
+  - JSON-based translation files (`assets/i18n/*.json`)
+  - `TranslateHttpLoader` for fetching translations
+  - Language persistence in LocalStorage
+  - Default language: `en-US`
+
 ---
 
 ## 🎨 Shared Components

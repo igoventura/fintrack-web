@@ -9,5 +9,14 @@
       "ACTION": "Criar Organização"
     },
     "CREATE_NEW": "Criar Nova Organização"
+  },
+  "SIDENAV": {
+    "DASHBOARD": "Visão Geral",
+    "ACCOUNTS": "Contas",
+    "TRANSACTIONS": "Transações",
+    "CATEGORIES": "Categorias",
+    "TAGS": "Tags",
+    "SELECT_TENANT": "Selecionar Organização",
+    "CREATE_TENANT": "Nova Organização"
   }
 }

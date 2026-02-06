@@ -80,6 +80,24 @@ npm run build
 
 The build artifacts will be stored in the `dist/` directory, optimized for production deployment.
 
+### Docker Support
+
+You can also run the application using Docker.
+
+**Build the image:**
+
+```bash
+docker build -t fintrack-web .
+```
+
+**Run the container:**
+
+```bash
+docker run -d -p 80:80 fintrack-web
+```
+
+The application will be accessible at `http://localhost:80`.
+
 ## Environment Configuration
 
 The application uses environment-specific configuration files:

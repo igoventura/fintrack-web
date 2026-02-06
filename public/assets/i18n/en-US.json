@@ -9,5 +9,14 @@
       "ACTION": "Create Tenant"
     },
     "CREATE_NEW": "Create New Tenant"
+  },
+  "SIDENAV": {
+    "DASHBOARD": "Dashboard",
+    "ACCOUNTS": "Accounts",
+    "TRANSACTIONS": "Transactions",
+    "CATEGORIES": "Categories",
+    "TAGS": "Tags",
+    "SELECT_TENANT": "Select Tenant",
+    "CREATE_TENANT": "Create New Tenant"
   }
 }
