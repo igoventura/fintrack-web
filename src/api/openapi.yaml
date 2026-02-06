@@ -1066,6 +1066,8 @@ components:
           type: string
         tenant_id:
           type: string
+        type:
+          type: string
         updated_at:
           type: string
         updated_by:
@@ -1099,8 +1101,15 @@ components:
           type: string
         parent_category_id:
           type: string
+        type:
+          enum:
+            - income
+            - expense
+            - transfer
+          type: string
       required:
         - name
+        - type
       type: object
     dto.CreateTagRequest:
       properties:

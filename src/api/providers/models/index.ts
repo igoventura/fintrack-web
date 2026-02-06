@@ -51,6 +51,7 @@ export interface Dto_CategoryResponse {
     name?: string;
     parent_category_id?: string;
     tenant_id?: string;
+    type?: string;
     updated_at?: string;
     updated_by?: string;
 }
@@ -69,6 +70,7 @@ export interface Dto_CreateCategoryRequest {
     icon?: string;
     name: string;
     parent_category_id?: string;
+    type: 'income' | 'expense' | 'transfer';
 }
 
 export interface Dto_CreateTagRequest {
