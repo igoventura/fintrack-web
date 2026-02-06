@@ -73,6 +73,19 @@ export class CategoryFormComponent implements OnInit {
 
     // Ensure categories are loaded for the parent selector
     this.categoryService.loadCategories();
+
+    // Listen for parent category selection changes
+    this.form.controls.parent_category_id.valueChanges.subscribe((parentId) => {
+      if (parentId) {
+        const parent = this.categoryService.categories().find((c) => c.id === parentId);
+        if (parent) {
+          this.form.patchValue({
+            color: parent.color,
+            icon: parent.icon,
+          });
+        }
+      }
+    });
   }
 
   private loadCategoryData(id: string) {
