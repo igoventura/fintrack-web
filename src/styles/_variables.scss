@@ -118,9 +118,15 @@ $border-radius-round: 50%;
 // -----------------------------------------------------------------------------
 
 $shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+$shadow-md:
+  0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg:
+  0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-xl:
+  0 20px 25px -5px rgba(0, 0, 0, 0.1),
+  0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
 // -----------------------------------------------------------------------------
 // Transitions
@@ -129,3 +135,41 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 
 $transition-fast: 150ms ease-in-out;
 $transition-base: 250ms ease-in-out;
 $transition-slow: 350ms ease-in-out;
+
+// -----------------------------------------------------------------------------
+// Account Colors
+// -----------------------------------------------------------------------------
+
+:root {
+  // Fintechs & Digital Banks (Vibrantes)
+  --color-nu-purple: rgba(130, 10, 209, 1);
+  --color-inter-orange: rgba(255, 118, 0, 1);
+  --color-neon-green: rgba(0, 231, 175, 1);
+  --color-intense-pink: rgba(236, 0, 140, 1);
+  --color-carbon-black: rgba(50, 50, 50, 1);
+  --color-fintech-yellow: rgba(255, 204, 41, 1);
+
+  // Traditional Banks (Sober)
+  --color-inst-red: rgba(204, 0, 0, 1);
+  --color-royal-blue: rgba(0, 56, 168, 1);
+  --color-bb-gold: rgba(253, 185, 19, 1);
+  --color-std-blue: rgba(13, 110, 253, 1);
+  --color-expense-red: rgba(220, 53, 69, 1);
+  --color-revenue-green: rgba(25, 135, 84, 1);
+
+  // Premium & Metals
+  --color-platinum: rgba(192, 192, 192, 1);
+  --color-gold: rgba(212, 175, 55, 1);
+  --color-bronze: rgba(184, 115, 51, 1);
+  --color-infinite-blue: rgba(44, 62, 80, 1);
+  --color-matte-black: rgba(33, 37, 41, 1);
+  --color-titanium: rgba(108, 117, 125, 1);
+
+  // Auxiliary & Pastel
+  --color-cyan: rgba(13, 202, 240, 1);
+  --color-indigo: rgba(102, 16, 242, 1);
+  --color-shock-pink: rgba(232, 62, 140, 1);
+  --color-burnt-orange: rgba(253, 126, 20, 1);
+  --color-teal: rgba(32, 201, 151, 1);
+  --color-graphite: rgba(73, 80, 87, 1);
+}

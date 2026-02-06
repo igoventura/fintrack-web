@@ -51,14 +51,50 @@ export class AccountFormComponent implements OnInit {
   readonly accountTypes = Object.values(Domain_AccountType);
   readonly currencies = ['USD', 'BRL', 'EUR', 'GBP']; // TODO: Move to a constant or configurable list
 
+  // Colors matching CSS variables
+  readonly colorPalette = [
+    // Fintechs
+    'var(--color-nu-purple)',
+    'var(--color-inter-orange)',
+    'var(--color-neon-green)',
+    'var(--color-intense-pink)',
+    'var(--color-carbon-black)',
+    'var(--color-fintech-yellow)',
+    // Traditional
+    'var(--color-inst-red)',
+    'var(--color-royal-blue)',
+    'var(--color-bb-gold)',
+    'var(--color-std-blue)',
+    'var(--color-expense-red)',
+    'var(--color-revenue-green)',
+    // Premium
+    'var(--color-platinum)',
+    'var(--color-gold)',
+    'var(--color-bronze)',
+    'var(--color-infinite-blue)',
+    'var(--color-matte-black)',
+    'var(--color-titanium)',
+    // Auxiliary
+    'var(--color-cyan)',
+    'var(--color-indigo)',
+    'var(--color-shock-pink)',
+    'var(--color-burnt-orange)',
+    'var(--color-teal)',
+    'var(--color-graphite)',
+  ];
+
   readonly form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     type: [Domain_AccountType.Bank, [Validators.required]],
     initial_balance: [0, [Validators.required]],
     currency: ['BRL', [Validators.required]], // Default to BRL
-    color: ['#2196F3', [Validators.required]], // Default Blue
+    color: ['var(--color-nu-purple)', [Validators.required]], // Default Nu Purple
     icon: ['💰', [Validators.required]],
   });
+
+  selectColor(color: string) {
+    this.form.controls.color.setValue(color);
+  }
 
   ngOnInit(): void {
     this.route.paramMap
