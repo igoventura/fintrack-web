@@ -1,0 +1,122 @@
+.transactions-container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 500;
+  }
+
+  button {
+    mat-icon {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.table-card {
+  overflow-x: auto;
+}
+
+.transactions-table {
+  width: 100%;
+
+  th {
+    font-weight: 600;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  td {
+    font-size: 0.9375rem;
+
+    &.positive {
+      color: var(--mat-sys-tertiary);
+      font-weight: 500;
+    }
+
+    &.negative {
+      color: var(--mat-sys-error);
+      font-weight: 500;
+    }
+  }
+
+  .clickable-row {
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: var(--mat-sys-surface-container-low);
+    }
+  }
+}
+
+.type-chip-credit {
+  --mdc-chip-label-text-color: var(--mat-sys-on-tertiary-container);
+  --mdc-chip-elevated-container-color: var(--mat-sys-tertiary-container);
+}
+
+.type-chip-debit,
+.type-chip-payment {
+  --mdc-chip-label-text-color: var(--mat-sys-on-error-container);
+  --mdc-chip-elevated-container-color: var(--mat-sys-error-container);
+}
+
+.type-chip-transfer {
+  --mdc-chip-label-text-color: var(--mat-sys-on-secondary-container);
+  --mdc-chip-elevated-container-color: var(--mat-sys-secondary-container);
+}
+
+.status-chip-paid {
+  --mdc-chip-label-text-color: var(--mat-sys-on-tertiary-container);
+  --mdc-chip-elevated-container-color: var(--mat-sys-tertiary-container);
+}
+
+.status-chip-unpaid {
+  --mdc-chip-label-text-color: var(--mat-sys-on-surface-variant);
+  --mdc-chip-elevated-container-color: var(--mat-sys-surface-container-highest);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+  color: var(--mat-sys-on-surface-variant);
+
+  .empty-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+
+  p {
+    margin: 0 0 1.5rem 0;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}

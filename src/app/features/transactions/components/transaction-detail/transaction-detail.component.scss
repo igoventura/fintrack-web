@@ -1,0 +1,74 @@
+.detail-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+
+  mat-card {
+    mat-card-header {
+      margin-bottom: 1.5rem;
+
+      mat-card-title {
+        font-size: 1.5rem;
+        font-weight: 500;
+      }
+    }
+
+    mat-card-content {
+      .detail-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+
+        @media (max-width: 600px) {
+          grid-template-columns: 1fr;
+        }
+
+        .detail-item {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+
+          &.full-width {
+            grid-column: 1 / -1;
+          }
+
+          .label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--mat-sys-on-surface-variant);
+          }
+
+          .value {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+
+    mat-card-actions {
+      display: flex;
+      gap: 0.5rem;
+      padding: 1rem;
+
+      .spacer {
+        flex: 1;
+      }
+    }
+  }
+}
+
+.type-chip-credit {
+  --mdc-chip-label-text-color: var(--mat-sys-on-tertiary-container);
+  --mdc-chip-elevated-container-color: var(--mat-sys-tertiary-container);
+}
+
+.type-chip-debit,
+.type-chip-payment {
+  --mdc-chip-label-text-color: var(--mat-sys-on-error-container);
+  --mdc-chip-elevated-container-color: var(--mat-sys-error-container);
+}
+
+.type-chip-transfer {
+  --mdc-chip-label-text-color: var(--mat-sys-on-secondary-container);
+  --mdc-chip-elevated-container-color: var(--mat-sys-secondary-container);
+}

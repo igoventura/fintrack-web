@@ -12,19 +12,25 @@ export const ACCOUNTS_ROUTES: Routes = [
   {
     path: 'new', // /accounts/new
     loadComponent: () =>
-      import('./components/account-form/account-form.component').then((m) => m.AccountFormComponent),
+      import('./components/account-form/account-form.component').then(
+        (m) => m.AccountFormComponent,
+      ),
     canActivate: [authGuard, tenantGuard],
   },
   {
     path: ':id', // /accounts/:id
     loadComponent: () =>
-      import('./components/account-detail/account-detail.component').then((m) => m.AccountDetailComponent),
+      import('./components/account-detail/account-detail.component').then(
+        (m) => m.AccountDetailComponent,
+      ),
     canActivate: [authGuard, tenantGuard],
   },
   {
     path: ':id/edit', // /accounts/:id/edit
     loadComponent: () =>
-      import('./components/account-form/account-form.component').then((m) => m.AccountFormComponent),
+      import('./components/account-form/account-form.component').then(
+        (m) => m.AccountFormComponent,
+      ),
     canActivate: [authGuard, tenantGuard],
   },
 ];

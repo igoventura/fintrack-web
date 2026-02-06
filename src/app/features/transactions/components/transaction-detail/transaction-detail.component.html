@@ -1,0 +1,75 @@
+<div class="detail-container">
+  @if (transaction) {
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Transaction Details</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="label">Type</span>
+            <mat-chip [class]="'type-chip-' + transaction.transaction_type">
+              {{ transaction.transaction_type | titlecase }}
+            </mat-chip>
+          </div>
+
+          <div class="detail-item">
+            <span class="label">Amount</span>
+            <span class="value">{{
+              formatCurrency(transaction.amount, transaction.currency)
+            }}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="label">Account</span>
+            <span class="value">{{ transaction.from_account_id }}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="label">Category</span>
+            <span class="value">{{ transaction.category_id }}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="label">Due Date</span>
+            <span class="value">{{ formatDate(transaction.due_date) }}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="label">Payment Date</span>
+            <span class="value">{{ formatDate(transaction.payment_date) || 'Not paid' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="label">Accrual Month</span>
+            <span class="value">{{ transaction.accrual_month }}</span>
+          </div>
+
+          @if (transaction.comments) {
+            <div class="detail-item full-width">
+              <span class="label">Comments</span>
+              <span class="value">{{ transaction.comments }}</span>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-button routerLink="/transactions">
+          <mat-icon>arrow_back</mat-icon>
+          Back
+        </button>
+        <span class="spacer"></span>
+        <button mat-raised-button [routerLink]="['/transactions', transaction.id, 'edit']">
+          <mat-icon>edit</mat-icon>
+          Edit
+        </button>
+        <button mat-raised-button color="warn" (click)="deleteTransaction()">
+          <mat-icon>delete</mat-icon>
+          Delete
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  }
+</div>
