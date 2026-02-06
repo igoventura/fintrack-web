@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AccountService } from '../../../../core/services/account.service';
 import { ToastService } from '../../../../core/services/toast.service';
-
+import { ACCOUNT_COLORS } from '../../../../core/constants';
 import {
   Domain_AccountType,
   Dto_CreateAccountRequest,
@@ -52,36 +52,7 @@ export class AccountFormComponent implements OnInit {
   readonly currencies = ['USD', 'BRL', 'EUR', 'GBP']; // TODO: Move to a constant or configurable list
 
   // Colors matching CSS variables
-  readonly colorPalette = [
-    // Fintechs
-    'var(--color-nu-purple)',
-    'var(--color-inter-orange)',
-    'var(--color-neon-green)',
-    'var(--color-intense-pink)',
-    'var(--color-carbon-black)',
-    'var(--color-fintech-yellow)',
-    // Traditional
-    'var(--color-inst-red)',
-    'var(--color-royal-blue)',
-    'var(--color-bb-gold)',
-    'var(--color-std-blue)',
-    'var(--color-expense-red)',
-    'var(--color-revenue-green)',
-    // Premium
-    'var(--color-platinum)',
-    'var(--color-gold)',
-    'var(--color-bronze)',
-    'var(--color-infinite-blue)',
-    'var(--color-matte-black)',
-    'var(--color-titanium)',
-    // Auxiliary
-    'var(--color-cyan)',
-    'var(--color-indigo)',
-    'var(--color-shock-pink)',
-    'var(--color-burnt-orange)',
-    'var(--color-teal)',
-    'var(--color-graphite)',
-  ];
+  readonly colorPalette = ACCOUNT_COLORS;
 
   readonly form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(3)]],

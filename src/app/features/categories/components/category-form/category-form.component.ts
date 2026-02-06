@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CategoryService } from '../../../../core/services/category.service';
 import { Dto_CreateCategoryRequest } from '../../../../../api/providers';
+import { CATEGORY_COLORS } from '../../../../core/constants';
 import { map, take } from 'rxjs';
 
 @Component({
@@ -58,39 +59,7 @@ export class CategoryFormComponent implements OnInit {
     { value: 'transfer', label: 'Transfer' },
   ];
 
-  readonly colorPalette = [
-    // Housing & Bills
-    'var(--color-housing-dark-blue)',
-    'var(--color-housing-light-blue)',
-    'var(--color-housing-gray)',
-    'var(--color-housing-blue-gray)',
-    // Food & Drink
-    'var(--color-food-red)',
-    'var(--color-food-orange)',
-    'var(--color-food-pumpkin)',
-    'var(--color-food-wine)',
-    // Transport & Travel
-    'var(--color-transport-purple)',
-    'var(--color-transport-blue)',
-    'var(--color-transport-green)',
-    'var(--color-transport-gray)',
-    // Health & Wellness
-    'var(--color-health-emerald)',
-    'var(--color-health-turquoise)',
-    'var(--color-health-light-green)',
-    // Leisure & Shopping
-    'var(--color-leisure-lilac)',
-    'var(--color-leisure-pink)',
-    'var(--color-leisure-coral)',
-    'var(--color-leisure-yellow)',
-    // Education & Family
-    'var(--color-edu-brown)',
-    'var(--color-edu-light-brown)',
-    'var(--color-edu-olive)',
-    // Income & Investments
-    'var(--color-income-teal)',
-    'var(--color-income-gold)',
-  ];
+  readonly colorPalette = CATEGORY_COLORS;
 
   readonly form = this.fb.group({
     name: ['', [Validators.required]],
