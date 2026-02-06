@@ -689,24 +689,121 @@ Performance best practices implemented throughout.
 
 ---
 
+## 💰 Transactions Management
+
+Core financial transaction tracking with advanced filtering (In Progress - 75% Complete).
+
+### Features Implemented
+
+#### Transaction Service
+
+- **Location**: `src/app/core/services/transaction.service.ts`
+- **Features**:
+  - Wraps generated `TransactionsService` from API client
+  - State management with signals:
+    - `transactions` - Full array of transaction records
+    - `filteredTransactions` - Computed signal applying active filters
+    - `loading` - Loading state indicator
+    - `filters` - Current filter settings
+  - Comprehensive filtering support:
+    - Accrual month (YYYYMM format)
+    - Account ID
+    - Category ID
+    - Transaction type (credit, debit, transfer, payment)
+    - Payment status (all, paid, unpaid)
+    - Tag IDs (multi-select)
+    - Date range (start and end dates)
+  - CRUD operations:
+    - `loadTransactions()` - Fetch with optional filters
+    - `createTransaction()` - Create new transaction
+    - `updateTransaction()` - Update existing transaction
+    - `deleteTransaction()` - Soft delete transaction
+    - `getTransactionById()` - Retrieve single transaction
+  - Filter management:
+    - `setFilters()` - Apply filter criteria
+    - `resetFilters()` - Clear all filters
+
+#### Transaction List Component
+
+- **Location**: `src/app/features/transactions/components/transaction-list/`
+- **Features**:
+  - Display transactions in Material table or list format
+  - Show key details: Date, Description, Category, Account, Tags, Amount
+  - Row-level actions: Edit and Delete
+  - Click row to navigate to detail view
+  - Empty state display when no transactions
+  - Loading skeleton during data fetch
+  - **Enhancement Opportunities**: Pagination, sortable columns, advanced filtering UI
+
+#### Transaction Form Component
+
+- **Location**: `src/app/features/transactions/components/transaction-form/`
+- **Features**:
+  - Comprehensive reactive form with validation
+  - Form fields:
+    - **Transaction Type**: Dropdown (credit, debit, transfer, payment)
+    - **Amount**: Required positive number
+    - **From Account**: Required dropdown selection
+    - **To Account**: Optional (for transfers/payments)
+    - **Category**: Required dropdown with hierarchy support
+    - **Tags**: Multi-select autocomplete with tag chips
+    - **Due Date**: Date picker (required)
+    - **Payment Date**: Date picker (optional, marks as paid)
+    - **Accrual Month**: YYYYMM format input
+    - **Comments**: Optional textarea
+    - **Installments**: Number field for credit card purchases
+    - **Is Recurring**: Checkbox for subscription transactions
+  - Real-time form validation
+  - Create and update modes
+  - Material Design form components
+  - **Enhancement Opportunities**: Dynamic field visibility based on type, installment preview
+
+#### Transaction Detail Component
+
+- **Location**: `src/app/features/transactions/components/transaction-detail/`
+- **Features**:
+  - Full transaction information display
+  - Edit and Delete action buttons
+  - Payment status visualization
+  - Category chips with colors
+  - Tag chips display
+  - Material card layout
+  - **Enhancement Opportunities**: Related transactions display (for installment series)
+
+### Routes
+
+- `/transactions` - List all transactions
+- `/transactions/new` - Create new transaction
+- `/transactions/:id` - View transaction details
+- `/transactions/:id/edit` - Edit existing transaction
+
+### Pending Features
+
+- **Transaction Filters Component**: Dedicated UI for applying complex filters (filter logic exists in service)
+- **Installment Management**: Advanced handling of installment series and recurring transactions
+- **Bulk Operations**: Select and act on multiple transactions
+- **Transaction Import/Export**: CSV/Excel integration
+
+---
+
 ## 📦 Feature Status Summary
 
-| Feature Area        | Status      | Components                   | Routes | Services                                                        |
-| ------------------- | ----------- | ---------------------------- | ------ | --------------------------------------------------------------- |
-| Authentication      | ✅ Complete | 2 (Login, Register)          | 2      | 1                                                               |
-| Multi-Tenancy       | ✅ Complete | 2 (Selector, Dialog)         | 1      | 1                                                               |
-| Dashboard           | ✅ Complete | 3 (Dashboard, Cards, Recent) | 1      | 1                                                               |
-| User Profile        | ✅ Complete | 1 (Profile)                  | 1      | 1                                                               |
-| Accounts            | ✅ Complete | 3 (List, Form, Detail)       | 4      | 1                                                               |
-| Categories          | ✅ Complete | 3 (List, Form, Chip)         | 3      | 1                                                               |
-| Tags                | ✅ Complete | 2 (List, Selector)           | 1      | 1                                                               |
-| Layout & Navigation | ✅ Complete | 3 (Main, Toolbar, Sidenav)   | -      | -                                                               |
-| Core Infrastructure | ✅ Complete | -                            | -      | 6 (Storage, Toast, Theme, Account, Category, Tag, Tenant, User) |
-| Transactions        | ⏳ Planned  | 0                            | 0      | 0                                                               |
-| Shared Components   | 🚧 Partial  | 1 (app-icon)                 | -      | -                                                               |
-| Shared Utilities    | ⏳ Planned  | 0                            | -      | -                                                               |
+| Feature Area        | Status      | Components                   | Routes | Services                                                                     |
+| ------------------- | ----------- | ---------------------------- | ------ | ---------------------------------------------------------------------------- |
+| Authentication      | ✅ Complete | 2 (Login, Register)          | 2      | 1                                                                            |
+| Multi-Tenancy       | ✅ Complete | 2 (Selector, Dialog)         | 1      | 1                                                                            |
+| Dashboard           | ✅ Complete | 3 (Dashboard, Cards, Recent) | 1      | 1                                                                            |
+| User Profile        | ✅ Complete | 1 (Profile)                  | 1      | 1                                                                            |
+| Accounts            | ✅ Complete | 3 (List, Form, Detail)       | 4      | 1                                                                            |
+| Categories          | ✅ Complete | 3 (List, Form, Chip)         | 3      | 1                                                                            |
+| Tags                | ✅ Complete | 2 (List, Selector)           | 1      | 1                                                                            |
+| Layout & Navigation | ✅ Complete | 3 (Main, Toolbar, Sidenav)   | -      | -                                                                            |
+| Core Infrastructure | ✅ Complete | -                            | -      | 9 (Storage, Toast, Theme, Account, Category, Tag, Tenant, User, Transaction) |
+| Transactions        | 🚧 Partial  | 3 (List, Form, Detail)       | 4      | 1                                                                            |
+| Shared Components   | 🚧 Partial  | 1 (app-icon)                 | -      | -                                                                            |
+| Shared Utilities    | ⏳ Planned  | 0                            | -      | -                                                                            |
 
-**Overall Implementation**: 10/16 roadmap phases complete (62.5%)
+**Overall Implementation**: 11/16 roadmap phases complete or in progress (68.75%)
 
 ---
 

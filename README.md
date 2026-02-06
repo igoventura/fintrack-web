@@ -15,7 +15,7 @@ FinTrack Web is a comprehensive financial management platform that enables users
 - 🏦 **Account Management** - Manage multiple financial accounts (Bank, Cash, Credit Cards, Investment)
 - 🏷️ **Categories** - Hierarchical category system with visual icons and colors
 - 🔖 **Tags** - Flexible tagging system with on-the-fly tag creation
-- 💰 **Transaction Management** - (Planned) Track income, expenses, and transfers
+- 💰 **Transaction Management** - Track income, expenses, and transfers (In Progress - 75% complete)
 - 📱 **Responsive Design** - Built with Angular Material for a modern, accessible UI
 
 ## Tech Stack

@@ -495,77 +495,114 @@ Flexible transaction labeling system.
 
 ---
 
-## Phase 10: Transactions Management (0%)
+## Phase 10: Transactions Management (75%)
 
 Core financial transaction operations.
 
 ### Transaction Service
 
-- [ ] **Transaction Service** (`src/app/features/transactions/services/transaction.service.ts`)
-  - Wrap generated `TransactionsService`
-  - State management:
+- [x] **Transaction Service** (`src/app/core/services/transaction.service.ts`)
+
+  **✅ Currently Implemented:**
+  - Wraps generated `TransactionsService`
+  - State management with signals:
     - `transactions` signal (Transaction[])
-    - `totalIncome` computed signal
-    - `totalExpenses` computed signal
-    - `balance` computed signal
-    - `filters` signal (date range, account, category, type)
-  - Methods:
-    - `loadTransactions()` - Fetch all transactions
+    - `filteredTransactions` computed signal (applies filters)
+    - `loading` signal
+    - `filters` signal (accrual month, account, category, type, payment status, tags, date range)
+  - CRUD Methods:
+    - `loadTransactions()` - Fetch all transactions with optional filters
     - `createTransaction(data)` - Create new transaction
     - `updateTransaction(id, data)` - Update transaction
     - `deleteTransaction(id)` - Soft delete transaction
-    - `applyFilters()` - Filter transactions
-    - `calculateInstallments(amount, count, accrualMonth)` - Preview installments
+    - `getTransactionById(id)` - Get single transaction
+  - Filter Methods:
+    - `setFilters()` - Apply filters
+    - `resetFilters()` - Clear all filters
+
+  **⏳ Planned Enhancements:**
+  - Additional computed signals:
+    - `totalIncome` - Sum of all income transactions
+    - `totalExpenses` - Sum of all expense transactions
+    - `balance` - Net balance (income - expenses)
+  - Advanced methods:
+    - `calculateInstallments(amount, count, accrualMonth)` - Preview installment breakdown
+    - Bulk operations support
+    - Transaction import/export helpers
 
 ### Transaction List Component
 
-- [ ] **Transaction List** (`src/app/features/transactions/components/transaction-list/`)
+- [x] **Transaction List** (`src/app/features/transactions/components/transaction-list/`)
+
+  **✅ Currently Implemented:**
   - Display transactions in Material table or list
-  - Columns: Date, Description, Category, Account, Tags, Amount, Status
+  - Show transaction details: Date, Description, Category, Account, Tags, Amount
   - Row actions: Edit, Delete
-  - Pagination
-  - Sortable columns
   - Click row to view details
   - Empty state
   - Loading skeleton
 
+  **⏳ Planned Enhancements:**
+  - Pagination for large transaction sets
+  - Sortable columns (by date, amount, category, etc.)
+  - Column visibility toggles
+  - Bulk selection and actions
+  - Export to CSV/Excel
+
 ### Transaction Form Component
 
-- [ ] **Transaction Form** (`src/app/features/transactions/components/transaction-form/`)
-  - Reactive form with fields:
-    - **Type** (radio: credit, debit, transfer, payment)
-    - **Amount** (required, positive number, money)
+- [x] **Transaction Form** (`src/app/features/transactions/components/transaction-form/`)
+
+  **✅ Currently Implemented:**
+  - Reactive form with comprehensive fields:
+    - **Type** (dropdown: credit, debit, transfer, payment)
+    - **Amount** (required, positive number)
     - **From Account** (required, dropdown)
     - **To Account** (optional for transfer/payment, dropdown)
     - **Category** (required, dropdown with hierarchy)
     - **Tags** (multi-select with autocomplete)
-    - **Currency** (auto-filled from account, no need to display)
     - **Due Date** (date picker, required)
-    - **Payment Date** (can be a checkbox to mark as paid and assume today's date)
-    - **Accrual Month** (YYYYMM, defaults to due date month, editable only for credit card purchases)
+    - **Payment Date** (date picker, optional)
+    - **Accrual Month** (YYYYMM format)
     - **Comments** (textarea, optional)
     - **Installments** (number field, for credit card purchases)
     - **Is Recurring** (checkbox, for subscriptions)
-  - Dynamic field visibility based on type
-  - Installment preview (if installments > 1)
-  - Total calculation display
-  - Validation
+  - Form validation
   - Submit to create or update
   - Material form fields and date pickers
 
+  **⏳ Planned Enhancements:**
+  - Dynamic field visibility based on transaction type
+  - Installment preview panel (show breakdown when installments > 1)
+  - Total calculation display with currency conversion
+  - Recurring transaction schedule preview
+  - Auto-fill from recent similar transactions
+  - Attachment upload (receipts, invoices)
+
 ### Transaction Detail Component
 
-- [ ] **Transaction Detail** (`src/app/features/transactions/components/transaction-detail/`)
+- [x] **Transaction Detail** (`src/app/features/transactions/components/transaction-detail/`)
+
+  **✅ Currently Implemented:**
   - Full transaction information display
-  - Related transactions (if part of installment series)
   - Edit/Delete buttons
-  - Payment status badge
+  - Payment status display
   - Category and tag chips
   - Material card layout
+
+  **⏳ Planned Enhancements:**
+  - Related transactions display (for installment series)
+  - Transaction history/audit trail
+  - Attached receipts/documents viewer
+  - Quick actions (mark as paid, duplicate, split)
+  - Share transaction details
 
 ### Transaction Filters Component
 
 - [ ] **Transaction Filters** (`src/app/features/transactions/components/transaction-filters/`)
+
+  **⏳ Planned Implementation:**
+  - **Note**: Filtering logic already exists in TransactionService, this component will provide the UI
   - Filter panel with:
     - Date range picker
     - Account selector
@@ -574,12 +611,13 @@ Core financial transaction operations.
     - Payment status (paid, unpaid, all)
     - Tag multi-select
   - Apply/Reset buttons
+  - Save filter presets
   - Collapsible panel
   - Material expansion panel
 
 ### Transactions Routes
 
-- [ ] **Transactions Routing** (`src/app/features/transactions/transactions.routes.ts`)
+- [x] **Transactions Routing** (`src/app/features/transactions/transactions.routes.ts`)
   - `/transactions` - List all transactions (auth + tenant guards)
   - `/transactions/new` - Create transaction form
   - `/transactions/:id` - Transaction detail view
@@ -587,9 +625,19 @@ Core financial transaction operations.
 
 ---
 
-## Phase 11: Shared Components (0%)
+## Phase 11: Shared Components (20%)
 
 Reusable UI components used across features.
+
+### App Icon Component
+
+- [x] **App Icon Component** (`src/app/shared/components/app-icon/`)
+  - Displays SVG icons or emoji for accounts and categories
+  - Inputs: name (icon identifier), color, size, description
+  - Renders icons from constants (ACCOUNT_ICONS, CATEGORY_ICONS)
+  - Supports custom sizing and coloring
+  - Material tooltip integration
+  - Used in account and category displays
 
 ### Page Header Component
 
