@@ -44,7 +44,11 @@ export class AccountService {
     this._loading.set(true);
     return this.apiService.accountsPost(dto).pipe(
       tap((newAccount) => {
-        this._accounts.update((accounts) => [...accounts, newAccount]);
+        this._accounts.update((accounts) => {
+          // Ensure accounts is always an array
+          const currentAccounts = Array.isArray(accounts) ? accounts : [];
+          return [...currentAccounts, newAccount];
+        });
         this.toastService.success('Account created successfully');
       }),
       finalize(() => this._loading.set(false)),
@@ -55,9 +59,11 @@ export class AccountService {
     this._loading.set(true);
     return this.apiService.accountsIdPut(id, dto).pipe(
       tap((updatedAccount) => {
-        this._accounts.update((accounts) =>
-          accounts.map((acc) => (acc.id === id ? updatedAccount : acc)),
-        );
+        this._accounts.update((accounts) => {
+          // Ensure accounts is always an array
+          const currentAccounts = Array.isArray(accounts) ? accounts : [];
+          return currentAccounts.map((acc) => (acc.id === id ? updatedAccount : acc));
+        });
         this.toastService.success('Account updated successfully');
       }),
       finalize(() => this._loading.set(false)),
@@ -68,7 +74,11 @@ export class AccountService {
     this._loading.set(true);
     return this.apiService.accountsIdDelete(id).pipe(
       tap(() => {
-        this._accounts.update((accounts) => accounts.filter((acc) => acc.id !== id));
+        this._accounts.update((accounts) => {
+          // Ensure accounts is always an array
+          const currentAccounts = Array.isArray(accounts) ? accounts : [];
+          return currentAccounts.filter((acc) => acc.id !== id);
+        });
         this.toastService.success('Account deleted successfully');
       }),
       finalize(() => this._loading.set(false)),
