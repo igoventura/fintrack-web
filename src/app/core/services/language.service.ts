@@ -26,7 +26,7 @@ export class LanguageService {
 
   private initLanguage() {
     this.translate.addLangs(this.supportedLanguages.map((l) => l.code));
-    this.translate.setDefaultLang('en-US');
+    this.translate.setFallbackLang('en-US');
 
     // Try to get from storage
     const storedLang = this.storage.get<Language>(this.LANGUAGE_KEY);
