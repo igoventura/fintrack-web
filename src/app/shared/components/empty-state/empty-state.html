@@ -1,0 +1,11 @@
+<div class="empty-state">
+  <mat-icon class="empty-icon">{{ icon() }}</mat-icon>
+  <h3>{{ title() }}</h3>
+  <p>{{ message() }}</p>
+
+  @if (actionLabel() && actionLink()) {
+    <button mat-stroked-button color="primary" [routerLink]="actionLink()">
+      {{ actionLabel() }}
+    </button>
+  }
+</div>

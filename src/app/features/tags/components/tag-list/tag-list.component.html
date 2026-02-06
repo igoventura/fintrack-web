@@ -60,7 +60,11 @@
       </mat-chip-set>
 
       @if (tags().length === 0 && !loading()) {
-        <p class="empty-state">No tags found. Create one above!</p>
+        <app-empty-state
+          title="No tags found"
+          message="Create your first tag above to start organizing your transactions."
+          icon="label"
+        ></app-empty-state>
       }
     </mat-card-content>
   </mat-card>

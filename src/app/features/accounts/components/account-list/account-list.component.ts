@@ -10,6 +10,7 @@ import { AccountService } from '../../../../core/services/account.service';
 import { Dto_AccountResponse } from '../../../../../api/providers';
 
 import { AppIconComponent } from '../../../../shared/components/app-icon/app-icon.component';
+import { EmptyStateComponent } from '../../../../shared/components/empty-state/empty-state';
 
 @Component({
   selector: 'app-account-list',
@@ -23,6 +24,7 @@ import { AppIconComponent } from '../../../../shared/components/app-icon/app-ico
     MatMenuModule,
     MatProgressSpinnerModule,
     AppIconComponent,
+    EmptyStateComponent,
   ],
   templateUrl: './account-list.component.html',
   styleUrl: './account-list.component.scss',

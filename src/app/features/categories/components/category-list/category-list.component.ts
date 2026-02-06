@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CategoryNode, CategoryService } from '../../../../core/services/category.service';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { EmptyStateComponent } from '../../../../shared/components/empty-state/empty-state';
 
 interface FlatNode {
   expandable: boolean;
@@ -33,6 +34,7 @@ interface FlatNode {
     MatMenuModule,
     MatProgressSpinnerModule,
     AppIconComponent,
+    EmptyStateComponent,
   ],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.scss',

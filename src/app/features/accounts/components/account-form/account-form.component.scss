@@ -1,13 +1,15 @@
 @use '../../../../../styles/variables' as *;
 
 .form-container {
-  display: flex;
-  justify-content: center;
-  padding: $spacing-md;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
 
   mat-card {
-    width: 100%;
-    max-width: 600px;
+    // Remove specific max-width and padding overrides to let it fill container or inherit standard card styles
+    // If mat-card needs specific padding internal to it, we can keep it, but typically standard card is fine.
+    // Transaction form doesn't set padding on mat-card content explicitly in SCSS (uses default or global).
+    // Let's keep existing padding for safety but remove width constraints.
     padding: $spacing-md;
   }
 }

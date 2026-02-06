@@ -51,14 +51,13 @@
           </mat-card-content>
         </mat-card>
       } @empty {
-        <div class="empty-state">
-          <mat-icon class="empty-icon">account_balance</mat-icon>
-          <h3>No accounts found</h3>
-          <p>Create your first account to start tracking your finances.</p>
-          <button mat-stroked-button color="primary" routerLink="/accounts/new">
-            Create Account
-          </button>
-        </div>
+        <app-empty-state
+          title="No accounts found"
+          message="Create your first account to start tracking your finances."
+          icon="account_balance"
+          actionLabel="Create Account"
+          actionLink="/accounts/new"
+        ></app-empty-state>
       }
     </div>
   }

@@ -8,11 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TagService } from '../../../../core/services/tag.service';
-import {
-  Dto_TagResponse,
-  Dto_CreateTagRequest,
-  Dto_UpdateTagRequest,
-} from '../../../../../api/providers';
+import { Dto_TagResponse } from '../../../../../api/providers';
+import { EmptyStateComponent } from '../../../../shared/components/empty-state/empty-state';
 
 @Component({
   selector: 'app-tag-list',
@@ -26,6 +23,7 @@ import {
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
+    EmptyStateComponent,
   ],
   templateUrl: './tag-list.component.html',
   styleUrl: './tag-list.component.scss',
