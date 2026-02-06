@@ -2,7 +2,7 @@
  * Application Constants
  */
 
-type Icon = {
+export type Icon = {
   name: string;
   defaultColor: string;
   icon: string;

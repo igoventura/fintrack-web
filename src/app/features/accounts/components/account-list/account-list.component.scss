@@ -31,11 +31,13 @@
 
 .account-card {
   border-top: 4px solid transparent; // overridden by binding
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
   mat-card-header {
@@ -57,7 +59,7 @@
   .balance {
     font-size: 24px;
     font-weight: 500;
-    
+
     .currency {
       font-size: 16px;
       color: #666;

@@ -9,7 +9,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TransactionService } from '../../../../core/services/transaction.service';
-import { Dto_TransactionResponse } from '../../../../../api/providers';
+import {
+  Dto_AccountResponse,
+  Dto_CategoryResponse,
+  Dto_TransactionResponse,
+} from '../../../../../api/providers';
+import { AccountService } from '../../../../core/services/account.service';
+import { AppIconComponent } from '../../../../shared/components/app-icon/app-icon.component';
+import { CategoryService } from '../../../../core/services/category.service';
 
 @Component({
   selector: 'app-transaction-list',
@@ -23,6 +30,7 @@ import { Dto_TransactionResponse } from '../../../../../api/providers';
     MatProgressSpinnerModule,
     MatChipsModule,
     MatTooltipModule,
+    AppIconComponent,
   ],
   templateUrl: './transaction-list.component.html',
   styleUrl: './transaction-list.component.scss',
@@ -30,7 +38,11 @@ import { Dto_TransactionResponse } from '../../../../../api/providers';
 })
 export class TransactionListComponent implements OnInit {
   private readonly transactionService = inject(TransactionService);
+  private readonly accountService = inject(AccountService);
+  private readonly categoryService = inject(CategoryService);
 
+  readonly accounts = this.accountService.accounts;
+  readonly categories = this.categoryService.categories;
   readonly transactions = this.transactionService.filteredTransactions;
   readonly loading = this.transactionService.loading;
 
@@ -46,6 +58,8 @@ export class TransactionListComponent implements OnInit {
 
   ngOnInit(): void {
     this.transactionService.loadTransactions();
+    this.categoryService.loadCategories();
+    this.accountService.loadAccounts();
   }
 
   deleteTransaction(transaction: Dto_TransactionResponse, event: Event) {
@@ -72,5 +86,13 @@ export class TransactionListComponent implements OnInit {
   formatDate(dateString: string | undefined): string {
     if (!dateString) return '-';
     return new Date(dateString).toLocaleDateString('pt-BR');
+  }
+
+  getAccount(accountId: string): Dto_AccountResponse {
+    return this.accounts().find((a) => a.id === accountId)!;
+  }
+
+  getCategory(categoryId: string): Dto_CategoryResponse {
+    return this.categories().find((c) => c.id === categoryId)!;
   }
 }

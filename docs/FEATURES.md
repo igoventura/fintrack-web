@@ -728,7 +728,10 @@ Core financial transaction tracking with advanced filtering (In Progress - 75% C
 - **Location**: `src/app/features/transactions/components/transaction-list/`
 - **Features**:
   - Display transactions in Material table or list format
-  - Show key details: Date, Description, Category, Account, Tags, Amount
+  - Show key details: Date, Description, Amount
+  - **Visual Enhancement**: Display account and category with icons and names (not raw IDs)
+  - Integration with AccountService and CategoryService for data enrichment
+  - Helper methods: `getAccount()`, `getCategory()` for data lookup
   - Row-level actions: Edit and Delete
   - Click row to navigate to detail view
   - Empty state display when no transactions

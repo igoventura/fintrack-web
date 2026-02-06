@@ -436,6 +436,66 @@ function calculateTotal(transactions: Transaction[]): number {
 }
 ```
 
+### Multi-Service Integration
+
+When a component needs data from multiple services, inject all required services and create helper methods for data lookup:
+
+```typescript
+export class TransactionListComponent {
+  // Inject multiple services
+  private readonly transactionService = inject(TransactionService);
+  private readonly accountService = inject(AccountService);
+  private readonly categoryService = inject(CategoryService);
+
+  // Reference signals from each service
+  readonly transactions = this.transactionService.filteredTransactions;
+  readonly accounts = this.accountService.accounts;
+  readonly categories = this.categoryService.categories;
+  readonly loading = this.transactionService.loading;
+
+  ngOnInit() {
+    // Load data from all services
+    this.transactionService.loadTransactions();
+    this.accountService.loadAccounts();
+    this.categoryService.loadCategories();
+  }
+
+  // ✅ Helper methods for data lookup
+  getAccount(accountId: string): Dto_AccountResponse {
+    return this.accounts().find((a) => a.id === accountId)!;
+  }
+
+  getCategory(categoryId: string): Dto_CategoryResponse {
+    return this.categories().find((c) => c.id === categoryId)!;
+  }
+}
+```
+
+**Template usage:**
+
+```html
+@for (transaction of transactions(); track transaction.id) { @let account =
+getAccount(transaction.from_account_id); @let category = getCategory(transaction.category_id);
+
+<div class="transaction-row">
+  <app-icon [name]="account.icon" [color]="account.color" />
+  <span>{{ account.name }}</span>
+
+  <app-icon [name]="category.icon" [color]="category.color" />
+  <span>{{ category.name }}</span>
+</div>
+}
+```
+
+**Key Points:**
+
+- Load all required data in `ngOnInit()`
+- Create helper methods for clean template access
+- Use `@let` in templates for cleaner variable assignment
+- Signals automatically update the view when data changes
+
+````
+
 ---
 
 ## Templates & Control Flow
@@ -475,7 +535,7 @@ function calculateTotal(transactions: Transaction[]): number {
 } @default {
 <span class="badge">Unknown</span>
 } }
-```
+````
 
 ❌ **DON'T:**
 

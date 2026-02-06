@@ -536,11 +536,13 @@ Core financial transaction operations.
 
   **✅ Currently Implemented:**
   - Display transactions in Material table or list
-  - Show transaction details: Date, Description, Category, Account, Tags, Amount
+  - Show transaction details: Date, Description, Amount
+  - **Visual display**: Account and Category shown with icons and names (not just IDs)
   - Row actions: Edit, Delete
   - Click row to view details
   - Empty state
   - Loading skeleton
+  - Integration with AccountService and CategoryService for data lookup
 
   **⏳ Planned Enhancements:**
   - Pagination for large transaction sets
