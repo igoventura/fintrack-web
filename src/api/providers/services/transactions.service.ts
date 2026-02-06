@@ -12,7 +12,7 @@ import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { BASE_PATH_FINTRACK, CLIENT_CONTEXT_TOKEN_FINTRACK } from "../tokens";
 import { HttpParamsBuilder } from "../utils/http-params-builder";
-import { RequestOptions, Dto_TransactionResponse } from "../models";
+import { RequestOptions, Dto_TransactionResponse, Dto_CreateTransactionRequest, Dto_UpdateTransactionRequest } from "../models";
 
 @Injectable({ providedIn: "root" })
 export class TransactionsService {
@@ -54,11 +54,11 @@ export class TransactionsService {
         return this.httpClient.get(url, requestOptions);
     }
 
-    transactionsPost(observe?: 'body', options?: RequestOptions<'json'>): Observable<Dto_TransactionResponse>;
-    transactionsPost(observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<Dto_TransactionResponse>>;
-    transactionsPost(observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<Dto_TransactionResponse>>;
+    transactionsPost(dtoCreateTransactionRequest: Dto_CreateTransactionRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<Dto_TransactionResponse>;
+    transactionsPost(dtoCreateTransactionRequest: Dto_CreateTransactionRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<Dto_TransactionResponse>>;
+    transactionsPost(dtoCreateTransactionRequest: Dto_CreateTransactionRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<Dto_TransactionResponse>>;
     /** Creates a new transaction for the authenticated user's tenant. */
-    transactionsPost(observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    transactionsPost(dtoCreateTransactionRequest: Dto_CreateTransactionRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
         const url = `${this.basePath}/transactions`;
 
         const requestOptions: any = {
@@ -68,7 +68,7 @@ export class TransactionsService {
             context: this.createContextWithClientId(options?.context)
         };
 
-        return this.httpClient.post(url, null, requestOptions);
+        return this.httpClient.post(url, dtoCreateTransactionRequest, requestOptions);
     }
 
     transactionsIdGet(id: string, observe?: 'body', options?: RequestOptions<'json'>): Observable<Dto_TransactionResponse>;
@@ -88,11 +88,11 @@ export class TransactionsService {
         return this.httpClient.get(url, requestOptions);
     }
 
-    transactionsIdPut(id: string, observe?: 'body', options?: RequestOptions<'json'>): Observable<Dto_TransactionResponse>;
-    transactionsIdPut(id: string, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<Dto_TransactionResponse>>;
-    transactionsIdPut(id: string, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<Dto_TransactionResponse>>;
+    transactionsIdPut(id: string, dtoUpdateTransactionRequest: Dto_UpdateTransactionRequest, observe?: 'body', options?: RequestOptions<'json'>): Observable<Dto_TransactionResponse>;
+    transactionsIdPut(id: string, dtoUpdateTransactionRequest: Dto_UpdateTransactionRequest, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<Dto_TransactionResponse>>;
+    transactionsIdPut(id: string, dtoUpdateTransactionRequest: Dto_UpdateTransactionRequest, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<Dto_TransactionResponse>>;
     /** Updates a transaction by ID. */
-    transactionsIdPut(id: string, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+    transactionsIdPut(id: string, dtoUpdateTransactionRequest: Dto_UpdateTransactionRequest, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
         const url = `${this.basePath}/transactions/${id}`;
 
         const requestOptions: any = {
@@ -102,7 +102,7 @@ export class TransactionsService {
             context: this.createContextWithClientId(options?.context)
         };
 
-        return this.httpClient.put(url, null, requestOptions);
+        return this.httpClient.put(url, dtoUpdateTransactionRequest, requestOptions);
     }
 
     transactionsIdDelete(id: string, observe?: 'body', options?: RequestOptions<'json'>): Observable<any>;

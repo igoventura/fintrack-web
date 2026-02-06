@@ -165,6 +165,20 @@ export interface Dto_UpdateTagRequest {
     name: string;
 }
 
+export interface Dto_UpdateTransactionRequest {
+    /** YYYYMM */
+    accrual_month: string;
+    amount: number;
+    category_id: string;
+    comments?: string;
+    due_date: string;
+    from_account_id: string;
+    payment_date?: string;
+    tag_ids?: Array<string>;
+    to_account_id?: string;
+    transaction_type: 'credit' | 'debit' | 'transfer' | 'payment';
+}
+
 export interface Dto_UpdateUserRequest {
     email: string;
     name: string;
