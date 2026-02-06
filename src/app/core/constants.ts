@@ -37,52 +37,47 @@ export const ACCOUNT_ICONS = [
   {
     name: 'wallet',
     defaultColor: 'var(--color-bronze)',
-    icon: "<svg width='100%' height='100%' style='width: 100%; height: 100%;' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 12V7H5a2 2 0 0 1 0-4h14v4' /><path d='M3 5v14a2 2 0 0 0 2 2h16v-5' /><path d='M18 12a2 2 0 0 0 0 4h4v-4Z' /></svg>",
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-wallet"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12" /><path d="M20 12v4h-4a2 2 0 0 1 0 -4h4" /></svg>',
   },
   {
     name: 'bank_traditional',
     defaultColor: 'var(--color-inst-red)',
-    icon: "<svg width='100%' height='100%' style='width: 100%; height: 100%;' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 21h18' /><path d='M5 21v-7' /><path d='M19 21v-7' /><path d='M10 9L3 21' opacity='0' /><path d='M2 10l10-7 10 7' /><path d='M12 21v-9' /></svg>",
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-building-bank"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0" /><path d="M3 10l18 0" /><path d="M5 6l7 -3l7 3" /><path d="M4 10l0 11" /><path d="M20 10l0 11" /><path d="M8 14l0 3" /><path d="M12 14l0 3" /><path d="M16 14l0 3" /></svg>',
   },
   {
     name: 'bank_digital',
     defaultColor: 'var(--color-nu-purple)',
-    icon: "<svg width='100%' height='100%' style='width: 100%; height: 100%;' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='5' y='2' width='14' height='20' rx='2' ry='2' /><path d='M12 18h.01' /></svg>",
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-device-mobile"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 5a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-14" /><path d="M11 4h2" /><path d="M12 17v.01" /></svg>',
   },
   {
     name: 'credit_card',
     defaultColor: 'var(--color-infinite-blue)',
-    icon: "<svg width='100%' height='100%' style='width: 100%; height: 100%;' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='5' width='20' height='14' rx='2' /><line x1='2' y1='10' x2='22' y2='10' /></svg>",
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-credit-card"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3l0 -8" /><path d="M3 10l18 0" /><path d="M7 15l.01 0" /><path d="M11 15l2 0" /></svg>',
   },
   {
     name: 'bitcoin',
     defaultColor: 'var(--color-inter-orange)',
-    icon: "<svg width='100%' height='100%' style='width: 100%; height: 100%;' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.279 5.307m-5.355-.946 2.083 11.822a.99.99 0 0 0 1.144.793l1.97-.348' /></svg>",
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-currency-bitcoin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 6h8a3 3 0 0 1 0 6a3 3 0 0 1 0 6h-8" /><path d="M8 6l0 12" /><path d="M8 12l6 0" /><path d="M9 3l0 3" /><path d="M13 3l0 3" /><path d="M9 18l0 3" /><path d="M13 18l0 3" /></svg>',
   },
   {
     name: 'savings',
     defaultColor: 'var(--color-revenue-green)',
-    icon: "<svg width='100%' height='100%' style='width: 100%; height: 100%;' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11 3.3-11 3.3 1 3.8 2 6.5 6 6.5h3.8c3.8 0 5-5 5-7 0-1.2-1.2-3.8-3.8-4.8z' /><path d='M16 5c1 0 2 .5 2.5 1.5' /><path d='M19 14v1' /><path d='M14 9a1 1 0 0 1 0 2 1 1 0 0 1 0-2z' /></svg>",
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-pig-money"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 11v.01" /><path d="M5.173 8.378a3 3 0 1 1 4.656 -1.377" /><path d="M16 4v3.803a6.019 6.019 0 0 1 2.658 3.197h1.341a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-1.342c-.336 .95 -.907 1.8 -1.658 2.473v2.027a1.5 1.5 0 0 1 -3 0v-.583a6.04 6.04 0 0 1 -1 .083h-4a6.04 6.04 0 0 1 -1 -.083v.583a1.5 1.5 0 0 1 -3 0v-2l0 -.027a6 6 0 0 1 4 -10.473h2.5l4.5 -3" /></svg>',
   },
   {
     name: 'investment',
     defaultColor: 'var(--color-gold)',
-    icon: "<svg width='100%' height='100%' style='width: 100%; height: 100%;' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='12' y1='20' x2='12' y2='10' /><line x1='18' y1='20' x2='18' y2='4' /><line x1='6' y1='20' x2='6' y2='16' /></svg>",
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-ease-in-out"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 20c8 0 10 -16 18 -16" /></svg>',
   },
   {
     name: 'pix',
     defaultColor: 'var(--color-teal)',
-    icon: "<svg width='100%' height='100%' style='width: 100%; height: 100%;' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 2L2 12l10 10 10-10L12 2z' /><path d='M12 8v8' /><path d='M8 12h8' /></svg>",
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" style="fill: currentColor !important;" viewBox="0 0 512 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M242.4 292.5c5.4-5.4 14.7-5.4 20.1 0l77 77c14.2 14.2 33.1 22 53.1 22l15.1 0-97.1 97.1c-30.3 29.5-79.5 29.5-109.8 0l-97.5-97.4 9.3 0c20 0 38.9-7.8 53.1-22l76.7-76.7zm20.1-73.6c-6.4 5.5-14.6 5.6-20.1 0l-76.7-76.7c-14.2-15.1-33.1-22-53.1-22l-9.3 0 97.4-97.4c30.4-30.3 79.6-30.3 109.9 0l97.2 97.1-15.2 0c-20 0-38.9 7.8-53.1 22l-77 77zM112.6 142.7c13.8 0 26.5 5.6 37.1 15.4l76.7 76.7c7.2 6.3 16.6 10.8 26.1 10.8 9.4 0 18.8-4.5 26-10.8l77-77c9.8-9.7 23.3-15.3 37.1-15.3l37.7 0 58.3 58.3c30.3 30.3 30.3 79.5 0 109.8l-58.3 58.3-37.7 0c-13.8 0-27.3-5.6-37.1-15.4l-77-77c-13.9-13.9-38.2-13.9-52.1 .1l-76.7 76.6c-10.6 9.8-23.3 15.4-37.1 15.4l-31.8 0-58-58c-30.3-30.3-30.3-79.5 0-109.8l58-58.1 31.8 0z"/></svg>',
   },
   {
     name: 'money_cash',
     defaultColor: 'var(--color-revenue-green)',
-    icon: "<svg width='100%' height='100%' style='width: 100%; height: 100%;' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='6' width='20' height='12' rx='2' /><circle cx='12' cy='12' r='2' /><path d='M6 12h.01M18 12h.01' /></svg>",
-  },
-  {
-    name: 'crypto_alt',
-    defaultColor: 'var(--color-indigo)',
-    icon: "<svg width='100%' height='100%' style='width: 100%; height: 100%;' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M6 12l6-9 6 9-6 9-6-9z' /></svg>",
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-cash-banknote"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /><path d="M3 8a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -8" /><path d="M18 12h.01" /><path d="M6 12h.01" /></svg>',
   },
   {
     name: 'brand_mastercard',
@@ -92,22 +87,7 @@ export const ACCOUNT_ICONS = [
   {
     name: 'brand_visa',
     defaultColor: 'var(--color-royal-blue)',
-    icon: "<svg width='100%' height='100%' style='width: 100%; height: 100%;' viewBox='0 0 24 24' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M10.7 3.8L7.3 19.8H3.9L7.3 3.8H10.7ZM20.8 4L22.2 11.2C22.2 11.2 23 4.2 23 3.9C22.6 3.8 21.6 3.7 20.8 4ZM15.6 3.8L12.5 19.8H9.1L12.2 3.8H15.6ZM19.5 19.8L21.8 8L21.4 6C20.8 8.1 19.3 15.2 19.3 15.2L17.7 19.8H19.5ZM7.7 13C7.7 10.2 4.4 9.9 4.4 7.6C4.4 6.7 5.3 6.1 6.5 6C7 6 8.5 6.1 9 7L9.6 4.3C8.8 3.9 7.7 3.7 6.5 3.7C3.5 3.7 1.5 5.3 1.5 7.8C1.5 10.8 5 11 5 13.2C5 14.1 4.1 14.7 3.2 14.7C2.4 14.7 1 14.4 0.5 13.9L0 16.6C1 17 2.6 17.5 3.5 17.5C6.7 17.5 8.7 15.9 7.7 13Z'/></svg>",
-  },
-  {
-    name: 'brand_amex',
-    defaultColor: 'var(--color-cyan)',
-    icon: "<svg width='100%' height='100%' style='width: 100%; height: 100%;' viewBox='0 0 24 24' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM10 14H8.5L8 13H6L5.5 14H4L6.5 9H7.5L10 14ZM14 14H12.5L12 11.5H11V14H10V9H13C13.5 9 14 9.5 14 10V14ZM19 14H15V9H19V10.5H16.5V11H18.5V12.5H16.5V14Z'/></svg>",
-  },
-  {
-    name: 'brand_elo',
-    defaultColor: 'var(--color-matte-black)',
-    icon: "<svg width='100%' height='100%' style='width: 100%; height: 100%;' viewBox='0 0 24 24' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM8.5 15.5C7.1 15.5 6 14.4 6 13C6 11.6 7.1 10.5 8.5 10.5H15.5V12.5H8.5C8.2 12.5 8 12.7 8 13C8 13.3 8.2 13.5 8.5 13.5H16V15.5H8.5ZM16.5 11.5H13.5V9.5H16.5C16.8 9.5 17 9.3 17 9C17 8.7 16.8 8.5 16.5 8.5H7.5V6.5H16.5C17.9 6.5 19 7.6 19 9C19 10.4 17.9 11.5 16.5 11.5Z'/></svg>",
-  },
-  {
-    name: 'brand_hipercard',
-    defaultColor: 'var(--color-expense-red)',
-    icon: "<svg width='100%' height='100%' style='width: 100%; height: 100%;' viewBox='0 0 24 24' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path d='M3 6H21V18H3V6Z' opacity='0.5'/><path d='M16 8H19V16H16V13H14V16H11V8H14V11H16V8Z'/></svg>",
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-visa"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M21 15l-1 -6l-2.5 6" /><path d="M9 15l1 -6" /><path d="M3 9h1v6h.5l2.5 -6" /><path d="M16 9.5a.5 .5 0 0 0 -.5 -.5h-.75c-.721 0 -1.337 .521 -1.455 1.233l-.09 .534a1.059 1.059 0 0 0 1.045 1.233a1.059 1.059 0 0 1 1.045 1.233l-.09 .534a1.476 1.476 0 0 1 -1.455 1.233h-.75a.5 .5 0 0 1 -.5 -.5" /><path d="M18 14h2.7" /></svg>',
   },
 ];
 

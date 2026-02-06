@@ -2,12 +2,13 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ACCOUNT_ICONS, CATEGORY_ICONS } from '../../../core/constants';
 
 @Component({
   selector: 'app-icon',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, MatTooltipModule],
   template: `
     <div
       class="icon-container"
@@ -16,7 +17,7 @@ import { ACCOUNT_ICONS, CATEGORY_ICONS } from '../../../core/constants';
       [style.background-color]="color() || 'transparent'"
     >
       @if (svgIcon()) {
-        <div class="app-icon-svg" [innerHTML]="svgIcon()"></div>
+        <div class="app-icon-svg" [innerHTML]="svgIcon()" matTooltip="{{ name() }}"></div>
       } @else {
         <mat-icon>{{ name() }}</mat-icon>
       }
@@ -48,7 +49,8 @@ import { ACCOUNT_ICONS, CATEGORY_ICONS } from '../../../core/constants';
       .app-icon-svg ::ng-deep svg {
         width: 100%;
         height: 100%;
-        fill: currentColor;
+        fill: none;
+        stroke: currentColor;
       }
       /* Ensure stroke icons also turn white if needed, 
          though many are 'currentColor' which we set via color: white */
