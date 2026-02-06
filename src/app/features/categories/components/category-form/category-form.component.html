@@ -7,6 +7,15 @@
     <mat-card-content>
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="form-grid">
+          <div class="type-selection">
+            <span id="type-radio-group-label" class="form-label">Category Type</span>
+            <mat-radio-group aria-labelledby="type-radio-group-label" formControlName="type">
+              @for (option of typeOptions; track option.value) {
+                <mat-radio-button [value]="option.value">{{ option.label }}</mat-radio-button>
+              }
+            </mat-radio-group>
+          </div>
+
           <mat-form-field appearance="outline">
             <mat-label>Name</mat-label>
             <input matInput formControlName="name" placeholder="Category Name" />

@@ -24,7 +24,12 @@
               @if (node.data.icon) {
                 <mat-icon [style.color]="node.data.color">{{ node.data.icon }}</mat-icon>
               }
-              <span class="category-name">{{ node.name }}</span>
+              <div class="name-type-group">
+                <span class="category-name">{{ node.name }}</span>
+                <span class="category-type" [class]="node.data.type">{{
+                  node.data.type | titlecase
+                }}</span>
+              </div>
             </div>
 
             <div class="actions">
@@ -51,7 +56,12 @@
               @if (node.data.icon) {
                 <mat-icon [style.color]="node.data.color">{{ node.data.icon }}</mat-icon>
               }
-              <span class="category-name font-bold">{{ node.name }}</span>
+              <div class="name-type-group">
+                <span class="category-name font-bold">{{ node.name }}</span>
+                <span class="category-type" [class]="node.data.type">{{
+                  node.data.type | titlecase
+                }}</span>
+              </div>
             </div>
 
             <div class="actions">

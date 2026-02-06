@@ -2,7 +2,11 @@
   @if (account(); as acc) {
     <mat-card class="account-card" [style.border-top-color]="acc.color">
       <mat-card-header>
-        <div mat-card-avatar class="account-icon" [style.background-color]="acc.color + '20'">
+        <div
+          mat-card-avatar
+          class="account-icon"
+          [style.background-color]="'color-mix(in srgb, ' + acc.color + ', transparent 80%)'"
+        >
           {{ acc.icon || '💰' }}
         </div>
         <mat-card-title>{{ acc.name }}</mat-card-title>
@@ -13,7 +17,7 @@
           <span class="label">Current Balance</span>
           <div class="balance">
             <span class="currency">{{ acc.currency }}</span>
-            <span class="amount">{{ acc.initial_balance | number:'1.2-2' }}</span>
+            <span class="amount">{{ acc.initial_balance | number: '1.2-2' }}</span>
           </div>
         </div>
 
@@ -26,7 +30,9 @@
       <mat-card-actions align="end">
         <button mat-button routerLink="/accounts">Back</button>
         <button mat-button color="warn" (click)="deleteAccount()">Delete</button>
-        <button mat-raised-button color="primary" [routerLink]="['/accounts', acc.id, 'edit']">Edit</button>
+        <button mat-raised-button color="primary" [routerLink]="['/accounts', acc.id, 'edit']">
+          Edit
+        </button>
       </mat-card-actions>
     </mat-card>
   } @else {

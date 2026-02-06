@@ -13,6 +13,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CategoryService } from '../../../../core/services/category.service';
@@ -31,6 +32,7 @@ import { map, take } from 'rxjs';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatRadioModule,
     MatIconModule,
   ],
   templateUrl: './category-form.component.html',
@@ -50,11 +52,18 @@ export class CategoryFormComponent implements OnInit {
   // Expose categories for parent selection
   readonly categories = this.categoryService.categories;
 
+  readonly typeOptions = [
+    { value: 'expense', label: 'Expense' },
+    { value: 'income', label: 'Income' },
+    { value: 'transfer', label: 'Transfer' },
+  ];
+
   readonly form = this.fb.group({
     name: ['', [Validators.required]],
     parent_category_id: [''],
     color: ['#000000'],
     icon: ['folder'],
+    type: ['expense', [Validators.required]],
   });
 
   ngOnInit(): void {
@@ -82,8 +91,12 @@ export class CategoryFormComponent implements OnInit {
           this.form.patchValue({
             color: parent.color,
             icon: parent.icon,
+            type: parent.type,
           });
+          this.form.controls.type.disable();
         }
+      } else {
+        this.form.controls.type.enable();
       }
     });
   }
@@ -104,7 +117,12 @@ export class CategoryFormComponent implements OnInit {
           parent_category_id: cat.parent_category_id,
           color: cat.color,
           icon: cat.icon,
+          type: cat.type,
         });
+        // If parent exists, disable type
+        if (cat.parent_category_id) {
+          this.form.controls.type.disable();
+        }
       },
     });
   }
@@ -112,12 +130,14 @@ export class CategoryFormComponent implements OnInit {
   onSubmit() {
     if (this.form.invalid) return;
 
-    const formValue = this.form.value;
+    const formValue = this.form.getRawValue(); // use getRawValue to include disabled fields
     const categoryData: Dto_CreateCategoryRequest = {
       name: formValue.name!,
       parent_category_id: formValue.parent_category_id || undefined,
       color: formValue.color || undefined,
       icon: formValue.icon || undefined,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      type: (formValue.type as any) || 'expense',
     };
 
     if (this.isEditMode() && this.categoryId()) {

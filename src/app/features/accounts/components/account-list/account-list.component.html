@@ -19,7 +19,9 @@
             <div
               mat-card-avatar
               class="account-icon"
-              [style.background-color]="account.color + '20'"
+              [style.background-color]="
+                'color-mix(in srgb, ' + account.color + ', transparent 80%)'
+              "
             >
               {{ account.icon || '💰' }}
             </div>
