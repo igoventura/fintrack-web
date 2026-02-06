@@ -109,6 +109,17 @@ Workspace isolation and tenant management system.
   - Methods: `loadUserTenants()`, `setCurrentTenant()`, `createTenant()`
   - LocalStorage persistence for tenant selection
 
+### Reactive Data Architecture
+
+- **TenantScopedServiceBase** (`src/app/core/services/base/tenant-scoped.service.ts`)
+  - Abstract base class for tenant-aware services
+  - Automatically triggers data reload when tenant context changes
+  - Implemented by:
+    - `TransactionService`
+    - `AccountService`
+    - `CategoryService`
+    - `TagService`
+
 ### Tenant Context
 
 - **Tenant Interceptor** (`src/app/core/interceptors/tenant.interceptor.ts`)

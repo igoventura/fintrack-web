@@ -193,6 +193,7 @@ Tenant selection and management.
     - `setCurrentTenant(tenantId)` - Set active tenant, store in local storage
     - `createTenant(name)` - Create new tenant
     - `getCurrentTenantId()` - Get current tenant ID for interceptor
+    - [x] Reactive data reloading on tenant switch (`TenantScopedServiceBase`)
 
 ### Tenant Selection Component
 
