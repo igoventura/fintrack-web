@@ -1,98 +1,85 @@
-<div class="category-list-container">
-  <div class="header">
-    <h1>Categories</h1>
-    <button mat-raised-button color="primary" routerLink="/categories/new">
-      <mat-icon>add</mat-icon> Create Category
-    </button>
-  </div>
+<div class="container">
+  <app-header
+    title="Categories"
+    actionLabel="Create Category"
+    actionLink="/categories/new"
+  ></app-header>
 
   @if (loading()) {
     <div class="loading-spinner">
       <mat-spinner diameter="40"></mat-spinner>
     </div>
+  } @else {
+    @if (dataSource.data.length > 0) {
+      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+        <!-- Leaf node -->
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+          <button mat-icon-button disabled aria-hidden="true"></button>
+          <!-- Space holder -->
+          <div class="node-content">
+            <div class="category-info">
+              @if (node.data.icon) {
+                <app-icon [name]="node.data.icon" [color]="node.data.color" [size]="32"></app-icon>
+              }
+              <div class="name-type-group">
+                <span class="category-name">{{ node.name }}</span>
+                <span class="category-type" [class]="node.data.type">{{
+                  node.data.type | titlecase
+                }}</span>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button mat-icon-button [routerLink]="['/categories', node.data.id, 'edit']">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteCategory(node.data)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-tree-node>
+
+        <!-- Expandable node -->
+        <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+          <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+            </mat-icon>
+          </button>
+
+          <div class="node-content">
+            <div class="category-info">
+              @if (node.data.icon) {
+                <app-icon [name]="node.data.icon" [color]="node.data.color" [size]="32"></app-icon>
+              }
+              <div class="name-type-group">
+                <span class="category-name font-bold">{{ node.name }}</span>
+                <span class="category-type" [class]="node.data.type">{{
+                  node.data.type | titlecase
+                }}</span>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button mat-icon-button [routerLink]="['/categories', node.data.id, 'edit']">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteCategory(node.data)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-tree-node>
+      </mat-tree>
+    } @else {
+      <app-empty-state
+        title="No categories found"
+        message="Create your first category to start organizing your transactions."
+        icon="category"
+        actionLabel="Create Category"
+        actionLink="/categories/new"
+      ></app-empty-state>
+    }
   }
-
-  <mat-card>
-    <mat-card-content>
-      @if (dataSource.data.length > 0) {
-        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-          <!-- Leaf node -->
-          <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-            <button mat-icon-button disabled aria-hidden="true"></button>
-            <!-- Space holder -->
-            <div class="node-content">
-              <div class="category-info">
-                @if (node.data.icon) {
-                  <app-icon
-                    [name]="node.data.icon"
-                    [color]="node.data.color"
-                    [size]="32"
-                  ></app-icon>
-                }
-                <div class="name-type-group">
-                  <span class="category-name">{{ node.name }}</span>
-                  <span class="category-type" [class]="node.data.type">{{
-                    node.data.type | titlecase
-                  }}</span>
-                </div>
-              </div>
-
-              <div class="actions">
-                <button mat-icon-button [routerLink]="['/categories', node.data.id, 'edit']">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button color="warn" (click)="deleteCategory(node.data)">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </div>
-            </div>
-          </mat-tree-node>
-
-          <!-- Expandable node -->
-          <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-            <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
-              <mat-icon class="mat-icon-rtl-mirror">
-                {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
-              </mat-icon>
-            </button>
-
-            <div class="node-content">
-              <div class="category-info">
-                @if (node.data.icon) {
-                  <app-icon
-                    [name]="node.data.icon"
-                    [color]="node.data.color"
-                    [size]="32"
-                  ></app-icon>
-                }
-                <div class="name-type-group">
-                  <span class="category-name font-bold">{{ node.name }}</span>
-                  <span class="category-type" [class]="node.data.type">{{
-                    node.data.type | titlecase
-                  }}</span>
-                </div>
-              </div>
-
-              <div class="actions">
-                <button mat-icon-button [routerLink]="['/categories', node.data.id, 'edit']">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button color="warn" (click)="deleteCategory(node.data)">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </div>
-            </div>
-          </mat-tree-node>
-        </mat-tree>
-      } @else {
-        <app-empty-state
-          title="No categories found"
-          message="Create your first category to start organizing your transactions."
-          icon="category"
-          actionLabel="Create Category"
-          actionLink="/categories/new"
-        ></app-empty-state>
-      }
-    </mat-card-content>
-  </mat-card>
 </div>

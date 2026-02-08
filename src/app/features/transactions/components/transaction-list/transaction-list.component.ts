@@ -17,6 +17,8 @@ import {
 import { AccountService } from '../../../../core/services/account.service';
 import { AppIconComponent } from '../../../../shared/components/app-icon/app-icon.component';
 import { CategoryService } from '../../../../core/services/category.service';
+import { EmptyStateComponent } from '../../../../shared/components/empty-state/empty-state';
+import { HeaderComponent } from '../../../../shared/components/header/header';
 
 @Component({
   selector: 'app-transaction-list',
@@ -31,6 +33,8 @@ import { CategoryService } from '../../../../core/services/category.service';
     MatChipsModule,
     MatTooltipModule,
     AppIconComponent,
+    EmptyStateComponent,
+    HeaderComponent,
   ],
   templateUrl: './transaction-list.component.html',
   styleUrl: './transaction-list.component.scss',

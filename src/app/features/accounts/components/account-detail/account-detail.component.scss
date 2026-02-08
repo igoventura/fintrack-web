@@ -38,7 +38,7 @@
     .balance {
       font-size: 36px;
       font-weight: 500;
-      
+
       .currency {
         font-size: 20px;
         color: #666;
@@ -50,7 +50,7 @@
 
   .transactions-section {
     margin-top: 24px;
-    
+
     h3 {
       font-size: 18px;
       font-weight: 500;
@@ -66,10 +66,4 @@
       padding: 24px;
     }
   }
-}
-
-.loading-spinner {
-  display: flex;
-  justify-content: center;
-  padding: 48px;
 }

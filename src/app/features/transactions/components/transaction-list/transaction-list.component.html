@@ -1,11 +1,9 @@
-<div class="transactions-container">
-  <div class="header">
-    <h1>Transactions</h1>
-    <button mat-raised-button color="primary" routerLink="/transactions/new">
-      <mat-icon>add</mat-icon>
-      New Transaction
-    </button>
-  </div>
+<div class="container">
+  <app-header
+    title="Transactions"
+    actionLabel="New Transaction"
+    actionLink="/transactions/new"
+  ></app-header>
 
   @if (loading()) {
     <div class="loading-spinner">
@@ -133,14 +131,13 @@
         </table>
       </mat-card>
     } @else {
-      <div class="empty-state">
-        <mat-icon class="empty-icon">receipt_long</mat-icon>
-        <h3>No transactions found</h3>
-        <p>Create your first transaction to start tracking your finances.</p>
-        <button mat-stroked-button color="primary" routerLink="/transactions/new">
-          Create Transaction
-        </button>
-      </div>
+      <app-empty-state
+        title="No transactions found"
+        message="Create your first transaction to start tracking your finances."
+        icon="receipt_long"
+        actionLabel="New Transaction"
+        actionLink="/transactions/new"
+      ></app-empty-state>
     }
   }
 </div>

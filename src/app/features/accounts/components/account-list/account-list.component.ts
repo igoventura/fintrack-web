@@ -11,6 +11,7 @@ import { Dto_AccountResponse } from '../../../../../api/providers';
 
 import { AppIconComponent } from '../../../../shared/components/app-icon/app-icon.component';
 import { EmptyStateComponent } from '../../../../shared/components/empty-state/empty-state';
+import { HeaderComponent } from '../../../../shared/components/header/header';
 
 @Component({
   selector: 'app-account-list',
@@ -25,6 +26,7 @@ import { EmptyStateComponent } from '../../../../shared/components/empty-state/e
     MatProgressSpinnerModule,
     AppIconComponent,
     EmptyStateComponent,
+    HeaderComponent,
   ],
   templateUrl: './account-list.component.html',
   styleUrl: './account-list.component.scss',

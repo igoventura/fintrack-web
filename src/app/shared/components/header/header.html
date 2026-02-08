@@ -1,0 +1,8 @@
+<div class="header">
+  <h1>{{ title() }}</h1>
+  @if (actionLabel() && actionLink()) {
+    <button mat-raised-button color="primary" routerLink="{{ actionLink() }}">
+      <mat-icon>add</mat-icon> {{ actionLabel() }}
+    </button>
+  }
+</div>

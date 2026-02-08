@@ -1,11 +1,5 @@
-<div class="accounts-container">
-  <div class="header">
-    <h1>Accounts</h1>
-    <button mat-raised-button color="primary" routerLink="/accounts/new">
-      <mat-icon>add</mat-icon>
-      New Account
-    </button>
-  </div>
+<div class="container">
+  <app-header title="Accounts" actionLabel="Create Account" actionLink="/accounts/new"></app-header>
 
   @if (loading()) {
     <div class="loading-spinner">
