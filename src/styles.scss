@@ -64,27 +64,35 @@ body.dark-theme {
 
 // Toast notification styles
 .toast-success {
-  --mdc-snackbar-container-color: #{$color-success};
-  --mdc-snackbar-supporting-text-color: #{$color-white};
-  --mat-snack-bar-button-color: #{$color-white};
+  .mdc-snackbar__surface {
+    background-color: #{$color-success} !important;
+    color: #{$color-white} !important;
+    --mat-snack-bar-button-color: #{$color-white};
+  }
 }
 
 .toast-error {
-  --mdc-snackbar-container-color: #{$color-error};
-  --mdc-snackbar-supporting-text-color: #{$color-white};
-  --mat-snack-bar-button-color: #{$color-white};
+  .mdc-snackbar__surface {
+    background-color: #{$color-error} !important;
+    color: #{$color-white} !important;
+    --mat-snack-bar-button-color: #{$color-white};
+  }
 }
 
 .toast-warning {
-  --mdc-snackbar-container-color: #{$color-warning};
-  --mdc-snackbar-supporting-text-color: #{$color-white};
-  --mat-snack-bar-button-color: #{$color-white};
+  .mdc-snackbar__surface {
+    background-color: #{$color-warning} !important;
+    color: #{$color-white} !important;
+    --mat-snack-bar-button-color: #{$color-white};
+  }
 }
 
 .toast-info {
-  --mdc-snackbar-container-color: #{$color-info};
-  --mdc-snackbar-supporting-text-color: #{$color-white};
-  --mat-snack-bar-button-color: #{$color-white};
+  .mdc-snackbar__surface {
+    background-color: #{$color-info} !important;
+    color: #{$color-white} !important;
+    --mat-snack-bar-button-color: #{$color-white};
+  }
 }
 
 /* You can add global styles to this file, and also import other style files */

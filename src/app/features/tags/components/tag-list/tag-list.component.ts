@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { TagService } from '../../../../core/services/tag.service';
 import { Dto_TagResponse } from '../../../../../api/providers';
 import { EmptyStateComponent } from '../../../../shared/components/empty-state/empty-state';
+import { HeaderComponent } from '../../../../shared/components/header/header';
 
 @Component({
   selector: 'app-tag-list',
@@ -24,6 +25,7 @@ import { EmptyStateComponent } from '../../../../shared/components/empty-state/e
     MatInputModule,
     MatFormFieldModule,
     EmptyStateComponent,
+    HeaderComponent,
   ],
   templateUrl: './tag-list.component.html',
   styleUrl: './tag-list.component.scss',

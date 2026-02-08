@@ -21,7 +21,7 @@ export class ToastService {
    * @param message Message to display
    * @param duration Duration in milliseconds (default: 3000)
    */
-  success(message: string, duration = 3000): void {
+  success(message: string, duration = 15000000): void {
     this.show(message, 'success', duration);
   }
 
